@@ -16,26 +16,34 @@ const Navbar = (props: Props) => {
       <ul>
         <li>
           <Link to={"/"}>
-            <AiOutlineHome className={"icon"} id="main" />
-            <p>홈</p>
+            <div className={pathname === "/" ? "icon" : "basic"}>
+              <AiOutlineHome />
+              <p>홈</p>
+            </div>
           </Link>
         </li>
         <li>
           <Link to={"/suggest"}>
-            <SiSurveymonkey className={"icon"} id="suggest" />
-            <p>몽키추천</p>
+            <div className={pathname === "/suggest" ? "icon" : "basic"}>
+              <SiSurveymonkey />
+              <p>몽키추천</p>
+            </div>
           </Link>
         </li>{" "}
         <li>
           <Link to={"/favor"}>
-            <AiFillHeart className={"icon"} id="favor" />
-            <p>관심상품</p>
+            <div className={pathname === "/favor" ? "icon" : "basic"}>
+              <AiFillHeart />
+              <p>관심상품</p>
+            </div>
           </Link>
         </li>
         <li>
           <Link to={"/mypage"}>
-            <CgProfile className={"icon"} id="mypage" />
-            <p>마이페이지</p>{" "}
+            <div className={pathname === "/mypage" ? "icon" : "basic"}>
+              <CgProfile />
+              <p>마이페이지</p>
+            </div>
           </Link>
         </li>
       </ul>
@@ -50,23 +58,39 @@ const Wrap = styled.div`
   margin-bottom: 20px;
   padding-top: 10px;
   border-top: 1px solid var(--color-lightgray);
+  background-color: var(--color-white);
   cursor: pointer;
   ul {
     display: flex;
     li {
-      color: var(--color-gray);
-      font-size: 12px;
-      font-weight: 600;
       width: 25%;
       text-align: center;
       cursor: pointer;
+      a {
+        text-decoration: none;
+      }
       .icon {
         width: 100%;
         font-size: 20px;
         margin-bottom: 5px;
-      }
-      &:hover {
         color: var(--color-primary);
+        p {
+          font-size: 12px;
+          font-weight: 600;
+        }
+      }
+      .basic {
+        width: 100%;
+        font-size: 20px;
+        margin-bottom: 5px;
+        color: var(--color-gray);
+        &:hover {
+          color: var(--color-primary);
+        }
+        p {
+          font-size: 12px;
+          font-weight: 600;
+        }
       }
     }
   }

@@ -27,10 +27,7 @@ ${reset}
     min-height: 100vh;
     background-color: #fff;
   }
-  a {
-    text-decoration: none;
-    color: var(--color-gray);
-  }
+
 `;
 
 export default GlobalStyles;
