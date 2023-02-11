@@ -67,9 +67,6 @@ const Wrap = styled.div`
       cursor: pointer;
       a {
         text-decoration: none;
-        &:hover {
-          color: var(--color-primary);
-        }
       }
       .icon {
         width: 100%;
@@ -86,6 +83,9 @@ const Wrap = styled.div`
         font-size: 20px;
         margin-bottom: 5px;
         color: var(--color-gray);
+        &:hover {
+          color: var(--color-primary);
+        }
         p {
           font-size: 12px;
           font-weight: 600;
