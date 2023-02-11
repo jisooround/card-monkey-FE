@@ -58,6 +58,7 @@ const Wrap = styled.div`
   margin-bottom: 20px;
   padding-top: 10px;
   border-top: 1px solid var(--color-lightgray);
+  background-color: var(--color-white);
   cursor: pointer;
   ul {
     display: flex;
