@@ -1,7 +1,7 @@
 import axios from "axios";
 import instance from "./apiController";
 
-class MonkeySetToken {
+class MonkeyGetToken {
   instance;
 
   constructor() {
@@ -205,4 +205,6 @@ class MonkeySetToken {
   }
 }
 
-export default MonkeySetToken;
+const getTokenApi = new MonkeyGetToken();
+
+export default getTokenApi;
