@@ -9,6 +9,7 @@ import { TbLogout } from "react-icons/tb";
 import { FcWiFiLogo } from "react-icons/fc";
 import { useLocation, useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
+import getTokenApi from "../api/monkeyGetToken";
 
 type HeaderPropsType = {};
 
@@ -25,9 +26,15 @@ const Header = ({}: HeaderPropsType) => {
     setSearchParams(searchParams);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     if (confirm("정말로 로그아웃 하시겠습니까?")) {
-      navigate("/"); // 여기 수정
+      const res = await getTokenApi.signOut();
+      if (res?.status === 200) {
+        alert("로그아웃 성공");
+        navigate("/"); // 여기 수정
+      } else {
+        alert("로그아웃 실패");
+      }
     }
   };
 
