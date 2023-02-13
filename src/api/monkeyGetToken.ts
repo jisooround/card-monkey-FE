@@ -49,7 +49,7 @@ class MonkeyGetToken {
   }
 
   /**관심혜택 맞춤 카드 */
-  async interestCard() {
+  async benefitCard() {
     return this.instance
       .get("/card/benefit/fastcampus3")
       .then((result) => console.log(result))
@@ -111,7 +111,7 @@ class MonkeyGetToken {
   }
 
   /**찜하기(관심상품) */
-  async interestCheck(id: string) {
+  async favorCheck(id: string) {
     return this.instance
       .post(`/card/${id}/favor`)
       .then((result) => console.log(result))
@@ -174,7 +174,7 @@ class MonkeyGetToken {
   }
 
   /**나의 관심상품 */
-  async myInterest() {
+  async myFavor() {
     return this.instance
       .get("/favor/fastcampus3")
       .then((result) => console.log(result))
@@ -195,7 +195,7 @@ class MonkeyGetToken {
   /**나의 관심카드, 나의 관심상품이 무슨차이인지 모르겠음.. */
 
   /**찜하기 취소(관심상품) */
-  async deleteInterest(id: string) {
+  async deleteFavor(id: string) {
     return this.instance
       .post(`/card/${id}/favor`)
       .then((result) => console.log(result))

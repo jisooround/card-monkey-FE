@@ -1,14 +1,13 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://973a7445-42af-40b4-a0ad-0f4b3f55b021.mock.pstmn.io",
+  baseURL: "https://e72cd870-8213-4c6d-b139-4bc29cce67ec.mock.pstmn.io",
 });
 
 instance.interceptors.request.use(
   function (config) {
-    config.headers["Authorization"] = `Bearer ${localStorage.getItem(
-      "accessToken",
-    )}`;
+    config.headers["Authorization"] =
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJleGFtcGxlQGdtYWlsLmNvbSIsImlhdCI6MTY3NTk1Mzk2MiwiZXhwIjoxNjc2MDQwMzYyLCJpZCI6ImFzZGYiLCJuaWNrbmFtZSI6ImtpbSIsInJvbGUiOiJST0xFX1VTRVIifQ.ElD5G1XSi5iXq0uUSc6b-8sq1KU7fUq6beYY7Fimmaw";
     return config;
   },
   function (error) {
