@@ -1,14 +1,14 @@
 import axios from "axios";
 
+const { VITE_TOKEN, VITE_URL } = import.meta.env;
+
 const instance = axios.create({
-  baseURL: "https://973a7445-42af-40b4-a0ad-0f4b3f55b021.mock.pstmn.io",
+  baseURL: VITE_URL,
 });
 
 instance.interceptors.request.use(
   function (config) {
-    config.headers["Authorization"] = `Bearer ${localStorage.getItem(
-      "accessToken",
-    )}`;
+    config.headers["Authorization"] = VITE_TOKEN;
     return config;
   },
   function (error) {

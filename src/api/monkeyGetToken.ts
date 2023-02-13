@@ -10,7 +10,7 @@ class MonkeyGetToken {
 
   /** 로그아웃 */
   async signOut() {
-    return instance
+    return this.instance
       .post("/logout")
       .then((result) => console.log(result))
       .catch((error) => {
@@ -20,7 +20,7 @@ class MonkeyGetToken {
 
   /**신청한 카드 내역 */
   async cardList() {
-    return instance
+    return this.instance
       .get("/paid/fastcampus3")
       .then((result) => console.log(result))
       .catch((error) => {
@@ -30,7 +30,7 @@ class MonkeyGetToken {
 
   /**인기 top3카드 */
   async hot3() {
-    return instance
+    return this.instance
       .get("/card/rank")
       .then((result) => console.log(result))
       .catch((error) => {
@@ -40,7 +40,7 @@ class MonkeyGetToken {
 
   /**추천 카드 */
   async recommend() {
-    return instance
+    return this.instance
       .get("/card/suggest/fastcampus3")
       .then((result) => console.log(result))
       .catch((error) => {
@@ -49,8 +49,8 @@ class MonkeyGetToken {
   }
 
   /**관심혜택 맞춤 카드 */
-  async interestCard() {
-    return instance
+  async benefitCard() {
+    return this.instance
       .get("/card/benefit/fastcampus3")
       .then((result) => console.log(result))
       .catch((error) => {
@@ -60,7 +60,7 @@ class MonkeyGetToken {
 
   /**카드명으로 검색 */
   async searchByName(name: string) {
-    return instance
+    return this.instance
       .get(`/card?name=${name}`)
       .then((result) => console.log(result))
       .catch((error) => {
@@ -70,7 +70,7 @@ class MonkeyGetToken {
 
   //**카드회사명으로 검색 */
   async searchByCompany(company: string) {
-    return instance
+    return this.instance
       .get(`/card?company=${company}`)
       .then((result) => console.log(result))
       .catch((error) => {
@@ -80,7 +80,7 @@ class MonkeyGetToken {
 
   /**전체카드 조회 */
   async allCard() {
-    return instance
+    return this.instance
       .get(`/card`)
       .then((result) => console.log(result))
       .catch((error) => {
@@ -90,7 +90,7 @@ class MonkeyGetToken {
 
   /**카드 상세정보 조회 */
   async cardDetail(id: string) {
-    return instance
+    return this.instance
       .get(`/card/${id}`)
       .then((result) => console.log(result))
       .catch((error) => {
@@ -100,7 +100,7 @@ class MonkeyGetToken {
 
   /**카드 신청 */
   async cardApplication(id: string) {
-    return instance
+    return this.instance
       .post(`/card/${id}`, {
         headers: { "Content-Type": "application/json" },
       })
@@ -111,8 +111,8 @@ class MonkeyGetToken {
   }
 
   /**찜하기(관심상품) */
-  async interestCheck(id: string) {
-    return instance
+  async favorCheck(id: string) {
+    return this.instance
       .post(`/card/${id}/favor`)
       .then((result) => console.log(result))
       .catch((error) => {
@@ -122,7 +122,7 @@ class MonkeyGetToken {
 
   /**리뷰 조회(이모저모) */
   async getReview(id: string) {
-    return instance
+    return this.instance
       .get(`/card/${id}/review`)
       .then((result) => console.log(result))
       .catch((error) => {
@@ -132,7 +132,7 @@ class MonkeyGetToken {
 
   /**리뷰 선택(이모저모) */
   async selectReview(id: string) {
-    return instance
+    return this.instance
       .post(`/card/${id}/review`, {
         headers: { "Content-Type": "application/json" },
         data: {},
@@ -145,7 +145,7 @@ class MonkeyGetToken {
 
   /**비밀번호 변경 */
   async changePassword() {
-    return instance
+    return this.instance
       .post(`/changePassword/fastcampus3`)
       .then((result) => console.log(result))
       .catch((error) => {
@@ -155,7 +155,7 @@ class MonkeyGetToken {
 
   /**혜택 변경 */
   async changeBenefit() {
-    return instance
+    return this.instance
       .patch(`/changeBenefit/fastcampus3`)
       .then((result) => console.log(result))
       .catch((error) => {
@@ -165,7 +165,7 @@ class MonkeyGetToken {
 
   /**회원 탈퇴 */
   async withdrawal() {
-    return instance
+    return this.instance
       .delete(`/fastcampus3`)
       .then((result) => console.log(result))
       .catch((error) => {
@@ -174,8 +174,8 @@ class MonkeyGetToken {
   }
 
   /**나의 관심상품 */
-  async myInterest() {
-    return instance
+  async myFavor() {
+    return this.instance
       .get("/favor/fastcampus3")
       .then((result) => console.log(result))
       .catch((error) => {
@@ -185,7 +185,7 @@ class MonkeyGetToken {
 
   /**신청한 카드 취소*/
   async deleteCard(id: string) {
-    return instance
+    return this.instance
       .delete(`/paid/${id}`)
       .then((result) => console.log(result))
       .catch((error) => {
@@ -195,8 +195,8 @@ class MonkeyGetToken {
   /**나의 관심카드, 나의 관심상품이 무슨차이인지 모르겠음.. */
 
   /**찜하기 취소(관심상품) */
-  async deleteInterest(id: string) {
-    return instance
+  async deleteFavor(id: string) {
+    return this.instance
       .post(`/card/${id}/favor`)
       .then((result) => console.log(result))
       .catch((error) => {
