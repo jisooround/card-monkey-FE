@@ -12,9 +12,13 @@ class MonkeyGetToken {
   async signOut() {
     return this.instance
       .post("/logout")
-      .then((result) => console.log(result))
+      .then((result) => {
+        console.log(result);
+        return result;
+      })
       .catch((error) => {
         console.log(error);
+        return error;
       });
   }
 
