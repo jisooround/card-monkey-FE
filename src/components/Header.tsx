@@ -1,15 +1,29 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import { AiOutlineSearch } from "react-icons/ai";
+import {
+  AiOutlineSearch,
+  AiOutlineLeft,
+  AiOutlineCloseCircle,
+} from "react-icons/ai";
 import { TbLogout } from "react-icons/tb";
 import { FcWiFiLogo } from "react-icons/fc";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import { useSearchParams } from "react-router-dom";
 
 type HeaderPropsType = {};
 
 const Header = ({}: HeaderPropsType) => {
   const navigate = useNavigate();
-  const [isSearch, setIsSearch] = useState<boolean>(false);
+  const { pathname } = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchInput, setSearchInput] = useState<string>("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+    searchParams.set("q", e.target.value);
+    setSearchParams(searchParams);
+  };
 
   const handleLogout = () => {
     if (confirm("정말로 로그아웃 하시겠습니까?")) {
@@ -17,26 +31,56 @@ const Header = ({}: HeaderPropsType) => {
     }
   };
 
-  const handleSearch = () => {
-    setIsSearch((prev) => !prev);
-  };
-
   return (
     <MonkeyHeader>
-      <NavContainer>
-        <LogoWrapper onClick={() => navigate("/")}>
-          <FcWiFiLogo />
-        </LogoWrapper>
-        <Icons>
-          <SearchIconWrap>
-            <AiOutlineSearch onClick={handleSearch} />
-          </SearchIconWrap>
-          <LogoutIconWrap onClick={handleLogout}>
-            <TbLogout />
-          </LogoutIconWrap>
-        </Icons>
-      </NavContainer>
-      <SearchContainer>하이</SearchContainer>
+      {pathname !== "/search" ? (
+        <NavContainer>
+          <LogoWrapper onClick={() => navigate("/")}>
+            <FcWiFiLogo />
+          </LogoWrapper>
+          <Icons>
+            <SearchIconWrap>
+              <AiOutlineSearch onClick={() => navigate("/search")} />
+            </SearchIconWrap>
+            <LogoutIconWrap onClick={handleLogout}>
+              <TbLogout />
+            </LogoutIconWrap>
+          </Icons>
+        </NavContainer>
+      ) : (
+        <SearchContainer>
+          <SearchBar>
+            <SearchClose
+              onClick={() => {
+                navigate("/");
+                setSearchInput("");
+              }}
+            >
+              <AiOutlineLeft />
+            </SearchClose>
+            <SearchInput>
+              <input
+                type="text"
+                value={searchInput}
+                ref={inputRef}
+                onChange={handleInput}
+                placeholder="검색어를 입력해 주세요"
+                autoFocus
+              />
+              {searchInput.length === 0 ? (
+                <AiOutlineSearch />
+              ) : (
+                <AiOutlineCloseCircle
+                  onClick={() => {
+                    setSearchInput("");
+                    inputRef.current?.focus();
+                  }}
+                />
+              )}
+            </SearchInput>
+          </SearchBar>
+        </SearchContainer>
+      )}
     </MonkeyHeader>
   );
 };
@@ -46,10 +90,10 @@ const MonkeyHeader = styled.header`
   top: 0;
   left: 0;
   background-color: #fff;
+  z-index: 100;
 `;
 
 const NavContainer = styled.div`
-  /* 상태에 따라 디스플레이 블록 */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -63,6 +107,7 @@ const LogoWrapper = styled.div`
   svg {
     width: 60px;
     height: 60px;
+    cursor: pointer;
   }
 `;
 
@@ -78,6 +123,7 @@ const SearchIconWrap = styled.div`
     width: 30px;
     height: 30px;
     cursor: pointer;
+    color: var(--color-black);
   }
 `;
 const LogoutIconWrap = styled.div`
@@ -85,24 +131,59 @@ const LogoutIconWrap = styled.div`
     width: 30px;
     height: 30px;
     cursor: pointer;
+    color: var(--color-black);
   }
 `;
 
-const SearchContainer = styled.div`
-  /* display: none; 여기 상태에 따라서 다르게 */
-  width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-  position: fixed;
-  /* width: 100%; */
-  height: 100%;
-  z-index: 100;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ffffff;
-  opacity: 0.8;
+const SearchContainer = styled.div``;
+
+const SearchBar = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 9px;
+`;
+
+const SearchClose = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    width: 38px;
+    height: 30px;
+    cursor: pointer;
+    color: var(--color-black);
+  }
+`;
+
+const SearchInput = styled.div`
+  display: flex;
+  flex-grow: 1;
+  gap: 5px;
+  align-items: center;
+  margin: 0 14px 0 10px;
+  background-color: #f9f9f9;
+  border-radius: 22px;
+  height: 30px;
+  padding: 7px 11px 7px 16px;
+  font-size: 0;
+
+  input {
+    height: 28px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    background: transparent;
+    width: calc(100% - 28px);
+    vertical-align: top;
+    font-size: 14px;
+  }
+
+  svg {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    color: var(--color-gray);
+  }
 `;
 
 export default Header;
