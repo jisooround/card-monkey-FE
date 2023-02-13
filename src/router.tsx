@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, createMemoryRouter } from "react-router-dom";
 import MyPage from "./pages/MyPage";
 import Detail from "./pages/Detail";
 import Favor from "./pages/Favor";
