@@ -6,6 +6,7 @@ import MainPage from "./pages/MainPage";
 import Suggest from "./pages/Suggest";
 import Search from "./pages/Search";
 import App from "./App";
+import Login from "./pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "mypage",
         element: <MyPage />,
+      },
+      {
+        path: "login",
+        element: <Login />,
       },
     ],
   },
