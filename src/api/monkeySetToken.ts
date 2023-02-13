@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const { VITE_URL } = import.meta.env;
+
 /**
  * api테스트를 못해서 token설정못했음
  */
@@ -15,7 +17,7 @@ class MonkeySetToken {
 
   constructor() {
     this.axiosInstance = axios.create({
-      baseURL: "https://973a7445-42af-40b4-a0ad-0f4b3f55b021.mock.pstmn.io",
+      baseURL: VITE_URL,
       headers: { "Content-Type": "application/json" },
     });
   }

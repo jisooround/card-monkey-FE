@@ -1,13 +1,14 @@
 import axios from "axios";
 
+const { VITE_TOKEN, VITE_URL } = import.meta.env;
+
 const instance = axios.create({
-  baseURL: "https://e72cd870-8213-4c6d-b139-4bc29cce67ec.mock.pstmn.io",
+  baseURL: VITE_URL,
 });
 
 instance.interceptors.request.use(
   function (config) {
-    config.headers["Authorization"] =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJleGFtcGxlQGdtYWlsLmNvbSIsImlhdCI6MTY3NTk1Mzk2MiwiZXhwIjoxNjc2MDQwMzYyLCJpZCI6ImFzZGYiLCJuaWNrbmFtZSI6ImtpbSIsInJvbGUiOiJST0xFX1VTRVIifQ.ElD5G1XSi5iXq0uUSc6b-8sq1KU7fUq6beYY7Fimmaw";
+    config.headers["Authorization"] = VITE_TOKEN;
     return config;
   },
   function (error) {
