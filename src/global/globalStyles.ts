@@ -10,6 +10,7 @@ ${reset}
     --color-white: #FFFFFF;
     --color-gray: #BCBCBC;
     --color-lightgray: #EEEEEE;
+    --width-inner : 425px;
     ::selection {
       background-color: var(--color-primary);
       color: var(--color-white);
