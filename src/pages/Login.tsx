@@ -1,32 +1,66 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import setTokenApi from "../api/monkeySetToken";
 
 type Props = {};
 
 const Login = (props: Props) => {
+  const [id, setId] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  function setToken() {
+    setTokenApi.signIn(id, password);
+  }
+
   return (
     <Container>
       <Inner>
-        <h3>로그인</h3>
-        <div className="logo">
-          <img src="" alt="" />
+        <div className="titleWrap">
+          <h3>로그인</h3>
+          <div className="logo">
+            <img src="" alt="" />
+          </div>
+          <h2>
+            안녕하세요.
+            <br />
+            카드몽키입니다.
+          </h2>
+          <p>회원 서비스 이용을 위해 로그인 해주세요.</p>
         </div>
-        <h2>
-          안녕하세요.
-          <br />
-          카드몽키입니다.
-        </h2>
-        <p>회원 서비스 이용을 위해 로그인 해주세요.</p>
-        <form action="">
-          <label htmlFor="id">
-            아이디
-            <input type="text" id="id" />
-          </label>
-          <label htmlFor="pwd">
-            비밀번호
-            <input type="password" id="pwd" />
-          </label>
-        </form>
+        <div className="inputWrap">
+          <div className="group">
+            <div className="inputTitle">아이디</div>
+            <input
+              type="text"
+              id="id"
+              placeholder="아이디를 입력하세요."
+              value={id}
+              onChange={(e) => {
+                setId(e.target.value);
+              }}
+            />
+          </div>
+          <div className="group">
+            <div className="inputTitle">비밀번호</div>
+            <input
+              type="password"
+              id="password"
+              placeholder="비밀번호를 입력하세요."
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
+          </div>
+        </div>
+        <div className="buttonWrap">
+          <button className="logIn" type="submit" onClick={setToken}>
+            로그인
+          </button>
+          <button className="signUp" type="submit">
+            계정이 없으신가요? 회원가입하기
+          </button>
+        </div>
       </Inner>
     </Container>
   );
@@ -41,7 +75,6 @@ const Inner = styled.div`
   margin: auto;
   width: var(--width-inner);
   min-height: 100vh;
-  /* background-color: #f0f0f0; */
   h3 {
     padding-top: 72px;
     padding-bottom: 43px;
@@ -66,14 +99,57 @@ const Inner = styled.div`
     font-size: 16px;
     color: var(--color-black);
   }
-  form {
+  .inputWrap {
     padding-top: 72px;
+    padding-bottom: 93px;
     width: 100%;
-    label {
-      width: 100%;
+    font-size: 14px;
+    .group {
       display: flex;
+      width: 100%;
+      margin-bottom: 40px;
+      align-items: center;
+      border-bottom: 1px solid var(--color-gray);
+      .inputTitle {
+        width: 20%;
+        font-weight: 600;
+        padding-right: 20px;
+      }
       input {
-        width: 80%;
+        width: 100%;
+        height: 30px;
+        border: none;
+        outline: none;
+        background-color: transparent;
+      }
+    }
+  }
+  .buttonWrap {
+    padding-bottom: 100px;
+    button {
+      width: 100%;
+      height: 55px;
+      border: none;
+      font-weight: 600;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    .logIn {
+      background-color: var(--color-primary);
+      color: var(--color-white);
+      &:hover {
+        transition: 0.3s;
+        color: var(--color-brown);
+      }
+    }
+    .signUp {
+      background-color: var(--color-white);
+      border: 1px solid var(--color-primary);
+      color: var(--color-primary);
+      margin-top: 15px;
+      &:hover {
+        transition: 0.3s;
+        color: var(--color-brown);
       }
     }
   }
