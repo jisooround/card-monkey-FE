@@ -1,5 +1,6 @@
 import axios from "axios";
 import instance from "./apiController";
+import favorList from "../mokeup/favorList.json";
 
 class MonkeyGetToken {
   instance;
@@ -76,9 +77,13 @@ class MonkeyGetToken {
   async searchByCompany(company: string) {
     return this.instance
       .get(`/card?company=${company}`)
-      .then((result) => console.log(result))
+      .then((result) => {
+        console.log(result);
+        return result;
+      })
       .catch((error) => {
         console.log(error);
+        return error;
       });
   }
 
@@ -86,9 +91,13 @@ class MonkeyGetToken {
   async allCard() {
     return this.instance
       .get(`/card`)
-      .then((result) => console.log(result))
+      .then((result) => {
+        console.log(result);
+        return result;
+      })
       .catch((error) => {
         console.log(error);
+        return error;
       });
   }
 
@@ -180,10 +189,11 @@ class MonkeyGetToken {
   /**나의 관심상품 */
   async myFavor() {
     return this.instance
-      .get("/favor/fastcampus3")
-      .then((result) => console.log(result))
+      .get(`/card/favor/fastcampus3`)
+      .then((result) => result.data)
       .catch((error) => {
         console.log(error);
+        return favorList;
       });
   }
 
@@ -196,7 +206,6 @@ class MonkeyGetToken {
         console.log(error);
       });
   }
-  /**나의 관심카드, 나의 관심상품이 무슨차이인지 모르겠음.. */
 
   /**찜하기 취소(관심상품) */
   async deleteFavor(id: string) {
