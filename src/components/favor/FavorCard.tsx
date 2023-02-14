@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Card from "../ui/Card";
 
 type Props = {
+  favorCard: object;
   company: string;
   id: number;
   image: string;

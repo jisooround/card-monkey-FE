@@ -14,7 +14,7 @@ const App = () => {
   return (
     <>
       <Header />
-      <main>
+      <main style={{ marginBottom: "70px" }}>
         <Outlet />
       </main>
       <Navbar />
