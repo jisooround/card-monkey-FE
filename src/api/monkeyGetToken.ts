@@ -36,7 +36,7 @@ class MonkeyGetToken {
   async hot3() {
     return this.instance
       .get("/card/rank")
-      .then((result) => console.log("sucess", result))
+      .then((result) => result)
       .catch((error) => {
         console.log(error);
       });
