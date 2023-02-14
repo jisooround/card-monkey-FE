@@ -17,7 +17,9 @@ const Header = ({}: HeaderPropsType) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchInput, setSearchInput] = useState<string>("");
+  const [searchInput, setSearchInput] = useState<string>(
+    searchParams.get("q") || "",
+  );
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {

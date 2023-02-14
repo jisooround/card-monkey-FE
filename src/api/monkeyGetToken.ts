@@ -77,9 +77,13 @@ class MonkeyGetToken {
   async searchByCompany(company: string) {
     return this.instance
       .get(`/card?company=${company}`)
-      .then((result) => console.log(result))
+      .then((result) => {
+        console.log(result);
+        return result;
+      })
       .catch((error) => {
         console.log(error);
+        return error;
       });
   }
 
@@ -87,9 +91,13 @@ class MonkeyGetToken {
   async allCard() {
     return this.instance
       .get(`/card`)
-      .then((result) => console.log(result))
+      .then((result) => {
+        console.log(result);
+        return result;
+      })
       .catch((error) => {
         console.log(error);
+        return error;
       });
   }
 
