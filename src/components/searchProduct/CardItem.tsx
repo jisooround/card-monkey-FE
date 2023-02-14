@@ -54,6 +54,9 @@ const CardItem = ({ card }: CardItemPropsType) => {
 };
 
 const CardContainer = styled.div`
+  &:hover img {
+    transform: translateY(-8px);
+  }
   box-sizing: border-box;
   display: flex;
   border: 2px solid var(--color-gray);
@@ -61,10 +64,6 @@ const CardContainer = styled.div`
   padding: 30px;
   position: relative;
   cursor: pointer;
-  &:hover {
-    background-color: #fffaef;
-    border: 2px solid var(--color-primary);
-  }
   .favor {
     position: absolute;
     bottom: 10px;
@@ -98,6 +97,8 @@ const CardImageWrapper = styled.div<{ cardImage: HTMLImageElement }>`
     left: 0;
     right: 0;
     margin: auto;
+    transition: 0.2s;
+    filter: drop-shadow(6px 4px 4px #c3c3c3);
     width: ${(props) =>
       props.cardImage.width > props.cardImage.height ? "110px" : "75px"};
   }
