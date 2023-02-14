@@ -1,6 +1,7 @@
 import axios from "axios";
 import instance from "./apiController";
 import favorList from "../mokeup/favorList.json";
+import cardDetail from "../mokeup/cardDetail.json";
 
 class MonkeyGetToken {
   instance;
@@ -105,9 +106,10 @@ class MonkeyGetToken {
   async cardDetail(id: string) {
     return this.instance
       .get(`/card/${id}`)
-      .then((result) => console.log(result))
+      .then((result) => result)
       .catch((error) => {
         console.log(error);
+        return cardDetail;
       });
   }
 

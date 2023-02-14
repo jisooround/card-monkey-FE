@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import getTokenApi from "../api/monkeyGetToken";
 import styled from "styled-components";
-import Card from "../components/ui/Card";
+import CardItem from "../components/ui/CardItem";
 
-type Props = {
+type Props = {};
+
+type favorCard = {
   id: number;
   image: string;
   name: string;
@@ -30,52 +32,44 @@ const Favor = (props: Props) => {
 
   return (
     <Wrapper>
-      <h2>나의 관심카드</h2>
-      {favorList.map((favorCard: Props) => (
-        <Card favorCard={favorCard} key={favorCard.id} />
-      ))}
+      <TopWrapper>
+        <h2>나의 관심카드</h2>
+        <img src="/monkey_love.png" />
+      </TopWrapper>
+      <CardWrapper>
+        {favorList.map((favorCard: favorCard) => (
+          <CardItem card={favorCard} key={favorCard.id} />
+        ))}
+      </CardWrapper>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  margin: 0 auto;
-  width: 425px;
-  height: 100vh;
+  padding: 30px;
+  padding-top: 0;
+  margin-bottom: var(--margin-bottom);
+`;
+
+const TopWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  align-items: center;
   h2 {
     font-size: 18px;
     font-weight: 900;
     margin: 0 auto;
     padding: 1rem 2rem;
   }
+  img {
+    width: 212px;
+  }
 `;
 
-// const cardImage = new Image();
-// cardImage.src = card.image;
-
-// const CardImageWrapper = styled.div<{ cardImage: HTMLImageElement }>`
-//   margin-right: 20px;
-//   width: 110px;
-//   position: relative;
-//   img {
-//     position: absolute;
-//     top: 0;
-//     bottom: 0;
-//     left: 0;
-//     right: 0;
-//     margin: auto;
-//     width: ${(props) =>
-//       props.cardImage.width > props.cardImage.height ? "110px" : "75px"};
-//   }
-//   .circle {
-//     width: 110px;
-//     height: 110px;
-//     border-radius: 50%;
-//     background-color: var(--color-lightgray);
-//   }
-// `;
+const CardWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
 
 export default Favor;
