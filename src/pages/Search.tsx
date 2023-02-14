@@ -88,9 +88,9 @@ const Search = (props: Props) => {
 
   useEffect(() => {
     if (!searchTerm) {
-      // getAllCard();
+      getAllCard();
     } else {
-      // getSearchCard();
+      getSearchCard();
     }
   }, [searchTerm]);
 
@@ -164,8 +164,9 @@ const CardListContainer = styled.div`
 `;
 
 const SearchGroupContainer = styled.div`
+  height: 80vh;
   padding-left: 15px;
-  transition: height 1s;
+  transition: height 0.5s;
   overflow: hidden;
   &.hide {
     height: 0;
