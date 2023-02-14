@@ -15,14 +15,16 @@ type Top3 = {
 const MainPage = (props: Props) => {
   const [topCard, setTopCard] = useState<Array<Top3>>();
 
-  // const getHot3 = async () => {
-  //   const topList = await getTokenApi.hot3();
-  //   setTopCard(topList?.data);
-  // };
+  const getHot3 = async () => {
+    const topList = await getTokenApi.hot3();
+    setTopCard(topList?.data);
+  };
 
-  // useEffect(() => {
-  //   getHot3();
-  // }, []);
+  useEffect(() => {
+    getHot3();
+  }, []);
+
+  if (topCard === undefined) return console.log("loading");
 
   return (
     <Container>
@@ -42,8 +44,12 @@ const MainPage = (props: Props) => {
           const cardImage = new Image();
           cardImage.src = data.image;
           return (
-            <Link to="/detail/:id" style={{ textDecoration: "none" }}>
-              <Topcard cardImage={cardImage} key={data.id}>
+            <Link
+              to="/detail/:id"
+              key={data.id}
+              style={{ textDecoration: "none" }}
+            >
+              <Topcard cardImage={cardImage}>
                 <span className="num">
                   {data.id}
                   <div>
@@ -62,7 +68,7 @@ const MainPage = (props: Props) => {
         <div>error</div>
       )}
       <Link to="/suggest" style={{ textDecoration: "none" }}>
-        <img className="banner" src="../banner_main.png" />
+        <img className="banner" src="../banner_sub.png" />
       </Link>
     </Container>
   );
@@ -133,8 +139,8 @@ const Topcard = styled.div<{ cardImage: HTMLImageElement }>`
   span {
     font-size: 25px;
     font-weight: 700;
-    margin-right: 15px;
-    width: 120px;
+    margin-right: 30px;
+    width: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -145,7 +151,7 @@ const Topcard = styled.div<{ cardImage: HTMLImageElement }>`
       margin-left: 20px;
       height: ${(props) =>
         props.cardImage.width > props.cardImage.height ? "50px" : "70px"};
-      aspect-ratio: auto 1/1;
+      /* aspect-ratio: auto 1/1; */
     }
   }
 
