@@ -3,7 +3,8 @@ import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import getTokenApi from "../api/monkeyGetToken";
 import CardItem from "../components/searchProduct/CardItem";
-import BtnBenefit from "../components/ui/BtnBenefit";
+import BtnSuggest from "../components/ui/BtnSuggest";
+import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 
 type Props = {};
 
@@ -18,6 +19,7 @@ const Search = (props: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchTerm: string | null = searchParams.get("q");
   const [cards, setCards] = useState<Array<Card>>([]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const benefits = [
     "모든 가맹점",
     "교통",
@@ -47,6 +49,18 @@ const Search = (props: Props) => {
     "해외",
     "비즈니스",
   ];
+  const companies = [
+    "신한",
+    "삼성",
+    "국민",
+    "롯데",
+    "하나",
+    "우리",
+    "농협",
+    "기업",
+    "현대",
+    "바로",
+  ];
 
   const cardList = cards.map((card) => {
     return <CardItem key={card.id} card={card} />;
@@ -74,48 +88,94 @@ const Search = (props: Props) => {
 
   useEffect(() => {
     if (!searchTerm) {
-      getAllCard();
+      // getAllCard();
     } else {
-      getSearchCard();
+      // getSearchCard();
     }
   }, [searchTerm]);
 
   return (
-    <div>
-      <SearchGroupContainer>
+    <SearchContainer>
+      <div
+        className="title tags"
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
+      >
+        <div>검색 추천 태그</div>
+        {isOpen ? <AiFillCaretUp /> : <AiFillCaretDown />}
+      </div>
+      <SearchGroupContainer className={isOpen ? "" : "hide"}>
+        <SearchGroup>
+          <Title>신용 / 체크</Title>
+          <div>
+            <BtnSuggest suggest={"신용"} />
+            <BtnSuggest suggest={"체크"} />
+          </div>
+        </SearchGroup>
+        <SearchGroup>
+          <Title>추천 카드사</Title>
+          <div>
+            {companies.map((company, index) => (
+              <BtnSuggest key={index} suggest={company} />
+            ))}
+          </div>
+        </SearchGroup>
         <SearchGroup>
           <Title>추천 혜택</Title>
           <div>
             {benefits.map((benefit, index) => (
-              <BtnBenefit key={index} benefit={benefit} />
+              <BtnSuggest key={index} suggest={benefit} />
             ))}
           </div>
         </SearchGroup>
       </SearchGroupContainer>
+      <div className="title">검색 결과</div>
       <CardListContainer>{cardList}</CardListContainer>
-    </div>
+    </SearchContainer>
   );
 };
 
+const SearchContainer = styled.div`
+  padding: 0 30px;
+  .title {
+    /* margin-bottom: 5px; */
+    color: #46433f;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 0px;
+    &.tags {
+      display: flex;
+      justify-content: space-between;
+      cursor: pointer;
+      /* &:hover {
+        background-color: var(--color-lightgray);
+      } */
+    }
+  }
+`;
+
 const CardListContainer = styled.div`
-  padding: 30px;
+  padding: 10px 0;
+  padding-top: 0;
   display: flex;
   flex-direction: column;
   gap: 30px;
-  /* box-sizing: border-box; */
 `;
 
 const SearchGroupContainer = styled.div`
-  /* position: absolute;
-  top: 60px;
-  z-index: 10;
-  height: calc(100% - 60px);
-  overflow-y: auto; */
+  padding-left: 15px;
+  transition: height 1s;
+  overflow: hidden;
+  &.hide {
+    height: 0;
+  }
 `;
 
 const SearchGroup = styled.div`
-  /* margin-top: 32px; */
-  padding: 0 18px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  /* padding: 0 30px; */
 `;
 
 const Title = styled.div`

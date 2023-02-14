@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 type Props = {
-  benefit: string;
+  suggest: string;
 };
 
-const BtnBenefit = ({ benefit }: Props) => {
+const BtnSuggest = ({ suggest }: Props) => {
   const [isActive, setIsActive] = useState<boolean>(false);
 
   const toggleActive = () => {
@@ -13,13 +13,13 @@ const BtnBenefit = ({ benefit }: Props) => {
   };
 
   return (
-    <Benefit className={isActive ? "active" : ""} onClick={toggleActive}>
-      {benefit}
-    </Benefit>
+    <Suggest className={isActive ? "active" : ""} onClick={toggleActive}>
+      {suggest}
+    </Suggest>
   );
 };
 
-const Benefit = styled.button`
+const Suggest = styled.button`
   display: inline-block;
   border: 1px solid #e0e0e0;
   border-radius: 15px;
@@ -39,4 +39,4 @@ const Benefit = styled.button`
   }
 `;
 
-export default BtnBenefit;
+export default BtnSuggest;
