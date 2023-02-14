@@ -12,6 +12,7 @@ const Navbar = (props: Props) => {
   console.log(pathname);
 
   if (pathname === "/search") return null;
+  if (pathname === "/login") return null;
   return (
     <Wrap>
       <ul>

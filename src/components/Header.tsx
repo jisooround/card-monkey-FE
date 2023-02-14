@@ -39,7 +39,8 @@ const Header = ({}: HeaderPropsType) => {
       }
     }
   };
-
+  // 로그인 페이지에서 header null 처리
+  if (pathname === "/login") return null;
   return (
     <MonkeyHeader>
       {pathname !== "/search" ? (
