@@ -9,7 +9,7 @@ import { TbLogout } from "react-icons/tb";
 import { FcWiFiLogo } from "react-icons/fc";
 import { useLocation, useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
-import getTokenApi from "../api/monkeyGetToken";
+import getTokenApi from "../../api/monkeyGetToken";
 
 type HeaderPropsType = {};
 
