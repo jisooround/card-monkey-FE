@@ -5,15 +5,24 @@ import getTokenApi from "../api/monkeyGetToken";
 import { MyCard } from "../components/ui/MyCard";
 
 type Props = {};
+type Top3 = {
+  company: string;
+  id: number;
+  image: string;
+  name: string;
+};
 
 const MainPage = (props: Props) => {
-  const [topCard, setTopCard] = useState();
+  const [topCard, setTopCard] = useState<Array<Top3>>();
+
+  const getHot3 = async () => {
+    const topList = await getTokenApi.hot3();
+    setTopCard(topList?.data);
+  };
 
   useEffect(() => {
-    const topList = getTokenApi.hot3();
-    console.log("inner", topList);
+    getHot3();
   }, []);
-  console.log("main", topCard);
 
   return (
     <Container>
@@ -24,25 +33,37 @@ const MainPage = (props: Props) => {
         </Link>
       </div>
       {true ? <MyCard /> : <Empty>나의 카드 정보가 없습니다.</Empty>}
+      <Link to="/suggest" style={{ textDecoration: "none" }}>
+        <img className="banner" src="../banner_main.png" />
+      </Link>
       <div className="top3">몽키차트 TOP 3</div>
-      <Topcard>
-        <span className="num">1</span>
-        <img src="https://api.card-gorilla.com:8080/storage/card/2330/card_img/24131/2330card.png" />
-        <div>
-          <div className="card">LOCA 365 카드</div>
-          <div>은행명</div>
-        </div>
-      </Topcard>
-      <Topcard></Topcard>
-      <Topcard></Topcard>
-      <Banner>
-        <div>
-          <div>나만의 맞춤형 카드를 찾고싶다면?</div>
-          <div>몽키추천 받아보기!</div>
-          <div>바로가기 </div>
-        </div>
-        <img />
-      </Banner>
+      {Array.isArray(topCard) ? (
+        topCard.map((data) => {
+          const cardImage = new Image();
+          cardImage.src = data.image;
+          return (
+            <Link to="/detail/:id" style={{ textDecoration: "none" }}>
+              <Topcard cardImage={cardImage} key={data.id}>
+                <span className="num">
+                  {data.id}
+                  <div>
+                    <img src={data.image} />
+                  </div>
+                </span>
+                <div>
+                  <div className="card">{data.name}</div>
+                  <div>{data.company}</div>
+                </div>
+              </Topcard>
+            </Link>
+          );
+        })
+      ) : (
+        <div>error</div>
+      )}
+      <Link to="/suggest" style={{ textDecoration: "none" }}>
+        <img className="banner" src="../banner_main.png" />
+      </Link>
     </Container>
   );
 };
@@ -52,6 +73,7 @@ export default MainPage;
 const Container = styled.div`
   width: 425px;
   margin: 0 auto;
+  padding-bottom: 80px;
   .title {
     display: flex;
     justify-content: space-between;
@@ -74,6 +96,12 @@ const Container = styled.div`
   .top3 {
     margin: 30px 0 20px;
   }
+  .banner {
+    border-radius: 10px;
+    margin-top: 10px;
+    width: 425px;
+    aspect-ratio: auto 1/1;
+  }
 `;
 
 const Empty = styled.div`
@@ -87,12 +115,13 @@ const Empty = styled.div`
   font-size: 15px;
   color: var(--color-gray);
 `;
-const Topcard = styled.div`
+const Topcard = styled.div<{ cardImage: HTMLImageElement }>`
   height: 80px;
   border: 1px solid var(--color-gray);
   border-radius: 10px;
   margin: 10px 0;
   padding: 0 30px;
+  color: black;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -104,13 +133,22 @@ const Topcard = styled.div`
   span {
     font-size: 25px;
     font-weight: 700;
-    margin-right: 30px;
+    margin-right: 15px;
+    width: 120px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    div {
+      margin: 0 auto;
+    }
+    img {
+      margin-left: 20px;
+      height: ${(props) =>
+        props.cardImage.width > props.cardImage.height ? "50px" : "70px"};
+      aspect-ratio: auto 1/1;
+    }
   }
-  img {
-    height: 45px;
-    margin-right: 30px;
-    aspect-ratio: auto 1/1;
-  }
+
   div {
     display: flex;
     flex-direction: column;
@@ -121,14 +159,4 @@ const Topcard = styled.div`
     font-weight: 600;
     padding: 3px 0;
   }
-`;
-
-const Banner = styled.div`
-  height: 135px;
-  padding: 0 30px;
-  margin-top: 20px;
-  background-color: #ffeacc;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
 `;
