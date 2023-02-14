@@ -12,6 +12,7 @@ ${reset}
     --color-lightgray: #EEEEEE;
     --color-brown: #6B4D29;
     --width-inner : 425px;
+    --margin-bottom : 72px;
     ::selection {
       background-color: var(--color-primary);
       color: var(--color-white);
