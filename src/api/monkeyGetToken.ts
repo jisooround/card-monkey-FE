@@ -1,5 +1,6 @@
 import axios from "axios";
 import instance from "./apiController";
+import favorList from "../mokeup/favorList.json";
 
 class MonkeyGetToken {
   instance;
@@ -184,6 +185,7 @@ class MonkeyGetToken {
       .then((result) => result.data)
       .catch((error) => {
         console.log(error);
+        return favorList;
       });
   }
 
