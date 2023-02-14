@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import getTokenApi from "../api/monkeyGetToken";
 import styled from "styled-components";
 import Card from "../components/ui/Card";
-import FavorCard from "../components/favor/FavorCard";
 
 type Props = {
   id: number;
@@ -31,6 +30,7 @@ const Favor = (props: Props) => {
 
   return (
     <Wrapper>
+      <h2>나의 관심카드</h2>
       {favorList.map((favorCard: Props) => (
         <Card favorCard={favorCard} key={favorCard.id} />
       ))}
@@ -45,6 +45,12 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  h2 {
+    font-size: 18px;
+    font-weight: 900;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+  }
 `;
 
 // const cardImage = new Image();
