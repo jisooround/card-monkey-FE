@@ -54,51 +54,43 @@ class MonkeyGetToken {
   }
 
   /**관심혜택 맞춤 카드 */
-  async benefitCard() {
+  async benefitCard(benefit: string) {
     return this.instance
-      .get("/card/benefit/fastcampus3")
-      .then((result) => console.log(result))
-      .catch((error) => {
-        console.log(error);
-      });
+      .get(`/card/benefit/fastcampus3?search=${benefit}`)
+      .then((result) => result)
+      .catch((error) => error);
   }
 
   /**카드명으로 검색 */
   async searchByName(name: string) {
     return this.instance
       .get(`/card?name=${name}`)
-      .then((result) => console.log(result))
-      .catch((error) => {
-        console.log(error);
-      });
+      .then((result) => result)
+      .catch((error) => error);
   }
 
   //**카드회사명으로 검색 */
   async searchByCompany(company: string) {
     return this.instance
       .get(`/card?company=${company}`)
-      .then((result) => {
-        console.log(result);
-        return result;
-      })
-      .catch((error) => {
-        console.log(error);
-        return error;
-      });
+      .then((result) => result)
+      .catch((error) => error);
+  }
+
+  //**카드혜택으로 검색 */
+  async searchByBenefit(benefit: string) {
+    return this.instance
+      .get(`/card?benefit=${benefit}`)
+      .then((result) => result)
+      .catch((error) => error);
   }
 
   /**전체카드 조회 */
   async allCard() {
     return this.instance
       .get(`/card`)
-      .then((result) => {
-        console.log(result);
-        return result;
-      })
-      .catch((error) => {
-        console.log(error);
-        return error;
-      });
+      .then((result) => result)
+      .catch((error) => error);
   }
 
   /**카드 상세정보 조회 */

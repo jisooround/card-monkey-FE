@@ -6,9 +6,10 @@ import { useNavigate } from "react-router";
 
 type CardItemPropsType = {
   card: Card;
+  isFavor: boolean;
 };
 
-const CardItem = ({ card }: CardItemPropsType) => {
+const CardItem = ({ card, isFavor }: CardItemPropsType) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -44,7 +45,7 @@ const CardItem = ({ card }: CardItemPropsType) => {
         </div>
       </CardInfo>
       <div
-        className={isActive ? "favor active" : "favor"}
+        className={isFavor ? "favor active" : "favor"}
         onClick={(e) => toggleFavor(e)}
       >
         <AiFillHeart />
