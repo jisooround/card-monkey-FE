@@ -2,14 +2,23 @@ import React, { useState, useEffect } from "react";
 import getTokenApi from "../api/monkeyGetToken";
 import styled from "styled-components";
 import Card from "../components/ui/Card";
-import FavorCard from "../components/favor/FavorCard";
 
 type Props = {
-  favorList: object;
+  id: number;
+  image: string;
+  name: string;
+  company: string;
 };
 
 const Favor = (props: Props) => {
-  const [favorList, setFavorList] = useState([]);
+  const [favorList, setFavorList] = useState<favorListType[]>([
+    {
+      id: 0,
+      image: "",
+      name: "",
+      company: "",
+    },
+  ]);
   const getFavorList = async () => {
     const data = await getTokenApi.myFavor();
     console.log(data);
@@ -21,8 +30,9 @@ const Favor = (props: Props) => {
 
   return (
     <Wrapper>
-      {favorList.map((favorCard) => (
-        <FavorCard favorcard={favorCard} key={favorCard.id} />
+      <h2>나의 관심카드</h2>
+      {favorList.map((favorCard: Props) => (
+        <Card favorCard={favorCard} key={favorCard.id} />
       ))}
     </Wrapper>
   );
@@ -31,9 +41,16 @@ const Favor = (props: Props) => {
 const Wrapper = styled.div`
   margin: 0 auto;
   width: 425px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  h2 {
+    font-size: 18px;
+    font-weight: 900;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+  }
 `;
 
 // const cardImage = new Image();
