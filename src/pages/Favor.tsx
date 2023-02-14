@@ -1,12 +1,12 @@
 import React from "react";
-import InterestContainer from "../components/interestProduct/InterestContainer";
+import FavorContainer from "../components/favor/FavorContainer";
 
 type Props = {};
 
 const Favor = (props: Props) => {
   return (
     <div>
-      <InterestContainer />
+      <FavorContainer />
     </div>
   );
 };
