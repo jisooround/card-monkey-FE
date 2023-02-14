@@ -15,14 +15,14 @@ type Top3 = {
 const MainPage = (props: Props) => {
   const [topCard, setTopCard] = useState<Array<Top3>>();
 
-  // const getHot3 = async () => {
-  //   const topList = await getTokenApi.hot3();
-  //   setTopCard(topList?.data);
-  // };
+  const getHot3 = async () => {
+    const topList = await getTokenApi.hot3();
+    setTopCard(topList?.data);
+  };
 
-  // useEffect(() => {
-  //   getHot3();
-  // }, []);
+  useEffect(() => {
+    getHot3();
+  }, []);
 
   if (topCard === undefined) return console.log("loading");
 
