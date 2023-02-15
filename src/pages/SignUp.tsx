@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Agree from "../components/signUp/Agree";
+import Agreement from "../components/signUp/Agreement";
 import Benefit from "../components/signUp/Benefit";
 import Complete from "../components/signUp/Complete";
 import Id from "../components/signUp/Id";
@@ -19,7 +19,7 @@ const SignUp = () => {
         <ProgressBar>
           <div style={{ width: `${step * 85}px` }}></div>
         </ProgressBar>
-        {step === 1 && <Agree setStep={setStep} />}
+        {step === 1 && <Agreement setStep={setStep} />}
         {step === 2 && <Name setStep={setStep} />}
         {step === 3 && <Id setStep={setStep} />}
         {step === 4 && <Password setStep={setStep} />}

@@ -1,13 +1,20 @@
+import { current } from "@reduxjs/toolkit";
 import React, { useState } from "react";
 import styled from "styled-components";
-import checkSVG from "../../assets/svg?url";
+import { fillAgreement } from "../../store/signUpSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../store/store";
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const Agree = ({ setStep }: Props) => {
-  const [agree, setAgree] = useState("");
+const Agreement = ({ setStep }: Props) => {
+  const form = useSelector((state: RootState) => state.form);
+  const dispatch = useDispatch();
+  const [agree, setAgree] = useState(false);
+  console.log(agree);
+  console.log("Agreement  : ", form);
   return (
     <Wrap>
       <h4>
@@ -17,16 +24,22 @@ const Agree = ({ setStep }: Props) => {
       </h4>
       <InputWrap>
         <div className="allCheck">
-          <input type="checkbox" id="allCheck" />
-          <label htmlFor="allcheck">
-            <img src={checkSVG} alt="" />
-          </label>
+          <input
+            type="checkbox"
+            id="allCheck"
+            checked={agree}
+            onChange={(e) => {
+              setAgree(!agree);
+            }}
+          />
           <p>모두 동의</p>
         </div>
       </InputWrap>
       <Button
+        disabled={!agree}
         onClick={() => {
           setStep(2);
+          dispatch(fillAgreement());
         }}
       >
         동의
@@ -48,7 +61,8 @@ const Wrap = styled.div`
   }
 `;
 
-const Button = styled.div`
+const Button = styled.button`
+  border: none;
   position: fixed;
   bottom: 0;
   margin: 0 -37.5px;
@@ -62,6 +76,9 @@ const Button = styled.div`
   font-size: 15px;
   color: var(--color-white);
   cursor: pointer;
+  &:disabled {
+    background-color: var(--color-gray);
+  }
 `;
 
 const InputWrap = styled.div`
@@ -71,19 +88,7 @@ const InputWrap = styled.div`
   .allCheck {
     display: flex;
     align-items: center;
-    input[type="checkbox"] {
-      display: none;
-    }
-    input[type="checkbox"] + label {
-      width: 15px;
-      height: 15px;
-      /* background-image: url("./check.svg");
-      background-size: 80%;
-      background-repeat: no-repeat;
-      background-position: center; */
-      border: 1px solid var(--color-gray);
-    }
   }
 `;
 
-export default Agree;
+export default Agreement;
