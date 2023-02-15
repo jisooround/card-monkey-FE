@@ -12,6 +12,7 @@ export interface FavorCard {
   name: string;
   company: string;
   image: string;
+  type: string;
 }
 
 const initialState = {
@@ -24,47 +25,33 @@ export const fetchFavor = createAsyncThunk("favor/fetchFavor", async () => {
   return data;
 });
 
-export const addFavor = createAsyncThunk("favor/addFavor", async () => {
-  const data = await getTokenApi.myFavor();
-  return data;
-});
-
-export const deleteFavor = createAsyncThunk(
-  "favor/deleteFavor",
-  async (id: number) => {
-    const data = await getTokenApi.deleteFavor(id);
-    return data;
-  },
-);
-
 export const favorSlice = createSlice({
   name: "favor",
   initialState,
-  reducers: {},
+  reducers: {
+    addFavor(state, action: PayloadAction<FavorCard>) {
+      const newFavor = action.payload;
+      state.favorList = [...state.favorList, newFavor];
+    },
+    deleteFavor(state, action: PayloadAction<number>) {
+      const id = action.payload;
+      state.favorList = state.favorList.filter((item) => item.id !== id);
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchFavor.pending, (state) => {
-      //   state.status = "loading";
+      state.status = "loading";
     });
     builder.addCase(fetchFavor.fulfilled, (state, action) => {
       state.status = "idle";
       state.favorList = action.payload;
     });
     builder.addCase(fetchFavor.rejected, (state) => {
-      //   state.status = "failed";
-    });
-    builder.addCase(deleteFavor.pending, (state) => {
-      //   state.status = "loading";
-    });
-    builder.addCase(deleteFavor.fulfilled, (state, action) => {
-      state.status = "idle";
-      state.favorList = action.payload;
-    });
-    builder.addCase(deleteFavor.rejected, (state) => {
-      //   state.status = "failed";
+      state.status = "failed";
     });
   },
 });
 
-export const {} = favorSlice.actions;
+export const { addFavor, deleteFavor } = favorSlice.actions;
 
 export default favorSlice.reducer;
