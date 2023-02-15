@@ -203,12 +203,12 @@ class MonkeyGetToken {
   }
 
   /**찜하기 취소(관심상품) */
-  async deleteFavor(id: string) {
+  async deleteFavor(id: number) {
     return this.instance
       .post(`/card/${id}/favor`)
-      .then((result) => console.log(result))
+      .then((result) => result.data)
       .catch((error) => {
-        console.log(error);
+        return "찜하기 취소 완료(에러)";
       });
   }
 }

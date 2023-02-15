@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import getTokenApi from "../api/monkeyGetToken";
 import styled from "styled-components";
-import CardItem from "../components/ui/CardItem";
+import CardItem from "../components/searchProduct/CardItem";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import { fetchFavor } from "../store/favorSlice";

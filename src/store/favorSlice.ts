@@ -24,6 +24,19 @@ export const fetchFavor = createAsyncThunk("favor/fetchFavor", async () => {
   return data;
 });
 
+export const addFavor = createAsyncThunk("favor/addFavor", async () => {
+  const data = await getTokenApi.myFavor();
+  return data;
+});
+
+export const deleteFavor = createAsyncThunk(
+  "favor/deleteFavor",
+  async (id: number) => {
+    const data = await getTokenApi.deleteFavor(id);
+    return data;
+  },
+);
+
 export const favorSlice = createSlice({
   name: "favor",
   initialState,
@@ -37,6 +50,16 @@ export const favorSlice = createSlice({
       state.favorList = action.payload;
     });
     builder.addCase(fetchFavor.rejected, (state) => {
+      //   state.status = "failed";
+    });
+    builder.addCase(deleteFavor.pending, (state) => {
+      //   state.status = "loading";
+    });
+    builder.addCase(deleteFavor.fulfilled, (state, action) => {
+      state.status = "idle";
+      state.favorList = action.payload;
+    });
+    builder.addCase(deleteFavor.rejected, (state) => {
       //   state.status = "failed";
     });
   },

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import getTokenApi from "../api/monkeyGetToken";
 import CardItem from "../components/searchProduct/CardItem";
 import BtnSuggest from "../components/ui/BtnSuggest";
+import { RootState } from "../store/store";
 
 type Props = {};
 
@@ -15,12 +17,18 @@ export type SuggestCard = {
 
 const Suggest = (props: Props) => {
   const [suggestCards, setSuggestCards] = useState<Array<SuggestCard>>([]);
-  const suggestCardList = suggestCards.map((card) => (
-    <CardItemWrapper>
-      <BtnBenefit className="benefit-title">#대중교통비 할인</BtnBenefit>
-      <CardItem key={card.id} card={card} />
-    </CardItemWrapper>
-  ));
+  const favorList = useSelector((state: RootState) => state.favor.favorList);
+
+  const suggestCardList = suggestCards.map((card) => {
+    // let isFavor = false;
+    // if (favorList.find((item) => item.id === card.id)) isFavor = true;
+    return (
+      <CardItemWrapper key={card.id}>
+        <BtnBenefit className="benefit-title">#대중교통비 할인</BtnBenefit>
+        <CardItem card={card} />
+      </CardItemWrapper>
+    );
+  });
 
   const getSuggestCard = async () => {
     const data = await getTokenApi.benefitCard("대중교통");

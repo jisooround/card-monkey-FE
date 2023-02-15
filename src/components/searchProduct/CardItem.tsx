@@ -3,27 +3,25 @@ import { Card } from "../../pages/Search";
 import { AiFillHeart } from "react-icons/ai";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
 
 type CardItemPropsType = {
   card: Card;
+  // isFavor: boolean;
 };
 
 const CardItem = ({ card }: CardItemPropsType) => {
-  const [isActive, setIsActive] = useState<boolean>(false);
+  // const [isActive, setIsActive] = useState<boolean>(false);
   const navigate = useNavigate();
+  const favorList = useSelector((state: RootState) => state.favor.favorList);
+  const dispatch = useDispatch<AppDispatch>();
 
   const cardImage = new Image();
   cardImage.src = card.image;
-  //   console.log(cardImage.width, cardImage.height);
 
   const toggleFavor = (e: any) => {
     e.stopPropagation();
-    setIsActive((prev) => !prev);
-    // if (isActive) {
-    //   alert("관심상품에 등록되었습니다");
-    // } else {
-    //   alert("관심상품에서 삭제되었습니다");
-    // }
   };
 
   return (
@@ -44,7 +42,11 @@ const CardItem = ({ card }: CardItemPropsType) => {
         </div>
       </CardInfo>
       <div
-        className={isActive ? "favor active" : "favor"}
+        className={
+          favorList.find((item) => item.id === card.id)
+            ? "favor active"
+            : "favor"
+        }
         onClick={(e) => toggleFavor(e)}
       >
         <AiFillHeart />
