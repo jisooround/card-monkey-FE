@@ -6,13 +6,6 @@ import BtnSuggest from "../components/ui/BtnSuggest";
 
 type Props = {};
 
-export type Card = {
-  id: number;
-  name: string;
-  company: string;
-  image: string;
-};
-
 export type SuggestCard = {
   id: number;
   name: string;
@@ -21,72 +14,21 @@ export type SuggestCard = {
 };
 
 const Suggest = (props: Props) => {
-  const dummy = [
-    {
-      id: 1,
-      name: "LOCA 365 카드",
-      company: "롯데카드",
-      image:
-        "https://api.card-gorilla.com:8080/storage/card/2330/card_img/24131/2330card.png",
-    },
-    {
-      id: 2,
-      name: "삼성카드 taptap O",
-      company: "삼성카드",
-      image:
-        "https://api.card-gorilla.com:8080/storage/card/51/card_img/27707/51card.png",
-    },
-    {
-      id: 3,
-      name: "DA@카드의정석",
-      company: "우리카드",
-      image:
-        "https://api.card-gorilla.com:8080/storage/card/87/card_img/20239/87card.png",
-    },
-  ];
-  const favorCardDummy = [
-    {
-      id: 1,
-      name: "LOCA 365 카드",
-      company: "롯데카드",
-      image:
-        "https://api.card-gorilla.com:8080/storage/card/2330/card_img/24131/2330card.png",
-    },
+  const [suggestCards, setSuggestCards] = useState<Array<SuggestCard>>([]);
+  const suggestCardList = suggestCards.map((card) => (
+    <CardItemWrapper>
+      <BtnBenefit className="benefit-title">#대중교통비 할인</BtnBenefit>
+      <CardItem key={card.id} card={card} />
+    </CardItemWrapper>
+  ));
 
-    {
-      id: 3,
-      name: "DA@카드의정석",
-      company: "우리카드",
-      image:
-        "https://api.card-gorilla.com:8080/storage/card/87/card_img/20239/87card.png",
-    },
-  ];
-  const [suggestCards, setSuggestCards] = useState<Array<SuggestCard>>(dummy);
-  const [favorCards, setFavorCards] = useState<Array<Card>>([]);
-
-  const suggestCardList = suggestCards.map((card) => {
-    let isFavor = false;
-    if (favorCards.find((item) => item.id === card.id)) isFavor = true;
-    return (
-      <CardItemWrapper key={card.id}>
-        <BtnBenefit className="benefit-title">#대중교통비 할인</BtnBenefit>
-        <CardItem card={card} isFavor={isFavor} />
-      </CardItemWrapper>
-    );
-  });
-
-  const getFavorCard = async () => {
-    const data = await getTokenApi.myFavor();
-    console.log(data);
-    if (data) {
-      setFavorCards(favorCardDummy);
-    } else {
-      setFavorCards(favorCardDummy);
-    }
+  const getSuggestCard = async () => {
+    const data = await getTokenApi.benefitCard("대중교통");
+    setSuggestCards(data);
   };
 
   useEffect(() => {
-    getFavorCard();
+    getSuggestCard();
   }, []);
 
   return (

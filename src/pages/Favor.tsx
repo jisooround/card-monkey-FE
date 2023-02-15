@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import getTokenApi from "../api/monkeyGetToken";
 import styled from "styled-components";
 import CardItem from "../components/ui/CardItem";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/store";
+import { fetchFavor } from "../store/favorSlice";
 
 type Props = {};
 
-type favorCard = {
+type FavorCard = {
   id: number;
   image: string;
   name: string;
@@ -13,21 +16,11 @@ type favorCard = {
 };
 
 const Favor = (props: Props) => {
-  const [favorList, setFavorList] = useState<favorListType[]>([
-    {
-      id: 0,
-      image: "",
-      name: "",
-      company: "",
-    },
-  ]);
-  const getFavorList = async () => {
-    const data = await getTokenApi.myFavor();
-    console.log(data);
-    setFavorList(data);
-  };
+  const favorList = useSelector((state: RootState) => state.favor.favorList);
+  const dispatch = useDispatch<AppDispatch>();
+
   useEffect(() => {
-    getFavorList();
+    dispatch(fetchFavor());
   }, []);
 
   return (
@@ -37,7 +30,7 @@ const Favor = (props: Props) => {
         <img src="/monkey_love.png" />
       </TopWrapper>
       <CardWrapper>
-        {favorList.map((favorCard: favorCard) => (
+        {favorList.map((favorCard: FavorCard) => (
           <CardItem card={favorCard} key={favorCard.id} />
         ))}
       </CardWrapper>

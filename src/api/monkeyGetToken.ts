@@ -2,6 +2,7 @@ import axios from "axios";
 import instance from "./apiController";
 import favorList from "../mokeup/favorList.json";
 import cardDetail from "../mokeup/cardDetail.json";
+import suggestList from "../mokeup/suggestList.json";
 
 class MonkeyGetToken {
   instance;
@@ -58,8 +59,8 @@ class MonkeyGetToken {
   async benefitCard(benefit: string) {
     return this.instance
       .get(`/card/benefit/fastcampus3?search=${benefit}`)
-      .then((result) => result)
-      .catch((error) => error);
+      .then((result) => result.data)
+      .catch((error) => suggestList);
   }
 
   /**카드명으로 검색 */

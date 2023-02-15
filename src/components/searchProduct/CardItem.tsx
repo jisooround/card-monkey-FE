@@ -6,10 +6,9 @@ import { useNavigate } from "react-router";
 
 type CardItemPropsType = {
   card: Card;
-  isFavor: boolean;
 };
 
-const CardItem = ({ card, isFavor }: CardItemPropsType) => {
+const CardItem = ({ card }: CardItemPropsType) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -45,7 +44,7 @@ const CardItem = ({ card, isFavor }: CardItemPropsType) => {
         </div>
       </CardInfo>
       <div
-        className={isFavor ? "favor active" : "favor"}
+        className={isActive ? "favor active" : "favor"}
         onClick={(e) => toggleFavor(e)}
       >
         <AiFillHeart />
@@ -77,7 +76,7 @@ const CardContainer = styled.div`
       transition: 0.6s;
     }
     &.active svg {
-      color: red;
+      color: var(--color-primary);
     }
     &:hover {
       svg {
@@ -127,12 +126,12 @@ const CardInfo = styled.div`
   .check {
     display: inline-block;
     border-radius: 40px;
+    color: #ff6b00;
     background-color: #ffeacc;
     font-size: 10px;
     font-weight: bold;
     padding: 7px;
     text-align: center;
-    color: var(--color-primary);
   }
 `;
 

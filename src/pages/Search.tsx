@@ -16,57 +16,9 @@ export type Card = {
 };
 
 const Search = (props: Props) => {
-  const allCardDummy = [
-    {
-      id: 1,
-      name: "LOCA 365 카드",
-      company: "롯데카드",
-      image:
-        "https://api.card-gorilla.com:8080/storage/card/2330/card_img/24131/2330card.png",
-    },
-    {
-      id: 2,
-      name: "삼성카드 taptap O",
-      company: "삼성카드",
-      image:
-        "https://api.card-gorilla.com:8080/storage/card/51/card_img/27707/51card.png",
-    },
-    {
-      id: 3,
-      name: "DA@카드의정석",
-      company: "우리카드",
-      image:
-        "https://api.card-gorilla.com:8080/storage/card/87/card_img/20239/87card.png",
-    },
-    {
-      id: 4,
-      name: "신한카드 Mr.Life",
-      company: "신한카드",
-      image:
-        "https://api.card-gorilla.com:8080/storage/card/13/card_img/20095/13card.png",
-    },
-  ];
-  const favorCardDummy = [
-    {
-      id: 1,
-      name: "LOCA 365 카드",
-      company: "롯데카드",
-      image:
-        "https://api.card-gorilla.com:8080/storage/card/2330/card_img/24131/2330card.png",
-    },
-
-    {
-      id: 3,
-      name: "DA@카드의정석",
-      company: "우리카드",
-      image:
-        "https://api.card-gorilla.com:8080/storage/card/87/card_img/20239/87card.png",
-    },
-  ];
   const [searchParams, setSearchParams] = useSearchParams();
   const searchTerm: string | null = searchParams.get("q");
-  const [searchCards, setSearchCards] = useState<Array<Card>>([]);
-  const [favorCards, setFavorCards] = useState<Array<Card>>([]);
+  const [cards, setCards] = useState<Array<Card>>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const benefits = [
     "모든 가맹점",
@@ -110,52 +62,37 @@ const Search = (props: Props) => {
     "바로",
   ];
 
-  const SearchCardList = searchCards.map((card) => {
-    let isFavor = false;
-    if (favorCards.find((item) => item.id === card.id)) isFavor = true;
-    return <CardItem key={card.id} card={card} isFavor={isFavor} />;
+  const cardList = cards.map((card) => {
+    return <CardItem key={card.id} card={card} />;
   });
 
   const getAllCard = async () => {
     const res = await getTokenApi.allCard();
-    console.log(res);
     if (res.status === 200) {
-      setSearchCards(res.data);
-    } else {
-      setSearchCards(allCardDummy);
+      setCards(res.data);
+      console.log(res);
     }
   };
 
   const getSearchCard = async () => {
     const res = await getTokenApi.searchByCompany(searchTerm || "");
     if (res.status === 200) {
-      setSearchCards(res.data);
+      setCards(res.data);
       console.log(res);
     }
   };
 
-  const getFavorCard = async () => {
-    const data = await getTokenApi.myFavor();
-    console.log(data);
-    if (data) {
-      setFavorCards(favorCardDummy);
-    } else {
-      setFavorCards(favorCardDummy);
-    }
-  };
+  // useEffect(() => {
+  //   console.log(cards);
+  // }, [cards]);
 
   // useEffect(() => {
-  //   console.log(searchCards);
-  // }, [searchCards]);
-
-  useEffect(() => {
-    getFavorCard();
-    if (!searchTerm) {
-      getAllCard();
-    } else {
-      // getSearchCard();
-    }
-  }, [searchTerm]);
+  //   if (!searchTerm) {
+  //     getAllCard();
+  //   } else {
+  //     getSearchCard();
+  //   }
+  // }, [searchTerm]);
 
   return (
     <SearchContainer>
@@ -194,7 +131,7 @@ const Search = (props: Props) => {
         </SearchGroup>
       </SearchGroupContainer>
       <div className="title">검색 결과</div>
-      <CardListContainer>{SearchCardList}</CardListContainer>
+      <CardListContainer>{cardList}</CardListContainer>
     </SearchContainer>
   );
 };
@@ -202,6 +139,7 @@ const Search = (props: Props) => {
 const SearchContainer = styled.div`
   padding: 0 30px;
   .title {
+    /* margin-bottom: 5px; */
     color: #46433f;
     font-size: 18px;
     font-weight: bold;
@@ -210,6 +148,9 @@ const SearchContainer = styled.div`
       display: flex;
       justify-content: space-between;
       cursor: pointer;
+      /* &:hover {
+        background-color: var(--color-lightgray);
+      } */
     }
   }
 `;
@@ -235,6 +176,7 @@ const SearchGroupContainer = styled.div`
 const SearchGroup = styled.div`
   margin-top: 10px;
   margin-bottom: 20px;
+  /* padding: 0 30px; */
 `;
 
 const Title = styled.div`
