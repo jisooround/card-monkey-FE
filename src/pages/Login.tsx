@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import setTokenApi from "../api/monkeySetToken";
+import { Link } from "react-router-dom";
 
 type Props = {};
 
@@ -57,9 +58,11 @@ const Login = (props: Props) => {
           <button className="logIn" type="submit" onClick={setToken}>
             로그인
           </button>
-          <button className="signUp" type="submit">
-            계정이 없으신가요? 회원가입하기
-          </button>
+          <Link to={"/signup"}>
+            <button className="signUp" type="submit">
+              계정이 없으신가요? 회원가입하기
+            </button>
+          </Link>
         </div>
       </Inner>
     </Container>

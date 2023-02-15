@@ -7,6 +7,8 @@ import Suggest from "./pages/Suggest";
 import Search from "./pages/Search";
 import App from "./App";
 import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import ReduxTest from "./pages/ReduxTest";
 
 const router = createBrowserRouter([
   {
@@ -38,10 +40,18 @@ const router = createBrowserRouter([
         element: <MyPage />,
       },
       {
-        path: "login",
-        element: <Login />,
+        path: "redux",
+        element: <ReduxTest />,
       },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/signUp",
+    element: <SignUp />,
   },
 ]);
 
