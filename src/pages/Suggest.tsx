@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import getTokenApi from "../api/monkeyGetToken";
 import CardItem from "../components/searchProduct/CardItem";
 import BtnSuggest from "../components/ui/BtnSuggest";
 
@@ -13,36 +14,22 @@ export type SuggestCard = {
 };
 
 const Suggest = (props: Props) => {
-  const dummy = [
-    {
-      id: 1,
-      name: "LOCA 365 카드",
-      company: "롯데카드",
-      image:
-        "https://api.card-gorilla.com:8080/storage/card/2330/card_img/24131/2330card.png",
-    },
-    {
-      id: 2,
-      name: "삼성카드 taptap O",
-      company: "삼성카드",
-      image:
-        "https://api.card-gorilla.com:8080/storage/card/51/card_img/27707/51card.png",
-    },
-    {
-      id: 3,
-      name: "DA@카드의정석",
-      company: "우리카드",
-      image:
-        "https://api.card-gorilla.com:8080/storage/card/87/card_img/20239/87card.png",
-    },
-  ];
-  const [suggestCards, setSuggestCards] = useState<Array<SuggestCard>>(dummy);
+  const [suggestCards, setSuggestCards] = useState<Array<SuggestCard>>([]);
   const suggestCardList = suggestCards.map((card) => (
     <CardItemWrapper>
       <BtnBenefit className="benefit-title">#대중교통비 할인</BtnBenefit>
       <CardItem key={card.id} card={card} />
     </CardItemWrapper>
   ));
+
+  const getSuggestCard = async () => {
+    const data = await getTokenApi.benefitCard("대중교통");
+    setSuggestCards(data);
+  };
+
+  useEffect(() => {
+    getSuggestCard();
+  }, []);
 
   return (
     <Container>

@@ -76,7 +76,7 @@ const CardContainer = styled.div`
       transition: 0.6s;
     }
     &.active svg {
-      color: red;
+      color: var(--color-primary);
     }
     &:hover {
       svg {
@@ -126,12 +126,12 @@ const CardInfo = styled.div`
   .check {
     display: inline-block;
     border-radius: 40px;
+    color: #ff6b00;
     background-color: #ffeacc;
     font-size: 10px;
     font-weight: bold;
     padding: 7px;
     text-align: center;
-    color: var(--color-primary);
   }
 `;
 
