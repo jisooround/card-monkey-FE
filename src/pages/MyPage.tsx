@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { MyCard } from "../components/ui/MyCard";
+import { MyCards } from "../components/ui/MyCard";
 
 type Props = {};
 
@@ -22,7 +22,7 @@ const MyPage = (props: Props) => {
           <span className="check">체크카드</span>
         </div>
         <div className="list">
-          <MyCard></MyCard>
+          {/* <MyCards></MyCards> */}
           <div className="cancle">카드 신청 취소</div>
         </div>
       </div>
