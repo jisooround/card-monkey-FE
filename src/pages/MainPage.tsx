@@ -2,10 +2,17 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import getTokenApi from "../api/monkeyGetToken";
-import { MyCard } from "../components/ui/MyCard";
+import { MyCards } from "../components/ui/MyCard";
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore from "swiper";
+import { Navigation, Pagination, Scrollbar, Autoplay } from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
 
 type Props = {};
-type Top3 = {
+export type CardType = {
   company: string;
   id: number;
   image: string;
@@ -13,16 +20,27 @@ type Top3 = {
 };
 
 const MainPage = (props: Props) => {
-  const [topCard, setTopCard] = useState<Array<Top3>>();
+  const [topCard, setTopCard] = useState<Array<CardType>>();
+  const [myCard, setMyCard] = useState<Array<CardType>>();
+  SwiperCore.use([Navigation, Pagination, Scrollbar, Autoplay]);
 
   const getHot3 = async () => {
     const topList = await getTokenApi.hot3();
-    setTopCard(topList?.data);
+    setTopCard(topList);
+  };
+
+  const getMyCard = async () => {
+    const data = await getTokenApi.cardList();
+    setMyCard(data);
+    console.log("mycard", myCard);
   };
 
   useEffect(() => {
     getHot3();
+    getMyCard();
   }, []);
+
+  if (topCard === undefined) return console.log("loading");
 
   return (
     <Container>
@@ -32,18 +50,40 @@ const MainPage = (props: Props) => {
           <span className="chart">나의 카드목록 보기</span>
         </Link>
       </div>
-      {true ? <MyCard /> : <Empty>나의 카드 정보가 없습니다.</Empty>}
+      {/* 나의 카드 출력 */}
+      <Swiper
+        slidesPerView={1}
+        navigation
+        pagination={{ clickable: true }}
+        autoplay={true}
+      >
+        {Array.isArray(myCard) ? (
+          myCard?.map((data: CardType) => (
+            <SwiperSlide>
+              <MyCards key={data.id} card={data} />
+            </SwiperSlide>
+          ))
+        ) : (
+          <Empty>나의 카드 정보가 없습니다.</Empty>
+        )}
+      </Swiper>
+      {/* 카드 추천 링크 배너 */}
       <Link to="/suggest" style={{ textDecoration: "none" }}>
         <img className="banner" src="../banner_main.png" />
       </Link>
+      {/* top3 카드 출력 */}
       <div className="top3">몽키차트 TOP 3</div>
       {Array.isArray(topCard) ? (
         topCard.map((data) => {
           const cardImage = new Image();
           cardImage.src = data.image;
           return (
-            <Link to="/detail/:id" style={{ textDecoration: "none" }}>
-              <Topcard cardImage={cardImage} key={data.id}>
+            <Link
+              to="/detail/:id"
+              key={data.id}
+              style={{ textDecoration: "none" }}
+            >
+              <Topcard cardImage={cardImage}>
                 <span className="num">
                   {data.id}
                   <div>
@@ -61,8 +101,9 @@ const MainPage = (props: Props) => {
       ) : (
         <div>error</div>
       )}
+      {/* 링크복사 배너 */}
       <Link to="/suggest" style={{ textDecoration: "none" }}>
-        <img className="banner" src="../banner_main.png" />
+        <img className="banner" src="../banner_sub.png" />
       </Link>
     </Container>
   );
@@ -102,6 +143,25 @@ const Container = styled.div`
     width: 425px;
     aspect-ratio: auto 1/1;
   }
+  .swiper-pagination-bullet-active {
+    background-color: var(--color-primary) !important;
+  }
+  .swiper-button-prev {
+    color: var(--color-primary) !important;
+    font-size: 15px;
+    &::after {
+      font-size: 20px !important;
+      font-weight: 600;
+      padding-right: 10px;
+    }
+  }
+  .swiper-button-next {
+    color: var(--color-primary) !important;
+    &::after {
+      font-size: 20px !important;
+      font-weight: 600;
+    }
+  }
 `;
 
 const Empty = styled.div`
@@ -133,8 +193,8 @@ const Topcard = styled.div<{ cardImage: HTMLImageElement }>`
   span {
     font-size: 25px;
     font-weight: 700;
-    margin-right: 15px;
-    width: 120px;
+    margin-right: 50px;
+    width: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -145,7 +205,7 @@ const Topcard = styled.div<{ cardImage: HTMLImageElement }>`
       margin-left: 20px;
       height: ${(props) =>
         props.cardImage.width > props.cardImage.height ? "50px" : "70px"};
-      aspect-ratio: auto 1/1;
+      /* aspect-ratio: auto 1/1; */
     }
   }
 

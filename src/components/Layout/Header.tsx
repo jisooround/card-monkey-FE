@@ -9,7 +9,7 @@ import { TbLogout } from "react-icons/tb";
 import { FcWiFiLogo } from "react-icons/fc";
 import { useLocation, useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
-import getTokenApi from "../api/monkeyGetToken";
+import getTokenApi from "../../api/monkeyGetToken";
 
 type HeaderPropsType = {};
 
@@ -17,7 +17,9 @@ const Header = ({}: HeaderPropsType) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchInput, setSearchInput] = useState<string>("");
+  const [searchInput, setSearchInput] = useState<string>(
+    searchParams.get("q") || "",
+  );
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -10,6 +10,8 @@ type Props = {};
 const Navbar = (props: Props) => {
   const { pathname } = useLocation();
   console.log(pathname);
+
+  if (pathname === "/search") return null;
   if (pathname === "/login") return null;
   return (
     <Wrap>
