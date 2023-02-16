@@ -19,15 +19,15 @@ const Benefit = ({ setStep }: Props) => {
   console.log("Benefit  : ", form);
   console.log(benefit);
   const benefits = [
-    "커피",
-    "교통",
-    "영화",
-    "배달",
-    "통신",
-    "주유",
-    "간편결제",
-    "공과금",
-    "쇼핑",
+    "coffee",
+    "transportation",
+    "movie",
+    "delivery",
+    "phone",
+    "gas",
+    "simplePayment",
+    "tax",
+    "shopping",
   ];
 
   const handleBenefit = (item) => {

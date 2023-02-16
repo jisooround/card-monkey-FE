@@ -9,75 +9,75 @@ type Props = {
 
 const BenefitIcon = (item: Props) => {
   console.log(item);
-  if (item.item === "커피") {
+  if (item.item === "coffee") {
     return (
       <Icon>
         <img src="./benefit_coffee.png" alt="" />
-        <p>{item.item}</p>
+        <p>커피</p>
       </Icon>
     );
   }
-  if (item.item === "교통") {
+  if (item.item === "transportation") {
     return (
       <Icon>
         <img src="./benefit_transportation.png" alt="" />
-        <p>{item.item}</p>
+        <p>교통</p>
       </Icon>
     );
   }
-  if (item.item === "영화") {
+  if (item.item === "movie") {
     return (
       <Icon>
         <img src="./benefit_movie.png" alt="" />
-        <p>{item.item}</p>
+        <p>영화</p>
       </Icon>
     );
   }
-  if (item.item === "배달") {
+  if (item.item === "delivery") {
     return (
       <Icon>
         <img src="./benefit_delivery.png" alt="" />
-        <p>{item.item}</p>
+        <p>배달</p>
       </Icon>
     );
   }
-  if (item.item === "통신") {
+  if (item.item === "phone") {
     return (
       <Icon>
         <img src="./benefit_phone.png" alt="" />
-        <p>{item.item}</p>
+        <p>통신</p>
       </Icon>
     );
   }
-  if (item.item === "주유") {
+  if (item.item === "gas") {
     return (
       <Icon>
         <img src="./benefit_gas.png" alt="" />
-        <p>{item.item}</p>
+        <p>주유</p>
       </Icon>
     );
   }
-  if (item.item === "간편결제") {
+  if (item.item === "simplePayment") {
     return (
       <Icon>
         <img src="./benefit_simplePayment.png" alt="" />
-        <p>{item.item}</p>
+        <p>간편결제</p>
       </Icon>
     );
   }
-  if (item.item === "공과금") {
+  if (item.item === "tax") {
     return (
       <Icon>
         <img src="./benefit_tax.png" alt="" />
-        <p>{item.item}</p>
+        <p>공과금</p>
       </Icon>
     );
   }
-  if (item.item === "쇼핑") {
+  if (item.item === "shopping") {
     return (
       <Icon>
         <img src="./benefit_transportation.png" alt="" />
-        <p>{item.item}</p>
+        <p>쇼핑</p>
       </Icon>
     );
   }
