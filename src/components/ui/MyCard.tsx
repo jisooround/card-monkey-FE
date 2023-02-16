@@ -1,20 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { CardType } from "../../pages/MainPage";
 
-type Props = {};
+type MyCardType = {
+  card: CardType;
+};
 
-export const MyCard = (props: Props) => {
+export const MyCards = ({ card }: MyCardType) => {
   return (
     <Link to="/detail/:id" style={{ textDecoration: "none" }}>
       <Mycard>
         <div className="box">
           <div className="circle">
-            <img src="https://api.card-gorilla.com:8080/storage/card/2330/card_img/24131/2330card.png" />
+            <img src={card.image} />
           </div>
           <div>
-            <div className="cardname">LOCA 365 카드</div>
-            <div>롯데카드</div>
+            <div className="cardname">{card.name}</div>
+            <div>{card.company}</div>
           </div>
         </div>
       </Mycard>
