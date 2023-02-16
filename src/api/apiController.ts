@@ -23,6 +23,8 @@ instance.interceptors.response.use(
   },
   function (error) {
     console.log("오류 응답");
+    localStorage.setItem("accessToken", VITE_TOKEN);
+    localStorage.setItem("name", "김명지");
     return Promise.reject(error);
   },
 );

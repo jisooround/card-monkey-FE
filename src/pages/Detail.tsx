@@ -5,11 +5,12 @@ import getTokenApi from "../api/monkeyGetToken";
 import CardDetail from "../components/Detail/CardDetail";
 
 export type CardInfo = {
-  benefit: string[];
+  benefit: string;
   company: string;
   id: number;
   image: string;
   name: string;
+  type: string;
 };
 
 type Props = {};
@@ -17,6 +18,7 @@ type Props = {};
 const Detail = (props: Props) => {
   const [cardInfo, setCardInfo] = useState<CardInfo[]>([]);
   const { pathname } = useLocation();
+
   useEffect(() => {
     const splitUrl = pathname?.split("/") ?? null;
     const location = splitUrl?.length > 1 ? splitUrl[splitUrl.length - 1] : "";
