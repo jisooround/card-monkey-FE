@@ -6,18 +6,33 @@ import Id from "../components/signUp/Id";
 import Name from "../components/signUp/Name";
 import Password from "../components/signUp/Password";
 import styled from "styled-components";
+import { IoIosArrowBack } from "react-icons/io";
+import { useNavigate } from "react-router";
 
 type Props = {};
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [step, setStep] = useState<number>(1);
+  if (step === 0) {
+    navigate("/login");
+  }
+
+  console.log("step : ", step);
 
   return (
     <Container>
       <Inner>
+        <IoIosArrowBack
+          className="back"
+          onClick={() => {
+            setStep(step - 1);
+            console.log("클릭!");
+          }}
+        ></IoIosArrowBack>
         <h3>회원가입</h3>
         <ProgressBar>
-          <div style={{ width: `${step * 85}px` }}></div>
+          <div style={{ width: `${step * 70.83}px` }}></div>
         </ProgressBar>
         {step === 1 && <Agreement setStep={setStep} />}
         {step === 2 && <Name setStep={setStep} />}
@@ -39,7 +54,7 @@ const Container = styled.div`
   width: 100%;
   justify-content: center;
   h3 {
-    padding-top: 72px;
+    padding-top: 52px;
     padding-bottom: 43px;
     font-size: 28px;
     font-weight: 300;
@@ -50,6 +65,16 @@ const Inner = styled.div`
   width: var(--width-inner);
   height: auto;
   margin: auto;
+  .back {
+    margin-left: -5px;
+    padding-top: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--color-gray);
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
 `;
 
 const ProgressBar = styled.div`
