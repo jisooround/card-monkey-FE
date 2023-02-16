@@ -8,17 +8,18 @@ import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 
 type Props = {};
 
-export type Card = {
+export type SearchCard = {
   id: number;
   name: string;
   company: string;
   image: string;
+  type: string;
 };
 
 const Search = (props: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchTerm: string | null = searchParams.get("q");
-  const [cards, setCards] = useState<Array<Card>>([]);
+  const [cards, setCards] = useState<Array<SearchCard>>([]);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const benefits = [
     "모든 가맹점",
