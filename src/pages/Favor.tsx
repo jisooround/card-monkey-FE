@@ -1,33 +1,29 @@
 import React, { useState, useEffect } from "react";
 import getTokenApi from "../api/monkeyGetToken";
 import styled from "styled-components";
-import CardItem from "../components/ui/CardItem";
+import CardItem from "../components/searchProduct/CardItem";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/store";
+import { fetchFavor } from "../store/favorSlice";
 
 type Props = {};
 
-type favorCard = {
+type FavorCard = {
   id: number;
-  image: string;
   name: string;
   company: string;
+  image: string;
+  type: string;
 };
 
 const Favor = (props: Props) => {
-  const [favorList, setFavorList] = useState<favorListType[]>([
-    {
-      id: 0,
-      image: "",
-      name: "",
-      company: "",
-    },
-  ]);
-  const getFavorList = async () => {
-    const data = await getTokenApi.myFavor();
-    console.log(data);
-    setFavorList(data);
-  };
+  const favorList = useSelector((state: RootState) => state.favor.favorList);
+  const dispatch = useDispatch<AppDispatch>();
+
   useEffect(() => {
-    getFavorList();
+    // 여기 페이지 들어오면 관심상품 가져오는데 favorList.json 데이터라 항상 2개 상품 가져옴
+    // 그래서 추가, 삭제해도 다시 이 페이지 들어오면 favorList.json 데이터 상품 2개 가져옴
+    dispatch(fetchFavor());
   }, []);
 
   return (
@@ -37,7 +33,7 @@ const Favor = (props: Props) => {
         <img src="/monkey_love.png" />
       </TopWrapper>
       <CardWrapper>
-        {favorList.map((favorCard: favorCard) => (
+        {favorList.map((favorCard: FavorCard) => (
           <CardItem card={favorCard} key={favorCard.id} />
         ))}
       </CardWrapper>

@@ -2,6 +2,7 @@ import axios from "axios";
 import instance from "./apiController";
 import favorList from "../mokeup/favorList.json";
 import cardDetail from "../mokeup/cardDetail.json";
+import suggestList from "../mokeup/suggestList.json";
 
 class MonkeyGetToken {
   instance;
@@ -57,51 +58,43 @@ class MonkeyGetToken {
   }
 
   /**관심혜택 맞춤 카드 */
-  async benefitCard() {
+  async benefitCard(benefit: string) {
     return this.instance
-      .get("/card/benefit/fastcampus3")
-      .then((result) => console.log(result))
-      .catch((error) => {
-        console.log(error);
-      });
+      .get(`/card/benefit/fastcampus3?search=${benefit}`)
+      .then((result) => result.data)
+      .catch((error) => suggestList);
   }
 
   /**카드명으로 검색 */
   async searchByName(name: string) {
     return this.instance
       .get(`/card?name=${name}`)
-      .then((result) => console.log(result))
-      .catch((error) => {
-        console.log(error);
-      });
+      .then((result) => result)
+      .catch((error) => error);
   }
 
   //**카드회사명으로 검색 */
   async searchByCompany(company: string) {
     return this.instance
       .get(`/card?company=${company}`)
-      .then((result) => {
-        console.log(result);
-        return result;
-      })
-      .catch((error) => {
-        console.log(error);
-        return error;
-      });
+      .then((result) => result)
+      .catch((error) => error);
+  }
+
+  //**카드혜택으로 검색 */
+  async searchByBenefit(benefit: string) {
+    return this.instance
+      .get(`/card?benefit=${benefit}`)
+      .then((result) => result)
+      .catch((error) => error);
   }
 
   /**전체카드 조회 */
   async allCard() {
     return this.instance
       .get(`/card`)
-      .then((result) => {
-        console.log(result);
-        return result;
-      })
-      .catch((error) => {
-        console.log(error);
-        return error;
-      });
+      .then((result) => result)
+      .catch((error) => error);
   }
 
   /**카드 상세정보 조회 */
@@ -128,7 +121,7 @@ class MonkeyGetToken {
   }
 
   /**찜하기(관심상품) */
-  async favorCheck(id: string) {
+  async favorCheck(id: number) {
     return this.instance
       .post(`/card/${id}/favor`)
       .then((result) => console.log(result))
@@ -212,12 +205,22 @@ class MonkeyGetToken {
   }
 
   /**찜하기 취소(관심상품) */
-  async deleteFavor(id: string) {
+  async deleteFavor(id: number) {
     return this.instance
       .post(`/card/${id}/favor`)
-      .then((result) => console.log(result))
+      .then((result) => result.data)
       .catch((error) => {
-        console.log(error);
+        return "찜하기 취소 완료(에러)";
+      });
+  }
+
+  /**찜하기 or 찜하기 취소 */
+  async toggleFavor(id: number) {
+    return this.instance
+      .post(`/card/${id}/favor`)
+      .then((result) => result.data)
+      .catch((error) => {
+        return "에러";
       });
   }
 }

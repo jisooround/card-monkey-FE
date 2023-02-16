@@ -1,29 +1,41 @@
 import React, { useState } from "react";
-import { Card } from "../../pages/Search";
+import { SearchCard } from "../../pages/Search";
 import { AiFillHeart } from "react-icons/ai";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../store/store";
+import getTokenApi from "../../api/monkeyGetToken";
+import { addFavor, deleteFavor } from "../../store/favorSlice";
 
 type CardItemPropsType = {
-  card: Card;
+  card: SearchCard;
 };
 
 const CardItem = ({ card }: CardItemPropsType) => {
-  const [isActive, setIsActive] = useState<boolean>(false);
   const navigate = useNavigate();
+  const favorList = useSelector((state: RootState) => state.favor.favorList);
+  const dispatch = useDispatch<AppDispatch>();
 
   const cardImage = new Image();
   cardImage.src = card.image;
-  //   console.log(cardImage.width, cardImage.height);
 
-  const toggleFavor = (e: any) => {
+  const toggleFavor = async (e: any) => {
     e.stopPropagation();
-    setIsActive((prev) => !prev);
-    // if (isActive) {
-    //   alert("관심상품에 등록되었습니다");
-    // } else {
-    //   alert("관심상품에서 삭제되었습니다");
-    // }
+    const data = await getTokenApi.toggleFavor(card.id); // 이거 관심상품 추가, 삭제 api가 똑같아서 하나로 합침(추가, 삭제 api 함수 아직 있긴 함)
+    if (data === "찜하기 완료") {
+      /* 서버에서 관심상품 추가되면 우리도 추가 
+         원래는 다시 전체 관심상품 조회해서 가져오는게 더 정확한데 일단은 이렇게 (어제 소재헌이 멘토님한테 질문한거 참고) */
+      dispatch(addFavor(card));
+    } else if (data === "찜하기 취소 완료") {
+      /* 서버에서 관심상품 삭제되면 우리도 삭제 
+         원래는 다시 전체 관심상품 조회해서 가져오는게 더 정확한데 일단은 이렇게 (어제 소재헌이 멘토님한테 질문한거 참고) */
+      dispatch(deleteFavor(card.id));
+    } else {
+      // 일단 지금은 무조건 요기 조건으로 들어옴, 밑에 둘 중 하나만 실행
+      // dispatch(addFavor(card));
+      dispatch(deleteFavor(card.id));
+    }
   };
 
   return (
@@ -40,12 +52,20 @@ const CardItem = ({ card }: CardItemPropsType) => {
         <div className="wrapper">
           <div className="name">{card.name}</div>
           <div className="company">{card.company}</div>
-          <div className="check">체크카드</div>
+          <div
+            className={card.type === "CREDIT" ? "type credit" : "type check"}
+          >
+            {card.type === "CREDIT" ? "신용카드" : "체크카드"}
+          </div>
         </div>
       </CardInfo>
       <div
-        className={isActive ? "favor active" : "favor"}
-        onClick={(e) => toggleFavor(e)}
+        className={
+          favorList.find((item) => item.id === card.id)
+            ? "favor active"
+            : "favor"
+        }
+        onClick={toggleFavor}
       >
         <AiFillHeart />
       </div>
@@ -76,7 +96,7 @@ const CardContainer = styled.div`
       transition: 0.6s;
     }
     &.active svg {
-      color: red;
+      color: var(--color-primary);
     }
     &:hover {
       svg {
@@ -100,7 +120,7 @@ const CardImageWrapper = styled.div<{ cardImage: HTMLImageElement }>`
     transition: 0.2s;
     filter: drop-shadow(6px 4px 4px #c3c3c3);
     width: ${(props) =>
-      props.cardImage.width > props.cardImage.height ? "110px" : "75px"};
+      props.cardImage.width >= props.cardImage.height ? "110px" : "75px"};
   }
   .circle {
     width: 110px;
@@ -123,15 +143,21 @@ const CardInfo = styled.div`
     font-weight: 530;
     margin-bottom: 10px;
   }
-  .check {
+  .type {
     display: inline-block;
     border-radius: 40px;
-    background-color: #ffeacc;
     font-size: 10px;
     font-weight: bold;
     padding: 7px;
     text-align: center;
-    color: var(--color-primary);
+    &.credit {
+      color: #ff6b00;
+      background-color: #ffeacc;
+    }
+    &.check {
+      color: #1bbbee;
+      background-color: #dbf6ff;
+    }
   }
 `;
 
