@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
+import styled from "styled-components";
 import getTokenApi from "../api/monkeyGetToken";
 import CardDetail from "../components/Detail/CardDetail";
+import Back from "../components/ui/Back";
 
 export type CardInfo = {
   benefit: string;
@@ -24,17 +26,22 @@ const Detail = (props: Props) => {
     const location = splitUrl?.length > 1 ? splitUrl[splitUrl.length - 1] : "";
     const getCardInfo = async () => {
       const data = await getTokenApi.cardDetail(location);
-      console.log(data);
       setCardInfo(data);
+      console.log(data);
     };
     getCardInfo();
   }, [pathname]);
 
   return (
-    <div>
+    <Wrapper>
+      <Back />
       <CardDetail card={cardInfo}></CardDetail>
-    </div>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  padding: 20px 40px;
+`;
 
 export default Detail;
