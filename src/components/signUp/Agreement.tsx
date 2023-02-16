@@ -1,7 +1,6 @@
 import { current } from "@reduxjs/toolkit";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { fillAgreement } from "../../store/signUpSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
 
@@ -10,11 +9,46 @@ type Props = {
 };
 
 const Agreement = ({ setStep }: Props) => {
+  const list = [
+    {
+      id: "adultConfirm",
+      content: "[필수] 만 19세 이상",
+    },
+    {
+      id: "termsConfirm",
+      content: "[필수] 이용약관 동의",
+    },
+    {
+      id: "personalInfoConfirm",
+      content: "[필수] 개인정보 처리방침 동의",
+    },
+  ];
   const form = useSelector((state: RootState) => state.form);
   const dispatch = useDispatch();
-  const [agree, setAgree] = useState(false);
+
+  const [agree, setAgree] = useState([]);
+
   console.log(agree);
   console.log("Agreement  : ", form);
+
+  const handleCheck = (checked: boolean, id: string) => {
+    if (checked) {
+      setAgree((prev) => [...prev, id]);
+    } else {
+      setAgree(agree.filter((item) => item != id));
+    }
+  };
+
+  const handleAllCheck = (checked: boolean) => {
+    if (checked) {
+      const checkedArray: Array = [];
+      list.forEach((item) => checkedArray.push(item.id));
+      setAgree(checkedArray);
+    } else {
+      setAgree([]);
+    }
+  };
+
   return (
     <Wrap>
       <h4>
@@ -27,19 +61,33 @@ const Agreement = ({ setStep }: Props) => {
           <input
             type="checkbox"
             id="allCheck"
-            checked={agree}
+            checked={agree.length === 3 ? true : false}
             onChange={(e) => {
-              setAgree(!agree);
+              handleAllCheck(e.target.checked);
             }}
           />
-          <p>모두 동의</p>
+          <label htmlFor="allCheck">모두 동의</label>
         </div>
+        {list.map((item, idx) => {
+          return (
+            <div className="checkList" key={idx}>
+              <input
+                type="checkbox"
+                id={item.id}
+                checked={agree.includes(item.id) ? true : false}
+                onChange={(e) => {
+                  handleCheck(e.target.checked, e.target.id);
+                }}
+              />
+              <label htmlFor={item.id}>{item.content}</label>
+            </div>
+          );
+        })}
       </InputWrap>
       <Button
-        disabled={!agree}
+        disabled={agree.length === 3 ? false : true}
         onClick={() => {
           setStep(2);
-          dispatch(fillAgreement());
         }}
       >
         동의
@@ -51,9 +99,8 @@ const Agreement = ({ setStep }: Props) => {
 const Wrap = styled.div`
   height: 600px;
   width: 100%;
-  /* background-color: aqua; */
   h4 {
-    padding-bottom: 43px;
+    padding-bottom: 40px;
     font-size: 26px;
     font-weight: 400;
     line-height: 1.4;
@@ -69,25 +116,38 @@ const Button = styled.button`
   width: 500px;
   height: 70px;
   background-color: var(--color-primary);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   font-weight: 600;
   font-size: 15px;
   color: var(--color-white);
   cursor: pointer;
+  transition: 0.3s;
   &:disabled {
     background-color: var(--color-gray);
+    transition: 0.2s;
   }
 `;
 
 const InputWrap = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: #dfdffa;
+  input {
+    width: 20px;
+    height: 20px;
+  }
+  label {
+    color: var(--color-black);
+    font-size: 14px;
+    padding: 2px 0 0 10px;
+    cursor: pointer;
+  }
   .allCheck {
     display: flex;
     align-items: center;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--color-lightgray);
+  }
+  .checkList {
+    display: flex;
+    align-items: center;
+    padding: 20px 0 0 0;
   }
 `;
 
