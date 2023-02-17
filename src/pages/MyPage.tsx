@@ -1,31 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import getTokenApi from "../api/monkeyGetToken";
+import { CardLists } from "../components/mypage/CardLists";
+import { EditAccount } from "../components/mypage/EditAccount";
 import { MyCards } from "../components/ui/MyCard";
+import { CardType, Empty } from "./MainPage";
 
 type Props = {};
 
 const MyPage = (props: Props) => {
+  const [section, setSection] = useState("card-lists");
+
+  const changeSection = (event: any) => {
+    setSection(event.target.className);
+    console.log(section);
+  };
+
   return (
     <Container>
-      <div className="title">마이페이지</div>
+      <div className="title">
+        <img src="../monkey_yellow.png" />
+        <div className="text">마이페이지</div>
+      </div>
       <div className="category">
-        <div>나의 카드</div>
+        <div
+          className="card-lists"
+          id={section === "card-lists" ? "primary" : "basic"}
+          onClick={changeSection}
+        >
+          나의 카드
+        </div>
         <div className="y-line"></div>
-        <div>회원정보 수정</div>
+        <div
+          className="edit-account"
+          id={section === "edit-account" ? "primary" : "basic"}
+          onClick={changeSection}
+        >
+          회원정보 수정
+        </div>
       </div>
       <div className="line"></div>
-      <div className="lists">
-        <div className="user-name">소재헌님의 카드</div>
-        <div className="cards">
-          <span className="all">전체카드</span>
-          <span className="credit">신용카드</span>
-          <span className="check">체크카드</span>
-        </div>
-        <div className="list">
-          {/* <MyCards></MyCards> */}
-          <div className="cancle">카드 신청 취소</div>
-        </div>
-      </div>
+      {section === "card-lists" ? <CardLists /> : <EditAccount />}
     </Container>
   );
 };
@@ -34,25 +49,34 @@ export default MyPage;
 
 const Container = styled.div`
   margin: 0 auto;
+  padding-bottom: 75px;
+  #primary {
+    color: var(--color-primary);
+  }
+  #basic {
+    color: var(--color-gray);
+  }
   .title {
-    width: 425px;
-    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
     font-size: 25px;
-    padding: 20px 0 40px;
+    padding: 10px 0 35px;
+    .text {
+      padding-top: 15px;
+    }
+    img {
+      width: 110px;
+    }
   }
   .category {
     display: flex;
     justify-content: center;
     font-size: 15px;
     font-weight: 600;
-    color: var(--color-gray);
-    /* height: 50px; */
     align-items: center;
     justify-content: space-evenly;
     cursor: pointer;
-    div:first-child {
-      color: var(--color-primary);
-    }
     .y-line {
       border-right: 1px solid var(--color-lightgray);
       height: 40px;
@@ -63,7 +87,7 @@ const Container = styled.div`
     height: 7px;
     background-color: var(--color-lightgray);
   }
-  .lists {
+  .myaccount {
     width: 425px;
     margin: 0 auto;
     padding-top: 20px;
@@ -95,6 +119,31 @@ const Container = styled.div`
     cursor: pointer;
     :hover {
       color: var(--color-primary);
+    }
+  }
+  .inputWrap {
+    padding-top: 50px;
+    padding-bottom: 93px;
+    width: 100%;
+    font-size: 14px;
+    .group {
+      display: flex;
+      width: 100%;
+      margin-bottom: 40px;
+      align-items: center;
+      border-bottom: 1px solid var(--color-gray);
+      .inputTitle {
+        width: 30%;
+        font-weight: 600;
+        padding-right: 20px;
+      }
+      input {
+        width: 100%;
+        height: 30px;
+        border: none;
+        outline: none;
+        background-color: transparent;
+      }
     }
   }
 `;
