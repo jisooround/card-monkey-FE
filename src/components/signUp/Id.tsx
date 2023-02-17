@@ -25,7 +25,7 @@ const Id = ({ setStep }: Props) => {
     }
   }, [id]);
 
-  const handleChange = (value) => {
+  const handleChange = (value: string) => {
     setId(value);
   };
   return (
@@ -47,7 +47,9 @@ const Id = ({ setStep }: Props) => {
             }}
           />
         </div>
-        <ValidConditions className={idValid && id.length > 0 && "satisfaction"}>
+        <ValidConditions
+          className={`${idValid && id.length > 0 && "satisfaction"}`}
+        >
           <p>5~12자 영문, 숫자 조합</p>
           <BsCheckCircle className="icon" />
         </ValidConditions>

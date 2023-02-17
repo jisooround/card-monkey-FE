@@ -25,7 +25,7 @@ const Id = ({ setStep }: Props) => {
     }
   }, [pwd]);
 
-  const handleChange = (value) => {
+  const handleChange = (value: string) => {
     setPwd(value);
   };
   return (
@@ -47,7 +47,7 @@ const Id = ({ setStep }: Props) => {
           />
         </div>
         <ValidConditions
-          className={pwdValid && pwd.length > 0 && "satisfaction"}
+          className={`${pwdValid && pwd.length > 0 && "satisfaction"}`}
         >
           <p>8~12자 영문 숫자 조합</p>
           <BsCheckCircle className="icon" />

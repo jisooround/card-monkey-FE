@@ -25,7 +25,7 @@ const Name = ({ setStep }: Props) => {
     }
   }, [name]);
 
-  const handleChange = (value) => {
+  const handleChange = (value: string) => {
     setName(value);
   };
 
@@ -45,7 +45,7 @@ const Name = ({ setStep }: Props) => {
           />
         </div>
         <ValidConditions
-          className={nameValid && name.length > 0 && "satisfaction"}
+          className={`${nameValid && name.length > 0 && "satisfaction"}`}
         >
           <p>2~6자 한글 </p>
           <BsCheckCircle />
