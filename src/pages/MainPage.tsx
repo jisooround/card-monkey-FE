@@ -11,7 +11,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 
-type Props = {};
 export type CardType = {
   company: string;
   id: number;
@@ -19,7 +18,7 @@ export type CardType = {
   name: string;
 };
 
-const MainPage = (props: Props) => {
+const MainPage = () => {
   const [topCard, setTopCard] = useState<Array<CardType>>();
   const [myCard, setMyCard] = useState<Array<CardType>>();
   SwiperCore.use([Navigation, Pagination, Scrollbar, Autoplay]);
@@ -59,8 +58,8 @@ const MainPage = (props: Props) => {
       >
         {Array.isArray(myCard) ? (
           myCard?.map((data: CardType) => (
-            <SwiperSlide>
-              <MyCards key={data.id} card={data} />
+            <SwiperSlide key={data.id}>
+              <MyCards card={data} />
             </SwiperSlide>
           ))
         ) : (
@@ -164,7 +163,7 @@ const Container = styled.div`
   }
 `;
 
-const Empty = styled.div`
+export const Empty = styled.div`
   height: 135px;
   padding: 0 30px;
   border: 1px solid var(--color-gray);
@@ -175,6 +174,7 @@ const Empty = styled.div`
   font-size: 15px;
   color: var(--color-gray);
 `;
+
 const Topcard = styled.div<{ cardImage: HTMLImageElement }>`
   height: 80px;
   border: 1px solid var(--color-gray);
