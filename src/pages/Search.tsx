@@ -1,10 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import getTokenApi from "../api/monkeyGetToken";
 import CardItem from "../components/searchProduct/CardItem";
 import BtnSuggest from "../components/ui/BtnSuggest";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/store";
+import {
+  fetchSearch,
+  handleSearchBenefit,
+  handleSearchCompany,
+} from "../store/searchSlice";
 
 type Props = {};
 
@@ -19,36 +26,27 @@ export type SearchCard = {
 const Search = (props: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchTerm: string | null = searchParams.get("q");
-  const [cards, setCards] = useState<Array<SearchCard>>([]);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
+
+  const searchList = useSelector((state: RootState) => state.search.searchList);
+  const selectedBenefit = useSelector(
+    (state: RootState) => state.search.searchBenefit,
+  );
+  const selectedCompany = useSelector(
+    (state: RootState) => state.search.searchCompany,
+  );
+  const dispatch = useDispatch<AppDispatch>();
+
   const benefits = [
-    "모든 가맹점",
-    "교통",
-    "주유",
-    "통신",
-    "마트/편의점",
-    "쇼핑",
-    "푸드",
-    "카페/디저트",
-    "선택형",
-    "디지털구독",
-    "뷰티/피트니스",
-    "무실적",
-    "공과금/렌탈",
-    "병원/약국",
-    "애완동물",
-    "교육/육아",
-    "자동차/하이패스",
-    "레저/스포츠",
-    "영화/문화",
-    "간편결제",
-    "항공마일리지",
-    "공항라운지/PP",
-    "프리미엄",
-    "제휴/PLCC",
-    "여행/숙박",
-    "해외",
-    "비즈니스",
+    "coffee",
+    "transportation",
+    "movie",
+    "delivery",
+    "phone",
+    "gas",
+    "simplePayment",
+    "tax",
+    "shopping",
   ];
   const companies = [
     "신한",
@@ -63,37 +61,13 @@ const Search = (props: Props) => {
     "바로",
   ];
 
-  const cardList = cards.map((card) => {
+  const cardList = searchList.map((card) => {
     return <CardItem key={card.id} card={card} />;
   });
 
-  const getAllCard = async () => {
-    const res = await getTokenApi.allCard();
-    if (res.status === 200) {
-      setCards(res.data);
-      console.log(res);
-    }
-  };
-
-  const getSearchCard = async () => {
-    const res = await getTokenApi.searchByCompany(searchTerm || "");
-    if (res.status === 200) {
-      setCards(res.data);
-      console.log(res);
-    }
-  };
-
-  // useEffect(() => {
-  //   console.log(cards);
-  // }, [cards]);
-
-  // useEffect(() => {
-  //   if (!searchTerm) {
-  //     getAllCard();
-  //   } else {
-  //     getSearchCard();
-  //   }
-  // }, [searchTerm]);
+  useEffect(() => {
+    dispatch(fetchSearch({ selectedBenefit, selectedCompany }));
+  }, [selectedBenefit, selectedCompany]);
 
   return (
     <SearchContainer>
@@ -107,18 +81,25 @@ const Search = (props: Props) => {
         {isOpen ? <AiFillCaretUp /> : <AiFillCaretDown />}
       </div>
       <SearchGroupContainer className={isOpen ? "" : "hide"}>
-        <SearchGroup>
+        {/* <SearchGroup>
           <Title>신용 / 체크</Title>
           <div>
             <BtnSuggest suggest={"신용"} />
             <BtnSuggest suggest={"체크"} />
           </div>
-        </SearchGroup>
+        </SearchGroup> */}
         <SearchGroup>
           <Title>추천 카드사</Title>
           <div>
             {companies.map((company, index) => (
-              <BtnSuggest key={index} suggest={company} />
+              <BtnSuggest
+                key={index}
+                suggest={company}
+                className={selectedCompany.includes(company) ? "active" : ""}
+                handleSuggest={() => {
+                  dispatch(handleSearchCompany(company));
+                }}
+              />
             ))}
           </div>
         </SearchGroup>
@@ -126,7 +107,14 @@ const Search = (props: Props) => {
           <Title>추천 혜택</Title>
           <div>
             {benefits.map((benefit, index) => (
-              <BtnSuggest key={index} suggest={benefit} />
+              <BtnSuggest
+                key={index}
+                suggest={benefit}
+                className={selectedBenefit.includes(benefit) ? "active" : ""}
+                handleSuggest={() => {
+                  dispatch(handleSearchBenefit(benefit));
+                }}
+              />
             ))}
           </div>
         </SearchGroup>
@@ -165,7 +153,7 @@ const CardListContainer = styled.div`
 `;
 
 const SearchGroupContainer = styled.div`
-  height: 80vh;
+  /* height: 80vh; */
   padding-left: 15px;
   transition: height 0.5s;
   overflow: hidden;

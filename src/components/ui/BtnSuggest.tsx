@@ -3,17 +3,19 @@ import styled from "styled-components";
 
 type Props = {
   suggest: string;
+  className: string;
+  handleSuggest: () => void;
 };
 
-const BtnSuggest = ({ suggest }: Props) => {
-  const [isActive, setIsActive] = useState<boolean>(false);
+const BtnSuggest = ({ suggest, className, handleSuggest }: Props) => {
+  // const [isActive, setIsActive] = useState<boolean>(false);
 
-  const toggleActive = () => {
-    setIsActive((prev) => !prev);
-  };
-
+  // const toggleActive = () => {
+  //   setIsActive((prev) => !prev);
+  // };
+  // className={isActive ? "active" : ""} onClick={toggleActive}
   return (
-    <Suggest className={isActive ? "active" : ""} onClick={toggleActive}>
+    <Suggest className={className} onClick={handleSuggest}>
       {suggest}
     </Suggest>
   );

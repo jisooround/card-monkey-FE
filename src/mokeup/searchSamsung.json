@@ -1,0 +1,9 @@
+[
+  {
+    "id": 2,
+    "name": "삼성카드 taptap O",
+    "company": "삼성카드",
+    "image": "https://api.card-gorilla.com:8080/storage/card/51/card_img/27707/51card.png",
+    "type": "CREDIT"
+  }
+]

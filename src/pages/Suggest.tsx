@@ -21,7 +21,8 @@ const Suggest = (props: Props) => {
     return (
       <CardItemWrapper key={card.id}>
         <BtnBenefit className="benefit-title">#대중교통비 할인</BtnBenefit>
-        <CardItemTest card={card} />
+        <CardItem card={card} />
+        {/* <CardItemTest card={card} /> */}
       </CardItemWrapper>
     );
   });

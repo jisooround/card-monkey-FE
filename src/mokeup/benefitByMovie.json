@@ -1,0 +1,23 @@
+[
+  {
+    "id": 2,
+    "name": "삼성카드 taptap O",
+    "company": "삼성카드",
+    "image": "https://api.card-gorilla.com:8080/storage/card/51/card_img/27707/51card.png",
+    "type": "CREDIT"
+  },
+  {
+    "id": 3,
+    "name": "DA@카드의정석",
+    "company": "우리카드",
+    "image": "https://api.card-gorilla.com:8080/storage/card/87/card_img/20239/87card.png",
+    "type": "CREDIT"
+  },
+  {
+    "id": 4,
+    "name": "신한카드 Mr.Life",
+    "company": "신한카드",
+    "image": "https://api.card-gorilla.com:8080/storage/card/13/card_img/20095/13card.png",
+    "type": "CREDIT"
+  }
+]

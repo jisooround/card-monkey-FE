@@ -1,0 +1,9 @@
+[
+  {
+    "id": 4,
+    "name": "신한카드 Mr.Life",
+    "company": "신한카드",
+    "image": "https://api.card-gorilla.com:8080/storage/card/13/card_img/20095/13card.png",
+    "type": "CREDIT"
+  }
+]

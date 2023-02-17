@@ -3,6 +3,13 @@ import instance from "./apiController";
 import favorList from "../mokeup/favorList.json";
 import cardDetail from "../mokeup/cardDetail.json";
 import suggestList from "../mokeup/suggestList.json";
+import benefitByCoffee from "../mokeup/benefitByCoffee.json";
+import benefitByMovie from "../mokeup/benefitByMovie.json";
+import benefitByPhone from "../mokeup/benefitByPhone.json";
+import searchLotte from "../mokeup/searchLotte.json";
+import searchSamsung from "../mokeup/searchSamsung.json";
+import searchShinhan from "../mokeup/searchShinhan.json";
+import searchWoori from "../mokeup/searchWoori.json";
 
 class MonkeyGetToken {
   instance;
@@ -68,7 +75,7 @@ class MonkeyGetToken {
   /**카드명으로 검색 */
   async searchByName(name: string) {
     return this.instance
-      .get(`/card?name=${name}`)
+      .get(`/card/name?search=${name}`)
       .then((result) => result)
       .catch((error) => error);
   }
@@ -76,17 +83,26 @@ class MonkeyGetToken {
   //**카드회사명으로 검색 */
   async searchByCompany(company: string) {
     return this.instance
-      .get(`/card?company=${company}`)
-      .then((result) => result)
-      .catch((error) => error);
+      .get(`/card/company?search=${company}`)
+      .then((result) => result.data)
+      .catch((error) => {
+        if (company === "롯데") return searchLotte;
+        else if (company === "삼성") return searchSamsung;
+        else if (company === "신한") return searchShinhan;
+        else if (company === "우리") return searchWoori;
+      });
   }
 
   //**카드혜택으로 검색 */
   async searchByBenefit(benefit: string) {
     return this.instance
-      .get(`/card?benefit=${benefit}`)
-      .then((result) => result)
-      .catch((error) => error);
+      .get(`/card/benefit?search=${benefit}`)
+      .then((result) => result.data)
+      .catch((error) => {
+        if (benefit === "coffee") return benefitByCoffee;
+        else if (benefit === "movie") return benefitByMovie;
+        else if (benefit === "phone") return benefitByPhone;
+      });
   }
 
   /**전체카드 조회 */
