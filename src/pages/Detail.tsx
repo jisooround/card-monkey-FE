@@ -6,15 +6,6 @@ import getTokenApi from "../api/monkeyGetToken";
 import CardDetail from "../components/Detail/CardDetail";
 import Back from "../components/ui/Back";
 
-export type CardInfo = {
-  benefit: string;
-  company: string;
-  id: number;
-  image: string;
-  name: string;
-  type: string;
-};
-
 type Props = {};
 
 const Detail = (props: Props) => {

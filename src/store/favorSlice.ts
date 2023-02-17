@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import getTokenApi from "../api/monkeyGetToken";
-import { useMatch } from "react-router";
 
 export interface FavorCardState {
   favorList: FavorCard[];
@@ -12,6 +11,7 @@ export const fetchFavor = createAsyncThunk("favor/fetchFavor", async () => {
   const data = await getTokenApi.myFavor();
   return data;
 });
+console.log(fetchFavor.length);
 
 const initialState = {
   favorList: [] as FavorCard[],
@@ -27,14 +27,15 @@ export const favorSlice = createSlice({
     addFavor(state, action: PayloadAction<FavorCard>) {
       const newFavor = action.payload;
       state.favorList = [...state.favorList, newFavor];
-      state.liked = !action.payload.liked;
-      state.likeCount += 1;
+      console.log("add");
     },
     deleteFavor(state, action: PayloadAction<FavorCard>) {
       const id = action.payload.id;
       state.favorList = state.favorList.filter((item) => item.id !== id);
-      state.liked = !action.payload.liked;
-      state.likeCount -= 1;
+      console.log("delete");
+    },
+    toggleFavor(state) {
+      state.liked = !state.liked;
     },
   },
   extraReducers: (builder) => {
@@ -51,8 +52,6 @@ export const favorSlice = createSlice({
   },
 });
 
-console.log("pppp", favorSlice);
-
-export const { addFavor, deleteFavor } = favorSlice.actions;
+export const { addFavor, deleteFavor, toggleFavor } = favorSlice.actions;
 
 export default favorSlice.reducer;

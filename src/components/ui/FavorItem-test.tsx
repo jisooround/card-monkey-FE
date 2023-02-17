@@ -10,11 +10,13 @@ import { addFavor, deleteFavor } from "../../store/favorSlice";
 
 interface cardProps {
   card: FavorCard;
+  favorList: FavorCard;
 }
 
-const CardItemTest = ({ card }: cardProps) => {
+const CardItemTest = ({ card, favorList }: cardProps) => {
+  console.log(favorList);
   const navigate = useNavigate();
-  const favorList = useSelector((state: RootState) => state.favor.favorList);
+  // const favorList = useSelector((state: RootState) => state.favor.favorList);
 
   let liked = useSelector((state: RootState) => state.favor.liked);
   console.log(liked);
@@ -47,7 +49,6 @@ const CardItemTest = ({ card }: cardProps) => {
       /* 서버에서 관심상품 삭제되면 우리도 삭제 
          원래는 다시 전체 관심상품 조회해서 가져오는게 더 정확한데 일단은 이렇게 (어제 소재헌이 멘토님한테 질문한거 참고) */
       dispatch(deleteFavor(card));
-      dispatch(toggleFavor);
       console.log("like delete");
     }
   };
@@ -73,14 +74,7 @@ const CardItemTest = ({ card }: cardProps) => {
           </div>
         </div>
       </CardInfo>
-      <div
-        className={
-          favorList.find((item) => item.id === card.id)
-            ? "favor active"
-            : "favor"
-        }
-        onClick={toggleFavor}
-      >
+      <div className={liked ? "favor active" : "favor"} onClick={toggleFavor}>
         <AiFillHeart />
       </div>
     </CardContainer>

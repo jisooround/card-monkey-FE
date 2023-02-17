@@ -4,7 +4,7 @@ import CardItem from "../components/searchProduct/CardItem";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import { fetchFavor } from "../store/favorSlice";
-import CardItemTest from "../components/ui/CardItem-test";
+import CardItemTest from "../components/ui/FavorItem-test";
 
 type Props = {};
 
@@ -32,7 +32,11 @@ const Favor = (props: Props) => {
       </TopWrapper>
       <CardWrapper>
         {favorList.map((favorCard: FavorCard) => (
-          <CardItemTest card={favorCard} key={favorCard.id} />
+          <CardItemTest
+            card={favorCard}
+            key={favorCard.id}
+            favorList={favorList}
+          />
         ))}
       </CardWrapper>
     </Wrapper>
