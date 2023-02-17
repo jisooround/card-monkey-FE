@@ -14,7 +14,7 @@ export type SuggestCard = {
 };
 
 const Suggest = (props: Props) => {
-  const [suggestCards, setSuggestCards] = useState<Array<SuggestCard>>([]);
+  const [suggestCards, setSuggestCards] = useState<Array<FavorCard>>([]);
 
   const suggestCardList = suggestCards.map((card) => {
     return (

@@ -33,6 +33,7 @@ export const favorSlice = createSlice({
       const newFavor = action.payload;
       state.favorList = [...state.favorList, newFavor];
       console.log("add");
+      console.log("add");
     },
 
     deleteFavor(state, action: PayloadAction<number>) {
