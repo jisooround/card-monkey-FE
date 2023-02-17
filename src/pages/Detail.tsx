@@ -6,15 +6,6 @@ import getTokenApi from "../api/monkeyGetToken";
 import CardDetail from "../components/Detail/CardDetail";
 import Back from "../components/ui/Back";
 
-export type CardInfo = {
-  benefit: string;
-  company: string;
-  id: number;
-  image: string;
-  name: string;
-  type: string;
-};
-
 type Props = {};
 
 const Detail = (props: Props) => {
@@ -34,14 +25,13 @@ const Detail = (props: Props) => {
 
   return (
     <Wrapper>
-      <Back />
       <CardDetail card={cardInfo}></CardDetail>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  padding: 20px 40px;
+  height: 1300px;
 `;
 
 export default Detail;

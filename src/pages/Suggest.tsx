@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import getTokenApi from "../api/monkeyGetToken";
 import CardItem from "../components/searchProduct/CardItem";
-import CardItemTest from "../components/ui/CardItem-test";
 
 type Props = {};
 
@@ -21,7 +20,7 @@ const Suggest = (props: Props) => {
     return (
       <CardItemWrapper key={card.id}>
         <BtnBenefit className="benefit-title">#대중교통비 할인</BtnBenefit>
-        <CardItemTest card={card} />
+        <CardItem card={card} />
       </CardItemWrapper>
     );
   });

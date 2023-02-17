@@ -24,7 +24,7 @@ const CardItemTest = ({ card }: cardProps) => {
 
   const toggleFavor = (e: any) => {
     e.stopPropagation();
-    if (!liked) {
+    if (liked === false) {
       e.currentTarget.classList.toggle("active");
       /* 서버에서 관심상품 추가되면 우리도 추가 
          원래는 다시 전체 관심상품 조회해서 가져오는게 더 정확한데 일단은 이렇게 (어제 소재헌이 멘토님한테 질문한거 참고) */
