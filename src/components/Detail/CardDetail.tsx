@@ -3,7 +3,6 @@ import styled from "styled-components";
 import Back from "../ui/Back";
 import { v4 as uuidv4 } from "uuid";
 import Button from "../ui/Button";
-import GetKeyword from "./GetKeyword";
 import getTokenApi from "../../api/monkeyGetToken";
 
 type Card = {
