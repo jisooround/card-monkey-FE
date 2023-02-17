@@ -1,15 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import { BenefitProps } from "../../types/types";
 
-type Props = {
-  item: string;
-  benefit: never[];
-  setBenefit: React.Dispatch<React.SetStateAction<never[]>>;
-};
+type Props = {};
 
-const BenefitIcon = (item: Props) => {
-  console.log(item);
-  if (item.item === "coffee") {
+const BenefitIcon = ({ item }: { item: BenefitProps["item"] }) => {
+  if (item === "coffee") {
     return (
       <Icon>
         <img src="./benefit_coffee.png" alt="" />
@@ -17,7 +13,7 @@ const BenefitIcon = (item: Props) => {
       </Icon>
     );
   }
-  if (item.item === "transportation") {
+  if (item === "transportation") {
     return (
       <Icon>
         <img src="./benefit_transportation.png" alt="" />
@@ -25,7 +21,7 @@ const BenefitIcon = (item: Props) => {
       </Icon>
     );
   }
-  if (item.item === "movie") {
+  if (item === "movie") {
     return (
       <Icon>
         <img src="./benefit_movie.png" alt="" />
@@ -33,7 +29,7 @@ const BenefitIcon = (item: Props) => {
       </Icon>
     );
   }
-  if (item.item === "delivery") {
+  if (item === "delivery") {
     return (
       <Icon>
         <img src="./benefit_delivery.png" alt="" />
@@ -41,7 +37,7 @@ const BenefitIcon = (item: Props) => {
       </Icon>
     );
   }
-  if (item.item === "phone") {
+  if (item === "phone") {
     return (
       <Icon>
         <img src="./benefit_phone.png" alt="" />
@@ -49,7 +45,7 @@ const BenefitIcon = (item: Props) => {
       </Icon>
     );
   }
-  if (item.item === "gas") {
+  if (item === "gas") {
     return (
       <Icon>
         <img src="./benefit_gas.png" alt="" />
@@ -57,7 +53,7 @@ const BenefitIcon = (item: Props) => {
       </Icon>
     );
   }
-  if (item.item === "simplePayment") {
+  if (item === "simplePayment") {
     return (
       <Icon>
         <img src="./benefit_simplePayment.png" alt="" />
@@ -65,7 +61,7 @@ const BenefitIcon = (item: Props) => {
       </Icon>
     );
   }
-  if (item.item === "tax") {
+  if (item === "tax") {
     return (
       <Icon>
         <img src="./benefit_tax.png" alt="" />
@@ -73,7 +69,7 @@ const BenefitIcon = (item: Props) => {
       </Icon>
     );
   }
-  if (item.item === "shopping") {
+  if (item === "shopping") {
     return (
       <Icon>
         <img src="./benefit_transportation.png" alt="" />
@@ -81,6 +77,7 @@ const BenefitIcon = (item: Props) => {
       </Icon>
     );
   }
+  return null;
 };
 
 const Icon = styled.div`

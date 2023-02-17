@@ -14,7 +14,7 @@ type Props = {
 const Benefit = ({ setStep }: Props) => {
   const dispatch = useDispatch();
   const form = useSelector((state: RootState) => state.form);
-  const [benefit, setBenefit] = useState([]);
+  const [benefit, setBenefit] = useState<string[]>([]);
   const [complete, setComplete] = useState(false);
   console.log("Benefit  : ", form);
   console.log(benefit);
@@ -30,7 +30,7 @@ const Benefit = ({ setStep }: Props) => {
     "shopping",
   ];
 
-  const handleBenefit = (item) => {
+  const handleBenefit = (item: string) => {
     if (benefit.length === 3) {
       if (benefit.includes(item)) {
         setBenefit(benefit.filter((icon) => icon != item));
@@ -62,6 +62,7 @@ const Benefit = ({ setStep }: Props) => {
       </h4>
       <BenefitWrap>
         {benefits.map((item, idx) => {
+          console.log(item);
           return (
             <div
               key={idx}
@@ -70,7 +71,7 @@ const Benefit = ({ setStep }: Props) => {
                 handleBenefit(item);
               }}
             >
-              <BenefitIcon item={item} benefit={benefit} />
+              <BenefitIcon item={item} />
             </div>
           );
         })}

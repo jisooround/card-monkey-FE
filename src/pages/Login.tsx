@@ -9,9 +9,9 @@ const Login = (props: Props) => {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  function setToken() {
-    setTokenApi.signIn(id, password);
-  }
+  // function setToken() {
+  //   setTokenApi.signIn(id, password);
+  // }
 
   return (
     <Container>
@@ -55,7 +55,11 @@ const Login = (props: Props) => {
           </div>
         </div>
         <div className="buttonWrap">
-          <button className="logIn" type="submit" onClick={setToken}>
+          <button
+            className="logIn"
+            type="submit"
+            // onClick={setToken}
+          >
             로그인
           </button>
           <Link to={"/signup"}>
