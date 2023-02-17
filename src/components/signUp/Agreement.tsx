@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
+import { signUpArray } from "../../types/types";
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -26,7 +27,7 @@ const Agreement = ({ setStep }: Props) => {
   const form = useSelector((state: RootState) => state.form);
   const dispatch = useDispatch();
 
-  const [agree, setAgree] = useState([]);
+  const [agree, setAgree] = useState<string[]>([]);
 
   console.log(agree);
   console.log("Agreement  : ", form);
@@ -41,7 +42,7 @@ const Agreement = ({ setStep }: Props) => {
 
   const handleAllCheck = (checked: boolean) => {
     if (checked) {
-      const checkedArray: Array = [];
+      const checkedArray: string[] = [];
       list.forEach((item) => checkedArray.push(item.id));
       setAgree(checkedArray);
     } else {
