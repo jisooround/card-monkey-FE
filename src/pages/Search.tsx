@@ -9,44 +9,41 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import {
   fetchSearch,
+  handleIsOpen,
   handleSearchBenefit,
   handleSearchCompany,
+  handleSearchType,
 } from "../store/searchSlice";
 
 type Props = {};
 
-export type SearchCard = {
-  id: number;
-  name: string;
-  company: string;
-  image: string;
-  type: string;
-};
-
 const Search = (props: Props) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const searchTerm: string | null = searchParams.get("q");
-  const [isOpen, setIsOpen] = useState<boolean>(true);
+  // const [searchParams, setSearchParams] = useSearchParams();
+  // const searchTerm: string | null = searchParams.get("q");
 
   const searchList = useSelector((state: RootState) => state.search.searchList);
+  const selectedType = useSelector(
+    (state: RootState) => state.search.searchType,
+  );
   const selectedBenefit = useSelector(
     (state: RootState) => state.search.searchBenefit,
   );
   const selectedCompany = useSelector(
     (state: RootState) => state.search.searchCompany,
   );
+  const isOpen = useSelector((state: RootState) => state.search.isOpen);
   const dispatch = useDispatch<AppDispatch>();
 
   const benefits = [
-    "coffee",
-    "transportation",
-    "movie",
-    "delivery",
-    "phone",
-    "gas",
-    "simplePayment",
-    "tax",
-    "shopping",
+    ["커피", "coffee"],
+    ["교통", "transportation"],
+    ["영화", "movie"],
+    ["베달", "delivery"],
+    ["통신", "phone"],
+    ["주유", "gas"],
+    ["간편결재", "simplePayment"],
+    ["공과금", "tax"],
+    ["쇼핑", "shopping"],
   ];
   const companies = [
     "신한",
@@ -60,8 +57,19 @@ const Search = (props: Props) => {
     "현대",
     "바로",
   ];
+  const types = [
+    ["신용", "CREDIT"],
+    ["체크", "CHECK"],
+  ];
 
-  const cardList = searchList.map((card) => {
+  const filterCardType = () => {
+    const filteredSearchList = searchList.filter((item) => {
+      return selectedType.find((type) => item.type === type);
+    });
+    return filteredSearchList;
+  };
+
+  const cardList = filterCardType().map((card) => {
     return <CardItem key={card.id} card={card} />;
   });
 
@@ -74,20 +82,28 @@ const Search = (props: Props) => {
       <div
         className="title tags"
         onClick={() => {
-          setIsOpen(!isOpen);
+          dispatch(handleIsOpen());
         }}
       >
         <div>검색 추천 태그</div>
         {isOpen ? <AiFillCaretUp /> : <AiFillCaretDown />}
       </div>
       <SearchGroupContainer className={isOpen ? "" : "hide"}>
-        {/* <SearchGroup>
+        <SearchGroup>
           <Title>신용 / 체크</Title>
           <div>
-            <BtnSuggest suggest={"신용"} />
-            <BtnSuggest suggest={"체크"} />
+            {types.map((type, index) => (
+              <BtnSuggest
+                key={index}
+                suggest={type[0]}
+                className={selectedType.includes(type[1]) ? "active" : ""}
+                handleSuggest={() => {
+                  dispatch(handleSearchType(type[1]));
+                }}
+              />
+            ))}
           </div>
-        </SearchGroup> */}
+        </SearchGroup>
         <SearchGroup>
           <Title>추천 카드사</Title>
           <div>
@@ -109,10 +125,10 @@ const Search = (props: Props) => {
             {benefits.map((benefit, index) => (
               <BtnSuggest
                 key={index}
-                suggest={benefit}
-                className={selectedBenefit.includes(benefit) ? "active" : ""}
+                suggest={benefit[0]}
+                className={selectedBenefit.includes(benefit[1]) ? "active" : ""}
                 handleSuggest={() => {
-                  dispatch(handleSearchBenefit(benefit));
+                  dispatch(handleSearchBenefit(benefit[1]));
                 }}
               />
             ))}
@@ -128,7 +144,6 @@ const Search = (props: Props) => {
 const SearchContainer = styled.div`
   padding: 0 30px;
   .title {
-    /* margin-bottom: 5px; */
     color: #46433f;
     font-size: 18px;
     font-weight: bold;
@@ -137,9 +152,6 @@ const SearchContainer = styled.div`
       display: flex;
       justify-content: space-between;
       cursor: pointer;
-      /* &:hover {
-        background-color: var(--color-lightgray);
-      } */
     }
   }
 `;
@@ -153,7 +165,7 @@ const CardListContainer = styled.div`
 `;
 
 const SearchGroupContainer = styled.div`
-  /* height: 80vh; */
+  height: 45vh;
   padding-left: 15px;
   transition: height 0.5s;
   overflow: hidden;

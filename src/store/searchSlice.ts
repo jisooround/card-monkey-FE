@@ -13,16 +13,20 @@ export type SearchCard = {
 export interface SearchCardState {
   searchList: SearchCard[];
   searchName: string;
+  searchType: string[];
   searchCompany: string[];
   searchBenefit: string[];
+  isOpen: boolean;
   status: "idle" | "loading" | "failed";
 }
 
 const initialState: SearchCardState = {
   searchList: [],
   searchName: "",
+  searchType: ["CREDIT", "CHECK"],
   searchCompany: [],
   searchBenefit: [],
+  isOpen: true,
   status: "idle",
 };
 
@@ -88,6 +92,15 @@ export const searchSlice = createSlice({
   name: "search",
   initialState,
   reducers: {
+    handleSearchType(state, action: PayloadAction<string>) {
+      if (state.searchType.includes(action.payload)) {
+        state.searchType = state.searchType.filter(
+          (item) => item != action.payload,
+        );
+      } else {
+        state.searchType = [...state.searchType, action.payload];
+      }
+    },
     handleSearchBenefit(state, action: PayloadAction<string>) {
       if (state.searchBenefit.includes(action.payload)) {
         state.searchBenefit = state.searchBenefit.filter(
@@ -106,6 +119,9 @@ export const searchSlice = createSlice({
         state.searchCompany = [...state.searchCompany, action.payload];
       }
     },
+    handleIsOpen(state) {
+      state.isOpen = !state.isOpen;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchSearch.pending, (state) => {
@@ -122,6 +138,11 @@ export const searchSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { handleSearchBenefit, handleSearchCompany } = searchSlice.actions;
+export const {
+  handleSearchType,
+  handleSearchBenefit,
+  handleSearchCompany,
+  handleIsOpen,
+} = searchSlice.actions;
 
 export default searchSlice.reducer;

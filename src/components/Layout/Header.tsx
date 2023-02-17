@@ -62,7 +62,7 @@ const Header = ({}: HeaderPropsType) => {
           <SearchBar>
             <SearchClose
               onClick={() => {
-                navigate("/");
+                navigate(-1);
                 setSearchInput("");
               }}
             >

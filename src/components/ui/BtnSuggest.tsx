@@ -8,12 +8,6 @@ type Props = {
 };
 
 const BtnSuggest = ({ suggest, className, handleSuggest }: Props) => {
-  // const [isActive, setIsActive] = useState<boolean>(false);
-
-  // const toggleActive = () => {
-  //   setIsActive((prev) => !prev);
-  // };
-  // className={isActive ? "active" : ""} onClick={toggleActive}
   return (
     <Suggest className={className} onClick={handleSuggest}>
       {suggest}
