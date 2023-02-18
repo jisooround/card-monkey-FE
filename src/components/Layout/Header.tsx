@@ -41,6 +41,8 @@ const Header = ({}: HeaderPropsType) => {
   };
   // 로그인 페이지에서 header null 처리
   if (pathname === "/login") return null;
+  /**상세 페이지에서도 header null 처리 */
+  if (pathname.slice(0, 7) === "/detail") return null;
   return (
     <MonkeyHeader>
       {pathname !== "/search" ? (

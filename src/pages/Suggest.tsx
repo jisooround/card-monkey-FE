@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import getTokenApi from "../api/monkeyGetToken";
 import CardItem from "../components/searchProduct/CardItem";
-import CardItemTest from "../components/ui/CardItem-test";
 
 type Props = {};
 
@@ -15,7 +14,7 @@ export type SuggestCard = {
 };
 
 const Suggest = (props: Props) => {
-  const [suggestCards, setSuggestCards] = useState<Array<SuggestCard>>([]);
+  const [suggestCards, setSuggestCards] = useState<Array<FavorCard>>([]);
 
   const suggestCardList = suggestCards.map((card) => {
     return (
