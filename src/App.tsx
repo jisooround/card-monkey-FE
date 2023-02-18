@@ -7,8 +7,8 @@ import {
   Outlet,
 } from "react-router-dom";
 
-import Header from "./components/Header";
-import Navbar from "./components/Navbar";
+import Header from "./components/Layout/Header";
+import Navbar from "./components/Layout/Navbar";
 
 const App = () => {
   return (
