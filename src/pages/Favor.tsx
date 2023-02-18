@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react";
+import getTokenApi from "../api/monkeyGetToken";
 import styled from "styled-components";
 import CardItem from "../components/searchProduct/CardItem";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import { fetchFavor } from "../store/favorSlice";
-import CardItemTest from "../components/ui/CardItem-test";
 
 type Props = {};
+
+type FavorCard = {
+  id: number;
+  name: string;
+  company: string;
+  image: string;
+  type: string;
+};
 
 const Favor = (props: Props) => {
   const favorList = useSelector((state: RootState) => state.favor.favorList);
@@ -18,21 +26,15 @@ const Favor = (props: Props) => {
     dispatch(fetchFavor());
   }, []);
 
-  const name = localStorage.getItem("name");
-  const length = favorList.length;
-
   return (
     <Wrapper>
       <TopWrapper>
         <h2>나의 관심카드</h2>
         <img src="/monkey_love.png" />
-        <span>
-          {name}님의 관심카드는 {length}개 입니다.
-        </span>
       </TopWrapper>
       <CardWrapper>
         {favorList.map((favorCard: FavorCard) => (
-          <CardItemTest card={favorCard} key={favorCard.id} />
+          <CardItem card={favorCard} key={favorCard.id} />
         ))}
       </CardWrapper>
     </Wrapper>
@@ -58,17 +60,12 @@ const TopWrapper = styled.div`
   img {
     width: 212px;
   }
-  span {
-    color: var(--color-brown);
-    font-weight: 600;
-  }
 `;
 
 const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin-top: 2rem;
 `;
 
 export default Favor;

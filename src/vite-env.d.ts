@@ -9,3 +9,17 @@ interface FavorCard {
   liked: boolean;
   likeCount: number;
 }
+
+interface CardInfo {
+  benefit: string[];
+  company: string;
+  id: number;
+  image: string;
+  name: string;
+  type: string;
+}
+
+interface getReview {
+  id: number;
+  message: string[];
+}

@@ -3,6 +3,7 @@ import instance from "./apiController";
 import favorList from "../mokeup/favorList.json";
 import cardDetail from "../mokeup/cardDetail.json";
 import suggestList from "../mokeup/suggestList.json";
+import getReview from "../mokeup/getReview.json";
 
 class MonkeyGetToken {
   instance;
@@ -131,17 +132,18 @@ class MonkeyGetToken {
   }
 
   /**리뷰 조회(이모저모) */
-  async getReview(id: string) {
+  async getReview(id: number) {
     return this.instance
       .get(`/card/${id}/review`)
       .then((result) => console.log(result))
       .catch((error) => {
         console.log(error);
+        return getReview;
       });
   }
 
   /**리뷰 선택(이모저모) */
-  async selectReview(id: string) {
+  async selectReview(id: number) {
     return this.instance
       .post(`/card/${id}/review`, {
         headers: { "Content-Type": "application/json" },
