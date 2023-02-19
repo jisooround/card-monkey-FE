@@ -46,6 +46,7 @@ class MonkeySetToken {
       .then((result) => {
         console.log(result.data);
         localStorage.setItem("accessToken", result.data.token);
+        localStorage.setItem("name", result.data.name);
         return result.data;
       })
       .catch((error) => console.log(error));

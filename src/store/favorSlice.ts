@@ -33,9 +33,11 @@ export const favorSlice = createSlice({
       const newFavor = action.payload;
       state.favorList = [...state.favorList, newFavor];
     },
+
     deleteFavor(state, action: PayloadAction<number>) {
       const id = action.payload;
       state.favorList = state.favorList.filter((item) => item.id !== id);
+      console.log("delete");
     },
   },
   extraReducers: (builder) => {
