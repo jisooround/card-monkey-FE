@@ -19,7 +19,7 @@ const Login = (props: Props) => {
         <div className="titleWrap">
           <h3>로그인</h3>
           <div className="logo">
-            <img src="" alt="" />
+            <img src="./monkeycard_white.png" alt="" />
           </div>
           <h2>
             안녕하세요.
@@ -76,9 +76,27 @@ const Login = (props: Props) => {
 const Container = styled.div`
   width: 100%;
   min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  &::before {
+    content: "";
+    width: 100%;
+    height: 30%;
+    position: absolute;
+    background-image: url("./monkeycard_face.png");
+    background-repeat: no-repeat;
+    background-size: 55%;
+    background-position: top right -10px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.1;
+  }
 `;
 
 const Inner = styled.div`
+  z-index: 4;
   margin: auto;
   width: var(--width-inner);
   min-height: 100vh;
@@ -93,7 +111,10 @@ const Inner = styled.div`
     width: 120px;
     height: 87px;
     border-radius: 20px;
-    background-color: #dcdcdc;
+    img {
+      width: 100%;
+      margin-left: -15px;
+    }
   }
   h2 {
     color: var(--color-black);
