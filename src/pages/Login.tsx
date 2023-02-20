@@ -2,12 +2,18 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import setTokenApi from "../api/monkeySetToken";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import { resetForm } from "../store/signUpSlice";
 
 type Props = {};
 
 const Login = (props: Props) => {
   const [userId, setUserId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const form = useSelector((state: RootState) => state.form);
+  console.log(form);
+  const dispatch = useDispatch();
   console.log(userId, password);
 
   const login = async () => {
@@ -60,7 +66,11 @@ const Login = (props: Props) => {
             로그인
           </button>
           <Link to={"/signup"}>
-            <button className="signUp" type="submit">
+            <button
+              className="signUp"
+              type="submit"
+              onClick={() => dispatch(resetForm())}
+            >
               계정이 없으신가요? 회원가입하기
             </button>
           </Link>
