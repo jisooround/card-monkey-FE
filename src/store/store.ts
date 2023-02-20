@@ -2,11 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "./counterSlice";
 import formReducer from "./signUpSlice";
 import favorReducer from "./favorSlice";
-<<<<<<< HEAD
 import { getDefaultMiddleware } from "@reduxjs/toolkit";
-=======
 import searchReducer from "./searchSlice";
->>>>>>> cab7176a56b069755cc6b4734bb153dbcb90ae75
 
 export const store = configureStore({
   reducer: {
