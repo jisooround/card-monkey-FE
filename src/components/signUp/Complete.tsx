@@ -21,7 +21,9 @@ const Complete = (props: Props) => {
         <br />
         카드몽키 회원가입이 완료되었습니다.
       </h4>
-      <Button onClick={() => {}}>로그인하러 가기</Button>
+      <Link to={"/login"}>
+        <Button>로그인하러 가기</Button>
+      </Link>
     </Wrap>
   );
 };
