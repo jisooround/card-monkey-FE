@@ -29,13 +29,13 @@ export const CardLists = () => {
   };
 
   const handleClick = async (id: number) => {
-    const delCard = await getTokenApi.deleteCard(id);
-    if (delCard === "카드 신청 취소 완료") {
+    const res = await getTokenApi.deleteCard(id);
+    if (res === "카드 신청 취소 완료") {
       notify();
       let newData = myCard.filter((data) => data.id !== id);
       setMyCard(newData);
     } else {
-      console.log("오류가 생겼습니다.");
+      console.log("오류가 발생하였습니다.");
     }
   };
 
