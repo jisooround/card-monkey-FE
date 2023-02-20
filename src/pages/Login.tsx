@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import setTokenApi from "../api/monkeySetToken";
 import { Link } from "react-router-dom";
+import { signType } from "../types/types";
 
 type Props = {};
 
@@ -9,9 +10,29 @@ const Login = (props: Props) => {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  // function setToken() {
-  //   setTokenApi.signIn(id, password);
+  // const setToken = async () => {
+  //   const token = await setTokenApi.signIn({ id, password });
+  //   console.log(token);
+  //   localStorage.setItem("accessToken", token);
+  // };
+
+  // async function setToken() {
+  //   setTokenApi.signIn({ id, password });
+  //   console.log(
+  //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJleGFtcGxlQGdtYWlsLmNvbSIsImlhdCI6MTY3NTk1Mzk2MiwiZXhwIjoxNjc2MDQwMzYyLCJpZCI6ImFzZGYiLCJuaWNrbmFtZSI6ImtpbSIsInJvbGUiOiJST0xFX1VTRVIifQ.ElD5G1XSi5iXq0uUSc6b-8sq1KU7fUq6beYY7Fimmaw",
+  //   );
+  //   console.log("hi");
+  //   localStorage.setItem(
+  //     "accessToken",
+  //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJleGFtcGxlQGdtYWlsLmNvbSIsImlhdCI6MTY3NTk1Mzk2MiwiZXhwIjoxNjc2MDQwMzYyLCJpZCI6ImFzZGYiLCJuaWNrbmFtZSI6ImtpbSIsInJvbGUiOiJST0xFX1VTRVIifQ.ElD5G1XSi5iXq0uUSc6b-8sq1KU7fUq6beYY7Fimmaw",
+  //   );
   // }
+
+  // useEffect(() => {
+  //   const hello = "hi";
+  //   console.log(hello);
+  //   localStorage.setItem("accessToken", hello);
+  // }, []);
 
   return (
     <Container>
@@ -114,6 +135,7 @@ const Inner = styled.div`
     img {
       width: 100%;
       margin-left: -15px;
+      cursor: pointer;
     }
   }
   h2 {
