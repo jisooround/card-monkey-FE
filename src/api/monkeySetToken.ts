@@ -38,8 +38,9 @@ class MonkeySetToken {
         password: password,
       })
       .then((result) => {
-        localStorage.setItem("result", JSON.stringify(result.data));
-        return result.data;
+        const res = result.data;
+        localStorage.setItem("userInfo", JSON.stringify(res));
+        return res;
       })
       .catch((error) => console.log(error));
   }

@@ -8,7 +8,8 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   function (config) {
-    config.headers["Authorization"] = VITE_TOKEN;
+    const { token } = JSON.parse(localStorage.getItem("userInfo") || "{}");
+    if (token) config.headers["Authorization"] = `Bearer ${token}`;
     return config;
   },
   function (error) {
@@ -23,8 +24,6 @@ instance.interceptors.response.use(
   },
   function (error) {
     console.log("오류 응답");
-    localStorage.setItem("accessToken", VITE_TOKEN);
-    localStorage.setItem("name", "김명지");
     return Promise.reject(error);
   },
 );
