@@ -1,16 +1,11 @@
 import axios from "axios";
+import { signType, loginType } from "../types/types";
 
 const { VITE_URL } = import.meta.env;
 
 /**
  * api테스트를 못해서 token설정못했음
  */
-
-type signType = {
-  id: string;
-  password: string;
-  name: string;
-};
 
 class MonkeySetToken {
   axiosInstance;
@@ -23,10 +18,10 @@ class MonkeySetToken {
   }
 
   /** 회원가입 */
-  async signUp({ id, password, name }: signType) {
+  async signUp({ userId, password, name }: signType) {
     return this.axiosInstance
       .post("/signup", {
-        id: id,
+        userId: userId,
         password: password,
         name: name,
       })
@@ -37,17 +32,16 @@ class MonkeySetToken {
   }
 
   /** 로그인 */
-  async signIn({ id, password }: signType) {
+  async signIn({ id, password }: loginType) {
     return this.axiosInstance
       .post("/login", {
         id: id,
         password: password,
       })
       .then((result) => {
-        console.log(result.data);
-        localStorage.setItem("accessToken", result.data.token);
-        localStorage.setItem("name", result.data.name);
-        return result.data;
+        const { token } = result.data;
+        // console.log(token);
+        return token;
       })
       .catch((error) => console.log(error));
   }
