@@ -50,7 +50,6 @@ const Container = styled.div`
   flex-wrap: wrap;
   align-content: space-between;
   position: relative;
-  height: 100vh;
   width: 100%;
   justify-content: center;
   h3 {
