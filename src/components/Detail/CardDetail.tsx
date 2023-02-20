@@ -4,6 +4,7 @@ import Back from "../ui/Back";
 import { v4 as uuidv4 } from "uuid";
 import Button from "../ui/Button";
 import getTokenApi from "../../api/monkeyGetToken";
+import BtnSuggest from "../ui/BtnSuggest";
 
 type Card = {
   card: CardInfo;
@@ -12,7 +13,7 @@ type Card = {
 type Props = {};
 
 const CardDetail = ({ card }: Card) => {
-  const [keyword, setKeyword] = useState<getReview[]>([]);
+  const [keyword, setKeyword] = useState<Array<getReview>>([]);
   const getKey = async (id: number) => {
     const data = await getTokenApi.getReview(id);
     setKeyword(data);
@@ -67,29 +68,39 @@ const CardDetail = ({ card }: Card) => {
     return result;
   };
 
+  const reviewArray = [
+    "MZ세대가 선택한 카드",
+    "마트,,,다녀오셨어요? 쇼핑할 때 좋은 카드",
+    "뚜벅이분들~대중교통 할인 해줍니다",
+    "중요한건 꺾이지 않은 적립율",
+    "개봉 영화 모두 섭렵하는 나는 영화광",
+    "반려동물도 내 가족이니까! 동물병원 할인",
+    "핸드폰 비용도 알뜰하게 할인!",
+    "꼼꼼한 여행러에게 필수 카드",
+  ];
+
   return (
-    <Half>
-      <Wrapper>
-        <Back />
+    <Wrapper>
+      <Back />
+      <div className="container">
         <CardImg cardImage={cardImage}>
           <img src={card.image} />
         </CardImg>
         <InfoWrap>
-          <div className="text-wrap">
-            <span
-              className={card.type === "CREDIT" ? "type credit" : "type check"}
-            >
-              {card.type === "CREDIT" ? "신용카드" : "체크카드"}
-            </span>
-            <h3 className="name">{card.name}</h3>
-            <h4 className="company">{card.company}</h4>
-          </div>
+          <span
+            className={card.type === "CREDIT" ? "type credit" : "type check"}
+          >
+            {card.type === "CREDIT" ? "신용카드" : "체크카드"}
+          </span>
+          <h3 className="name">{card.name}</h3>
+          <h4 className="company">{card.company}</h4>
         </InfoWrap>
         <SectionTitle>
           <hr className="top" color="#f5f5f5" />
-          <h5>Benefit</h5>
-          <br />
-          <span>주요혜택</span>
+          <div className="content">
+            <h5>Benefit</h5>
+            <span>주요혜택</span>
+          </div>
           <hr className="bottom" color="#f5f5f5" />
         </SectionTitle>
         <Benefit>{card.benefit && findBenefit()}</Benefit>
@@ -107,39 +118,46 @@ const CardDetail = ({ card }: Card) => {
         </div>
         <SectionTitle>
           <hr className="top" color="#f5f5f5" />
-          <h5>Keyword</h5>
-          <br />
-          <span>사용자가 평가한 이 카드의 키워드입니다.</span>
+          <div className="content">
+            <h5>Keyword</h5>
+            <span>사용자가 평가한 이 카드의 키워드입니다.</span>
+          </div>
           <hr className="bottom" color="#f5f5f5" />
         </SectionTitle>
-        <Message>
+        <Keyword>
           {keyword.message &&
             keyword.message.map((message) => (
               <li className="text" key={uuidv4()}>
                 {message}
               </li>
             ))}
-        </Message>
-      </Wrapper>
-    </Half>
+        </Keyword>
+        <ChooseKeyword>
+          {reviewArray.map((review) => (
+            <BtnSuggest suggest={review} />
+          ))}
+          <Button
+            text={"리뷰 선택하기"}
+            fontColor={"var(--color-white"}
+            background={"var(--color-primary)"}
+            onClick={card.id}
+          />
+        </ChooseKeyword>
+      </div>
+    </Wrapper>
   );
 };
 
-const Half = styled.div`
+const Wrapper = styled.div`
+  display: inline-block;
   background-color: #f5f5f5;
   height: 150px;
-`;
-
-const Wrapper = styled.div`
-  hr {
-    width: 100%;
-    &.bottom {
-      height: 2px;
-      box-shadow: 0.5px 0.5px 3px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  .container {
+    padding-bottom: var(--margin-bottom);
+    .button-wrapper {
+      margin-bottom: 40px;
     }
-  }
-  .button-wrapper {
-    margin-bottom: 40px;
   }
 `;
 
@@ -155,55 +173,68 @@ const CardImg = styled.div<{ cardImage: HTMLImageElement }>`
 `;
 
 const InfoWrap = styled.div`
-  .text-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    .name {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-    .company {
-      font-size: 14px;
-      font-weight: 530;
-      margin-bottom: 10px;
-    }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 0;
+  .name {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .company {
+    font-size: 14px;
+    font-weight: 530;
+    margin-bottom: 10px;
+  }
 
-    .type {
-      display: inline-block;
-      border-radius: 40px;
-      font-size: 10px;
-      font-weight: bold;
-      padding: 7px;
-      text-align: center;
-      margin-bottom: 10px;
-      &.credit {
-        color: #ff6b00;
-        background-color: #ffeacc;
-      }
-      &.check {
-        color: #1bbbee;
-        background-color: #dbf6ff;
-      }
+  .type {
+    display: inline-block;
+    border-radius: 40px;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 7px;
+    text-align: center;
+    margin-bottom: 10px;
+    &.credit {
+      color: #ff6b00;
+      background-color: #ffeacc;
+    }
+    &.check {
+      color: #1bbbee;
+      background-color: #dbf6ff;
     }
   }
 `;
 
 const SectionTitle = styled.div`
+  height: 150px;
   color: #ff6b00;
   text-align: center;
   margin-top: 10px;
-  h5 {
-    font-style: italic;
-    font-weight: 600;
-    font-size: 30px;
+  hr {
+    width: 100%;
+    &.bottom {
+      height: 2px;
+      box-shadow: 0.5px 0.5px 3px rgba(0, 0, 0, 0.1);
+    }
   }
-  span {
-    top: -10px;
-    font-weight: 400;
-    font-size: 15px;
-    position: relative;
+  .content {
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    h5 {
+      margin-bottom: 10px;
+      font-style: italic;
+      font-weight: 600;
+      font-size: 30px;
+    }
+    span {
+      font-weight: 400;
+      font-size: 15px;
+      position: relative;
+    }
   }
 `;
 
@@ -236,25 +267,28 @@ const Benefit = styled.div`
   }
 `;
 
-const Message = styled.ol`
+const Keyword = styled.ol`
   display: grid;
   grid-gap: 10px;
-  border-radius: 5px;
   width: 90%;
   margin: 0 auto;
   .text {
+    border-radius: 15px;
     list-style-type: decimal;
     background-color: var(--color-lightgray);
     color: var(--color-primary);
     text-align: center;
     justify-content: center;
+    align-items: center;
     width: 90%;
-    height: 40px;
+    height: 50px;
     &::marker {
       background-color: var(--color-lightgray);
       color: var(--color-primary);
     }
   }
 `;
+
+const ChooseKeyword = styled.div``;
 
 export default CardDetail;

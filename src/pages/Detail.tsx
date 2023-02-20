@@ -9,7 +9,7 @@ import Back from "../components/ui/Back";
 type Props = {};
 
 const Detail = (props: Props) => {
-  const [cardInfo, setCardInfo] = useState<CardInfo[]>([]);
+  const [cardInfo, setCardInfo] = useState<Array<CardInfo>>([]);
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -24,14 +24,10 @@ const Detail = (props: Props) => {
   }, [pathname]);
 
   return (
-    <Wrapper>
+    <>
       <CardDetail card={cardInfo}></CardDetail>
-    </Wrapper>
+    </>
   );
 };
-
-const Wrapper = styled.div`
-  height: 1300px;
-`;
 
 export default Detail;

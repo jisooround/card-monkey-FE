@@ -76,11 +76,7 @@ const Login = (props: Props) => {
           </div>
         </div>
         <div className="buttonWrap">
-          <button
-            className="logIn"
-            type="submit"
-            // onClick={setToken}
-          >
+          <button className="logIn" type="submit" onClick={setToken}>
             로그인
           </button>
           <Link to={"/signup"}>
