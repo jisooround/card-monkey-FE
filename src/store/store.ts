@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "./counterSlice";
 import formReducer from "./signUpSlice";
 import favorReducer from "./favorSlice";
+import { getDefaultMiddleware } from "@reduxjs/toolkit";
 
 export const store = configureStore({
   reducer: {
@@ -9,6 +10,9 @@ export const store = configureStore({
     form: formReducer,
     favor: favorReducer,
   },
+  middleware: getDefaultMiddleware({
+    serializableCheck: false,
+  }),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
