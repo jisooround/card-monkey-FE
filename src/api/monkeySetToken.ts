@@ -17,12 +17,13 @@ class MonkeySetToken {
   }
 
   /** 회원가입 */
-  async signUp({ userId, password, name }: signType) {
+  async signUp({ userId, password, name, benefit }: signType) {
     return this.axiosInstance
       .post("/signup", {
         userId: userId,
         password: password,
         name: name,
+        benefit: benefit,
       })
       .then((result) => console.log(result))
       .catch((error) => {
@@ -33,13 +34,10 @@ class MonkeySetToken {
   /** 로그인 */
   async signIn({ userId, password }: loginType) {
     return this.axiosInstance
-      .post(
-        "/login",
-        JSON.stringify({
-          userId: userId,
-          password: password,
-        }),
-      )
+      .post("/login", {
+        userId: userId,
+        password: password,
+      })
       .then((result) => {
         const res = result.data;
         localStorage.setItem("userInfo", JSON.stringify(res));
