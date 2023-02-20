@@ -2,14 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import setTokenApi from "../api/monkeySetToken";
 import { Link } from "react-router-dom";
-import { signType } from "../types/types";
 
 type Props = {};
-
-export type SignInType = {
-  userId: string;
-  password: string;
-};
 
 const Login = (props: Props) => {
   const [userId, setUserId] = useState<string>("");
@@ -17,9 +11,7 @@ const Login = (props: Props) => {
   console.log(userId, password);
 
   const login = async () => {
-    const res = await setTokenApi.signIn({ userId, password });
-    console.log(res);
-    localStorage.setItem("userId", "qwe");
+    await setTokenApi.signIn({ userId, password });
   };
 
   return (
