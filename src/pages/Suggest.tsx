@@ -14,23 +14,22 @@ export type SuggestCard = {
   benefit: string;
 };
 
+export type SuggestCard2 = {
+  id: number;
+  name: string;
+  company: string;
+  image: string;
+  type: string;
+  benefit: string;
+};
+
 type Benefits = {
   [index: string]: string;
 };
 
 const Suggest = (props: Props) => {
   const [suggestCards, setSuggestCards] = useState<Array<SuggestCard>>([]);
-  // const benefits = [
-  //   ["커피", "coffee"],
-  //   ["교통", "transportation"],
-  //   ["영화", "movie"],
-  //   ["베달", "delivery"],
-  //   ["통신", "phone"],
-  //   ["주유", "gas"],
-  //   ["간편결재", "simplePayment"],
-  //   ["공과금", "tax"],
-  //   ["쇼핑", "shopping"],
-  // ];
+  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   const benefits: Benefits = {
     coffee: "커피",
     transportation: "교통",
@@ -54,9 +53,11 @@ const Suggest = (props: Props) => {
   });
 
   const getSuggestCard = async () => {
-    const data = await getTokenApi.benefitCard("thwogjs98");
-    console.log(data);
-    setSuggestCards(data);
+    const data: SuggestCard2[] = await getTokenApi.benefitCard(userInfo.userId);
+    const data2 = data.map(({ image: imageURL, type: cardType, ...rest }) => {
+      return { ...rest, imageURL, cardType };
+    }); // 이부분 백쪽에서 리팩토링 되면 수정 map안해도 댐
+    setSuggestCards(data2);
   };
 
   useEffect(() => {
@@ -72,7 +73,7 @@ const Suggest = (props: Props) => {
         </div>
       </div>
       <div className="benefit">
-        <div className="title">윤준수님이 선택한 관심 혜택</div>
+        <div className="title">{userInfo.name}님이 선택한 관심 혜택</div>
         <div className="buttons">
           {suggestCards.map((item) => (
             <BtnBenefit key={item.id}>#{benefits[item.benefit]}</BtnBenefit>
