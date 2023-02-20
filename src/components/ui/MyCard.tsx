@@ -18,6 +18,11 @@ export const MyCards = ({ card }: MyCardType) => {
           <div>
             <div className="cardname">{card.name}</div>
             <div>{card.company}</div>
+            <div
+              className={card.type === "CREDIT" ? "type credit" : "type check"}
+            >
+              {card.type === "CREDIT" ? "신용카드" : "체크카드"}
+            </div>
           </div>
         </div>
       </Mycard>
@@ -60,5 +65,23 @@ const Mycard = styled.div`
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 5px;
+  }
+
+  .type {
+    display: inline-block;
+    border-radius: 40px;
+    font-size: 10px;
+    font-weight: bold;
+    margin-top: 7px;
+    padding: 7px;
+    text-align: center;
+    &.credit {
+      color: #ff6b00;
+      background-color: #ffeacc;
+    }
+    &.check {
+      color: #1bbbee;
+      background-color: #dbf6ff;
+    }
   }
 `;

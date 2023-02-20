@@ -16,6 +16,7 @@ export type CardType = {
   id: number;
   image: string;
   name: string;
+  type: string;
 };
 
 const MainPage = () => {
