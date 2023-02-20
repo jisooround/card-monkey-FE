@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { SearchCard } from "../../pages/Search";
 import { AiFillHeart } from "react-icons/ai";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
@@ -7,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import getTokenApi from "../../api/monkeyGetToken";
 import { addFavor, deleteFavor } from "../../store/favorSlice";
+import { SearchCard } from "../../store/searchSlice";
 
 type CardItemPropsType = {
   card: SearchCard;
