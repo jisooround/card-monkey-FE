@@ -9,25 +9,53 @@ export type SuggestCard = {
   id: number;
   name: string;
   company: string;
-  image: string;
-  type: string;
+  imageURL: string;
+  cardType: string;
+  benefit: string;
+};
+
+type Benefits = {
+  [index: string]: string;
 };
 
 const Suggest = (props: Props) => {
-  const [suggestCards, setSuggestCards] = useState<Array<FavorCard>>([]);
-
+  const [suggestCards, setSuggestCards] = useState<Array<SuggestCard>>([]);
+  // const benefits = [
+  //   ["커피", "coffee"],
+  //   ["교통", "transportation"],
+  //   ["영화", "movie"],
+  //   ["베달", "delivery"],
+  //   ["통신", "phone"],
+  //   ["주유", "gas"],
+  //   ["간편결재", "simplePayment"],
+  //   ["공과금", "tax"],
+  //   ["쇼핑", "shopping"],
+  // ];
+  const benefits: Benefits = {
+    coffee: "커피",
+    transportation: "교통",
+    movie: "영화",
+    delivery: "배달",
+    phone: "통신",
+    gas: "주유",
+    simplePayment: "간편결재",
+    tax: "공과금",
+    shopping: "쇼핑",
+  };
   const suggestCardList = suggestCards.map((card) => {
     return (
       <CardItemWrapper key={card.id}>
-        <BtnBenefit className="benefit-title">#대중교통비 할인</BtnBenefit>
+        <BtnBenefit className="benefit-title">
+          #{benefits[card.benefit]}
+        </BtnBenefit>
         <CardItem card={card} />
-        {/* <CardItemTest card={card} /> */}
       </CardItemWrapper>
     );
   });
 
   const getSuggestCard = async () => {
-    const data = await getTokenApi.benefitCard("대중교통");
+    const data = await getTokenApi.benefitCard("thwogjs98");
+    console.log(data);
     setSuggestCards(data);
   };
 
@@ -46,9 +74,9 @@ const Suggest = (props: Props) => {
       <div className="benefit">
         <div className="title">윤준수님이 선택한 관심 혜택</div>
         <div className="buttons">
-          <BtnBenefit>#대중교통비 할인</BtnBenefit>
-          <BtnBenefit>#영화/문화</BtnBenefit>
-          <BtnBenefit>#반려동물</BtnBenefit>
+          {suggestCards.map((item) => (
+            <BtnBenefit key={item.id}>#{benefits[item.benefit]}</BtnBenefit>
+          ))}
         </div>
       </div>
       <div className="result-wrapper">

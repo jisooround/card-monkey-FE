@@ -8,7 +8,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   function (config) {
-    config.headers["Authorization"] = VITE_TOKEN;
+    config.headers["Authorization"] = `Bearer ${VITE_TOKEN}`;
     return config;
   },
   function (error) {

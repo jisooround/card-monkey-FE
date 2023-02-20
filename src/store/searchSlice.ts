@@ -6,8 +6,9 @@ export type SearchCard = {
   id: number;
   name: string;
   company: string;
-  image: string;
-  type: string;
+  imageURL: string;
+  cardType: string;
+  benefit?: string;
 };
 
 export interface SearchCardState {

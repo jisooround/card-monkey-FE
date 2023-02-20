@@ -18,7 +18,7 @@ const CardItem = ({ card }: CardItemPropsType) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const cardImage = new Image();
-  cardImage.src = card.image;
+  cardImage.src = card.imageURL;
 
   // const toggleFavor = async (e: any) => {
   //   e.stopPropagation();
@@ -46,16 +46,18 @@ const CardItem = ({ card }: CardItemPropsType) => {
     >
       <CardImageWrapper cardImage={cardImage}>
         <div className="circle"></div>
-        <img src={card.image} />
+        <img src={card.imageURL} />
       </CardImageWrapper>
       <CardInfo>
         <div className="wrapper">
           <div className="name">{card.name}</div>
           <div className="company">{card.company}</div>
           <div
-            className={card.type === "CREDIT" ? "type credit" : "type check"}
+            className={
+              card.cardType === "CREDIT" ? "type credit" : "type check"
+            }
           >
-            {card.type === "CREDIT" ? "신용카드" : "체크카드"}
+            {card.cardType === "CREDIT" ? "신용카드" : "체크카드"}
           </div>
         </div>
       </CardInfo>

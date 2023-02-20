@@ -66,35 +66,28 @@ class MonkeyGetToken {
   }
 
   /**관심혜택 맞춤 카드 */
-  async benefitCard(benefit: string) {
+  async benefitCard(userId: string) {
     return this.instance
-      .get(`/card/benefit/fastcampus3?search=${benefit}`)
+      .get(`/card/benefit/${userId}`)
       .then((result) => result.data)
-      .catch((error) => suggestList);
+      .catch((error) => error);
   }
 
   /**카드명으로 검색 */
   async searchByName(name: string) {
     return this.instance
       .get(`/card/name?search=${name}`)
-      .then((result) => result)
+      .then((result) => result.data)
       .catch((error) => error);
   }
 
   //**카드회사명으로 검색 */
   async searchByCompany(company: string) {
+    console.log(company);
     return this.instance
       .get(`/card/company?search=${company}`)
-      .then((result) => {
-        console.log(result.data);
-        return result.data;
-      })
-      .catch((error) => {
-        if (company === "롯데") return searchLotte;
-        else if (company === "삼성") return searchSamsung;
-        else if (company === "신한") return searchShinhan;
-        else if (company === "우리") return searchWoori;
-      });
+      .then((result) => result.data)
+      .catch((error) => error);
   }
 
   //**카드혜택으로 검색 */
@@ -102,18 +95,14 @@ class MonkeyGetToken {
     return this.instance
       .get(`/card/benefit?search=${benefit}`)
       .then((result) => result.data)
-      .catch((error) => {
-        if (benefit === "coffee") return benefitByCoffee;
-        else if (benefit === "movie") return benefitByMovie;
-        else if (benefit === "phone") return benefitByPhone;
-      });
+      .catch((error) => error);
   }
 
   /**전체카드 조회 */
   async allCard() {
     return this.instance
       .get(`/card`)
-      .then((result) => result)
+      .then((result) => result.data)
       .catch((error) => error);
   }
 
