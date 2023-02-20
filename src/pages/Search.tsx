@@ -14,6 +14,7 @@ import {
   handleSearchCompany,
   handleSearchType,
 } from "../store/searchSlice";
+import CardSkeleton from "../components/ui/CardSkeleton";
 
 type Props = {};
 
@@ -32,6 +33,7 @@ const Search = (props: Props) => {
     (state: RootState) => state.search.searchCompany,
   );
   const isOpen = useSelector((state: RootState) => state.search.isOpen);
+  const status = useSelector((state: RootState) => state.search.status);
   const dispatch = useDispatch<AppDispatch>();
 
   const benefits = [
@@ -136,7 +138,18 @@ const Search = (props: Props) => {
         </SearchGroup>
       </SearchGroupContainer>
       <div className="title">검색 결과</div>
-      <CardListContainer>{cardList}</CardListContainer>
+      <CardListContainer>
+        {status === "idle" ? (
+          cardList.length === 0 ? (
+            <NoItem>검색 결과가 없습니다.</NoItem>
+          ) : (
+            cardList
+          )
+        ) : (
+          // <CardSkeleton />
+          <div>Loading...</div>
+        )}
+      </CardListContainer>
     </SearchContainer>
   );
 };
@@ -184,6 +197,12 @@ const Title = styled.div`
   margin-bottom: 5px;
   color: #46433f;
   font-size: 16px;
+  font-weight: bold;
+`;
+
+const NoItem = styled.div`
+  text-align: center;
+  margin-top: 50px;
   font-weight: bold;
 `;
 

@@ -75,6 +75,7 @@ export const fetchSearch = createAsyncThunk(
   async (selected: UnionSearch) => {
     const benefitData = await getBenefitCard(selected.selectedBenefit);
     const companyData = await getCompanyCard(selected.selectedCompany);
+    console.log(benefitData, companyData);
     if (benefitData.length === 0) {
       return companyData;
     }

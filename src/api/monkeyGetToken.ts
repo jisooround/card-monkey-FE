@@ -85,7 +85,10 @@ class MonkeyGetToken {
   async searchByCompany(company: string) {
     return this.instance
       .get(`/card/company?search=${company}`)
-      .then((result) => result.data)
+      .then((result) => {
+        console.log(result.data);
+        return result.data;
+      })
       .catch((error) => {
         if (company === "롯데") return searchLotte;
         else if (company === "삼성") return searchSamsung;
