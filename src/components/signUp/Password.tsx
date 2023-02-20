@@ -14,9 +14,15 @@ const Id = ({ setStep }: Props) => {
   const form = useSelector((state: RootState) => state.form);
   const [pwd, setPwd] = useState("");
   const [pwdValid, setPwdValid] = useState(false);
+  const [pwdChk, setPwdChk] = useState("");
+  const [pwdChkValid, setPwdChkValid] = useState(false);
   console.log("Pwd  : ", form);
   const regex = /^(?=.*?[A-Za-z])(?=.*?\d)[A-Za-z\d]{8,14}$/;
 
+  // 비밀번호 입력
+  const handlePwd = (value: string) => {
+    setPwd(value);
+  };
   useEffect(() => {
     if (regex.test(pwd)) {
       setPwdValid(true);
@@ -25,9 +31,17 @@ const Id = ({ setStep }: Props) => {
     }
   }, [pwd]);
 
-  const handleChange = (value: string) => {
-    setPwd(value);
+  const handlePwdChk = (value: string) => {
+    setPwdChk(value);
   };
+
+  useEffect(() => {
+    if (pwdChk === pwd && pwdValid) {
+      setPwdChkValid(true);
+    } else {
+      setPwdChkValid(false);
+    }
+  }, [pwdChk]);
   return (
     <Wrap>
       <h4>
@@ -42,7 +56,7 @@ const Id = ({ setStep }: Props) => {
             type="password"
             placeholder="비밀번호를 입력하세요."
             onChange={(e) => {
-              handleChange(e.target.value);
+              handlePwd(e.target.value);
             }}
           />
         </div>
@@ -52,25 +66,25 @@ const Id = ({ setStep }: Props) => {
           <p>8~12자 영문 숫자 조합</p>
           <BsCheckCircle className="icon" />
         </ValidConditions>
-        {/* <div className="group">
+        <div className="group">
           <div className="inputTitle">비밀번호 확인</div>
           <input
             type="password"
             placeholder="한 번 더 입력하세요."
             onChange={(e) => {
-              handleChange(e.target.value);
+              handlePwdChk(e.target.value);
             }}
           />
         </div>
         <ValidConditions
-          className={pwdValid && pwd.length > 0 && "satisfaction"}
+          className={`${pwdChkValid && pwdChk.length > 0 && "satisfaction"}`}
         >
-          <p>5~12자 영문, 숫자 조합</p>
+          <p>비밀번호와 일치</p>
           <BsCheckCircle className="icon" />
-        </ValidConditions> */}
+        </ValidConditions>
       </InputWrap>
       <Button
-        disabled={!pwdValid}
+        disabled={!pwdChkValid}
         onClick={() => {
           dispatch(fillPassword(pwd));
           setStep(5);
