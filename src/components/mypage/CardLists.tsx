@@ -2,10 +2,17 @@ import React, { useEffect, useState } from "react";
 import getTokenApi from "../../api/monkeyGetToken";
 import { CardType, Empty } from "../../pages/MainPage";
 import { MyCards } from "../ui/MyCard";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const CardLists = () => {
-  const [myCard, setMyCard] = useState<Array<CardType>>();
+  const [myCard, setMyCard] = useState<Array<CardType>>([]);
   const [section, setSection] = useState("all");
+  const notify = () =>
+    toast.success("카드 신청이 취소되었습니다.", {
+      position: "top-center",
+      autoClose: 2000,
+    });
 
   useEffect(() => {
     getMyCard();
@@ -19,6 +26,17 @@ export const CardLists = () => {
   const getMyCard = async () => {
     const data = await getTokenApi.cardList();
     setMyCard(data);
+  };
+
+  const handleClick = async (id: number) => {
+    const delCard = await getTokenApi.deleteCard(id);
+    if (delCard === "카드 신청 취소 완료") {
+      notify();
+      let newData = myCard.filter((data) => data.id !== id);
+      setMyCard(newData);
+    } else {
+      console.log("오류가 생겼습니다.");
+    }
   };
 
   return (
@@ -48,7 +66,7 @@ export const CardLists = () => {
         </span>
       </div>
       <div className="list">
-        {Array.isArray(myCard) ? (
+        {myCard.length > 0 ? (
           myCard
             .filter((card) =>
               section === "all"
@@ -62,7 +80,10 @@ export const CardLists = () => {
             .map((data) => (
               <div key={data.id}>
                 <MyCards card={data} />
-                <div className="cancle">카드 신청 취소</div>
+                <div className="cancle" onClick={() => handleClick(data.id)}>
+                  카드 신청 취소
+                </div>
+                <ToastContainer limit={1} />
               </div>
             ))
         ) : (
@@ -72,18 +93,3 @@ export const CardLists = () => {
     </div>
   );
 };
-
-{
-  /* <div className="list">
-{Array.isArray(myCard) ? (
-  myCard.map((data) => (
-    <div key={data.id}>
-      <MyCards card={data} />
-      <div className="cancle">카드 신청 취소</div>
-    </div>
-  ))
-) : (
-  <Empty>나의 카드 정보가 없습니다.</Empty>
-)}
-</div> */
-}

@@ -197,12 +197,12 @@ class MonkeyGetToken {
   }
 
   /**신청한 카드 취소*/
-  async deleteCard(id: string) {
+  async deleteCard(id: number) {
     return this.instance
       .delete(`/paid/${id}`)
-      .then((result) => console.log(result))
+      .then((result) => result.data)
       .catch((error) => {
-        console.log(error);
+        console.log("카드 취소 에러", error);
       });
   }
 

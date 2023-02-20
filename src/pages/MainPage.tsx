@@ -21,7 +21,7 @@ export type CardType = {
 
 const MainPage = () => {
   const [topCard, setTopCard] = useState<Array<CardType>>();
-  const [myCard, setMyCard] = useState<Array<CardType>>();
+  const [myCard, setMyCard] = useState<Array<CardType>>([]);
   SwiperCore.use([Navigation, Pagination, Scrollbar, Autoplay]);
 
   const getHot3 = async () => {
@@ -57,7 +57,7 @@ const MainPage = () => {
         pagination={{ clickable: true }}
         autoplay={true}
       >
-        {Array.isArray(myCard) ? (
+        {myCard.length > 0 ? (
           myCard?.map((data: CardType) => (
             <SwiperSlide key={data.id}>
               <MyCards card={data} />
