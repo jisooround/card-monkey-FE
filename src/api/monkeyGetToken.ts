@@ -176,9 +176,9 @@ class MonkeyGetToken {
   }
 
   /**회원 탈퇴 */
-  async withdrawal() {
+  async withdrawal(userId: string) {
     return this.instance
-      .delete(`/fastcampus3`)
+      .delete(`deleteAccount/${userId}`)
       .then((result) => console.log(result))
       .catch((error) => {
         console.log(error);
