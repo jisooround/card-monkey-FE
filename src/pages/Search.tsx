@@ -1,54 +1,51 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import getTokenApi from "../api/monkeyGetToken";
 import CardItem from "../components/searchProduct/CardItem";
 import BtnSuggest from "../components/ui/BtnSuggest";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/store";
+import {
+  fetchSearch,
+  handleIsOpen,
+  handleSearchBenefit,
+  handleSearchCompany,
+  handleSearchType,
+} from "../store/searchSlice";
+import CardSkeleton from "../components/ui/CardSkeleton";
 
 type Props = {};
 
-export type SearchCard = {
-  id: number;
-  name: string;
-  company: string;
-  image: string;
-  type: string;
-};
-
 const Search = (props: Props) => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const searchTerm: string | null = searchParams.get("q");
-  const [cards, setCards] = useState<Array<SearchCard>>([]);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  // const [searchParams, setSearchParams] = useSearchParams();
+  // const searchTerm: string | null = searchParams.get("q");
+
+  const searchList = useSelector((state: RootState) => state.search.searchList);
+  const selectedType = useSelector(
+    (state: RootState) => state.search.searchType,
+  );
+  const selectedBenefit = useSelector(
+    (state: RootState) => state.search.searchBenefit,
+  );
+  const selectedCompany = useSelector(
+    (state: RootState) => state.search.searchCompany,
+  );
+  const isOpen = useSelector((state: RootState) => state.search.isOpen);
+  const status = useSelector((state: RootState) => state.search.status);
+  const dispatch = useDispatch<AppDispatch>();
+
   const benefits = [
-    "모든 가맹점",
-    "교통",
-    "주유",
-    "통신",
-    "마트/편의점",
-    "쇼핑",
-    "푸드",
-    "카페/디저트",
-    "선택형",
-    "디지털구독",
-    "뷰티/피트니스",
-    "무실적",
-    "공과금/렌탈",
-    "병원/약국",
-    "애완동물",
-    "교육/육아",
-    "자동차/하이패스",
-    "레저/스포츠",
-    "영화/문화",
-    "간편결제",
-    "항공마일리지",
-    "공항라운지/PP",
-    "프리미엄",
-    "제휴/PLCC",
-    "여행/숙박",
-    "해외",
-    "비즈니스",
+    ["커피", "coffee"],
+    ["교통", "transportation"],
+    ["영화", "movie"],
+    ["베달", "delivery"],
+    ["통신", "phone"],
+    ["주유", "gas"],
+    ["간편결재", "simplePayment"],
+    ["공과금", "tax"],
+    ["쇼핑", "shopping"],
   ];
   const companies = [
     "신한",
@@ -62,45 +59,32 @@ const Search = (props: Props) => {
     "현대",
     "바로",
   ];
+  const types = [
+    ["신용", "CREDIT"],
+    ["체크", "CHECK"],
+  ];
 
-  const cardList = cards.map((card) => {
+  const filterCardType = () => {
+    const filteredSearchList = searchList.filter((item) => {
+      return selectedType.find((type) => item.cardType === type);
+    });
+    return filteredSearchList;
+  };
+
+  const cardList = filterCardType().map((card) => {
     return <CardItem key={card.id} card={card} />;
   });
 
-  const getAllCard = async () => {
-    const res = await getTokenApi.allCard();
-    if (res.status === 200) {
-      setCards(res.data);
-      console.log(res);
-    }
-  };
-
-  const getSearchCard = async () => {
-    const res = await getTokenApi.searchByCompany(searchTerm || "");
-    if (res.status === 200) {
-      setCards(res.data);
-      console.log(res);
-    }
-  };
-
-  // useEffect(() => {
-  //   console.log(cards);
-  // }, [cards]);
-
-  // useEffect(() => {
-  //   if (!searchTerm) {
-  //     getAllCard();
-  //   } else {
-  //     getSearchCard();
-  //   }
-  // }, [searchTerm]);
+  useEffect(() => {
+    dispatch(fetchSearch({ selectedBenefit, selectedCompany }));
+  }, [selectedBenefit, selectedCompany]);
 
   return (
     <SearchContainer>
       <div
         className="title tags"
         onClick={() => {
-          setIsOpen(!isOpen);
+          dispatch(handleIsOpen());
         }}
       >
         <div>검색 추천 태그</div>
@@ -110,15 +94,30 @@ const Search = (props: Props) => {
         <SearchGroup>
           <Title>신용 / 체크</Title>
           <div>
-            <BtnSuggest suggest={"신용"} />
-            <BtnSuggest suggest={"체크"} />
+            {types.map((type, index) => (
+              <BtnSuggest
+                key={index}
+                suggest={type[0]}
+                className={selectedType.includes(type[1]) ? "active" : ""}
+                handleSuggest={() => {
+                  dispatch(handleSearchType(type[1]));
+                }}
+              />
+            ))}
           </div>
         </SearchGroup>
         <SearchGroup>
           <Title>추천 카드사</Title>
           <div>
             {companies.map((company, index) => (
-              <BtnSuggest key={index} suggest={company} />
+              <BtnSuggest
+                key={index}
+                suggest={company}
+                className={selectedCompany.includes(company) ? "active" : ""}
+                handleSuggest={() => {
+                  dispatch(handleSearchCompany(company));
+                }}
+              />
             ))}
           </div>
         </SearchGroup>
@@ -126,13 +125,31 @@ const Search = (props: Props) => {
           <Title>추천 혜택</Title>
           <div>
             {benefits.map((benefit, index) => (
-              <BtnSuggest key={index} suggest={benefit} />
+              <BtnSuggest
+                key={index}
+                suggest={benefit[0]}
+                className={selectedBenefit.includes(benefit[1]) ? "active" : ""}
+                handleSuggest={() => {
+                  dispatch(handleSearchBenefit(benefit[1]));
+                }}
+              />
             ))}
           </div>
         </SearchGroup>
       </SearchGroupContainer>
       <div className="title">검색 결과</div>
-      <CardListContainer>{cardList}</CardListContainer>
+      <CardListContainer>
+        {status === "idle" ? (
+          cardList.length === 0 ? (
+            <NoItem>검색 결과가 없습니다.</NoItem>
+          ) : (
+            cardList
+          )
+        ) : (
+          // <CardSkeleton />
+          <div>Loading...</div>
+        )}
+      </CardListContainer>
     </SearchContainer>
   );
 };
@@ -140,7 +157,6 @@ const Search = (props: Props) => {
 const SearchContainer = styled.div`
   padding: 0 30px;
   .title {
-    /* margin-bottom: 5px; */
     color: #46433f;
     font-size: 18px;
     font-weight: bold;
@@ -149,9 +165,6 @@ const SearchContainer = styled.div`
       display: flex;
       justify-content: space-between;
       cursor: pointer;
-      /* &:hover {
-        background-color: var(--color-lightgray);
-      } */
     }
   }
 `;
@@ -165,7 +178,7 @@ const CardListContainer = styled.div`
 `;
 
 const SearchGroupContainer = styled.div`
-  height: 80vh;
+  height: 45vh;
   padding-left: 15px;
   transition: height 0.5s;
   overflow: hidden;
@@ -184,6 +197,12 @@ const Title = styled.div`
   margin-bottom: 5px;
   color: #46433f;
   font-size: 16px;
+  font-weight: bold;
+`;
+
+const NoItem = styled.div`
+  text-align: center;
+  margin-top: 50px;
   font-weight: bold;
 `;
 
