@@ -1,5 +1,4 @@
 import axios from "axios";
-import { signType, loginType } from "../types/types";
 
 const { VITE_URL } = import.meta.env;
 
@@ -32,16 +31,21 @@ class MonkeySetToken {
   }
 
   /** 로그인 */
-  async signIn({ id, password }: loginType) {
+  async signIn({ userId, password }: loginType) {
     return this.axiosInstance
-      .post("/login", {
-        id: id,
-        password: password,
-      })
+      .post(
+        "/login",
+        JSON.stringify({
+          userId: userId,
+          password: password,
+        }),
+      )
       .then((result) => {
-        const { token } = result.data;
-        // console.log(token);
-        return token;
+        const res = result.data;
+        // console.log(res);
+        //const { info } = res;
+        // localStorage.setItem("result", JSON.stringify(res));
+        return res;
       })
       .catch((error) => console.log(error));
   }
