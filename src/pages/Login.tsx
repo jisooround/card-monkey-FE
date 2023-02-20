@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import setTokenApi from "../api/monkeySetToken";
 import { Link } from "react-router-dom";
+import { signType } from "../types/types";
 
 type Props = {};
 
@@ -9,9 +10,29 @@ const Login = (props: Props) => {
   const [id, setId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  // function setToken() {
-  //   setTokenApi.signIn(id, password);
+  // const setToken = async () => {
+  //   const token = await setTokenApi.signIn({ id, password });
+  //   console.log(token);
+  //   localStorage.setItem("accessToken", token);
+  // };
+
+  // async function setToken() {
+  //   setTokenApi.signIn({ id, password });
+  //   console.log(
+  //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJleGFtcGxlQGdtYWlsLmNvbSIsImlhdCI6MTY3NTk1Mzk2MiwiZXhwIjoxNjc2MDQwMzYyLCJpZCI6ImFzZGYiLCJuaWNrbmFtZSI6ImtpbSIsInJvbGUiOiJST0xFX1VTRVIifQ.ElD5G1XSi5iXq0uUSc6b-8sq1KU7fUq6beYY7Fimmaw",
+  //   );
+  //   console.log("hi");
+  //   localStorage.setItem(
+  //     "accessToken",
+  //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJleGFtcGxlQGdtYWlsLmNvbSIsImlhdCI6MTY3NTk1Mzk2MiwiZXhwIjoxNjc2MDQwMzYyLCJpZCI6ImFzZGYiLCJuaWNrbmFtZSI6ImtpbSIsInJvbGUiOiJST0xFX1VTRVIifQ.ElD5G1XSi5iXq0uUSc6b-8sq1KU7fUq6beYY7Fimmaw",
+  //   );
   // }
+
+  // useEffect(() => {
+  //   const hello = "hi";
+  //   console.log(hello);
+  //   localStorage.setItem("accessToken", hello);
+  // }, []);
 
   return (
     <Container>
@@ -19,7 +40,7 @@ const Login = (props: Props) => {
         <div className="titleWrap">
           <h3>로그인</h3>
           <div className="logo">
-            <img src="" alt="" />
+            <img src="./monkeycard_white.png" alt="" />
           </div>
           <h2>
             안녕하세요.
@@ -76,9 +97,27 @@ const Login = (props: Props) => {
 const Container = styled.div`
   width: 100%;
   min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  &::before {
+    content: "";
+    width: 100%;
+    height: 30%;
+    position: absolute;
+    background-image: url("./monkeycard_face.png");
+    background-repeat: no-repeat;
+    background-size: 55%;
+    background-position: top right -10px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.1;
+  }
 `;
 
 const Inner = styled.div`
+  z-index: 4;
   margin: auto;
   width: var(--width-inner);
   min-height: 100vh;
@@ -93,7 +132,11 @@ const Inner = styled.div`
     width: 120px;
     height: 87px;
     border-radius: 20px;
-    background-color: #dcdcdc;
+    img {
+      width: 100%;
+      margin-left: -15px;
+      cursor: pointer;
+    }
   }
   h2 {
     color: var(--color-black);

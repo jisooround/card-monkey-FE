@@ -2,16 +2,16 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface FormState {
-  name: string;
-  id: string;
+  userId: string;
   password: string;
+  name: string;
   benefit: object;
 }
 
 const initialState: FormState = {
-  name: "",
-  id: "",
+  userId: "",
   password: "",
+  name: "",
   benefit: [],
 };
 
@@ -25,7 +25,7 @@ export const signUpSlice = createSlice({
     },
     fillId(state, action) {
       let content = action.payload;
-      state.id = content;
+      state.userId = content;
     },
     fillPassword(state, action) {
       let content = action.payload;
