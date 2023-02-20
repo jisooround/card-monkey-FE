@@ -6,33 +6,21 @@ import { signType } from "../types/types";
 
 type Props = {};
 
+export type SignInType = {
+  userId: string;
+  password: string;
+};
+
 const Login = (props: Props) => {
-  const [id, setId] = useState<string>("");
+  const [userId, setUserId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  console.log(userId, password);
 
-  // const setToken = async () => {
-  //   const token = await setTokenApi.signIn({ id, password });
-  //   console.log(token);
-  //   localStorage.setItem("accessToken", token);
-  // };
-
-  // async function setToken() {
-  //   setTokenApi.signIn({ id, password });
-  //   console.log(
-  //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJleGFtcGxlQGdtYWlsLmNvbSIsImlhdCI6MTY3NTk1Mzk2MiwiZXhwIjoxNjc2MDQwMzYyLCJpZCI6ImFzZGYiLCJuaWNrbmFtZSI6ImtpbSIsInJvbGUiOiJST0xFX1VTRVIifQ.ElD5G1XSi5iXq0uUSc6b-8sq1KU7fUq6beYY7Fimmaw",
-  //   );
-  //   console.log("hi");
-  //   localStorage.setItem(
-  //     "accessToken",
-  //     "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJleGFtcGxlQGdtYWlsLmNvbSIsImlhdCI6MTY3NTk1Mzk2MiwiZXhwIjoxNjc2MDQwMzYyLCJpZCI6ImFzZGYiLCJuaWNrbmFtZSI6ImtpbSIsInJvbGUiOiJST0xFX1VTRVIifQ.ElD5G1XSi5iXq0uUSc6b-8sq1KU7fUq6beYY7Fimmaw",
-  //   );
-  // }
-
-  // useEffect(() => {
-  //   const hello = "hi";
-  //   console.log(hello);
-  //   localStorage.setItem("accessToken", hello);
-  // }, []);
+  const login = async () => {
+    const res = await setTokenApi.signIn({ userId, password });
+    console.log(res);
+    localStorage.setItem("userId", "qwe");
+  };
 
   return (
     <Container>
@@ -56,9 +44,9 @@ const Login = (props: Props) => {
               type="text"
               id="id"
               placeholder="아이디를 입력하세요."
-              value={id}
+              value={userId}
               onChange={(e) => {
-                setId(e.target.value);
+                setUserId(e.target.value);
               }}
             />
           </div>
@@ -76,11 +64,7 @@ const Login = (props: Props) => {
           </div>
         </div>
         <div className="buttonWrap">
-          <button
-            className="logIn"
-            type="submit"
-            // onClick={setToken}
-          >
+          <button className="logIn" type="submit" onClick={login}>
             로그인
           </button>
           <Link to={"/signup"}>

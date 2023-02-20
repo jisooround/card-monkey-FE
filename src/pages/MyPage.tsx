@@ -13,7 +13,6 @@ const MyPage = (props: Props) => {
 
   const changeSection = (event: any) => {
     setSection(event.target.className);
-    console.log(section);
   };
 
   return (
@@ -49,7 +48,7 @@ export default MyPage;
 
 const Container = styled.div`
   margin: 0 auto;
-  padding-bottom: 75px;
+  padding-bottom: 90px;
   #primary {
     color: var(--color-primary);
   }
@@ -66,7 +65,7 @@ const Container = styled.div`
       padding-top: 15px;
     }
     img {
-      width: 110px;
+      width: 100px;
     }
   }
   .category {
@@ -88,9 +87,21 @@ const Container = styled.div`
     background-color: var(--color-lightgray);
   }
   .myaccount {
+    display: flex;
+    flex-direction: column;
     width: 425px;
     margin: 0 auto;
     padding-top: 20px;
+    .delete {
+      align-self: flex-end;
+      font-size: 14px;
+      color: var(--color-gray);
+      font-weight: 600;
+      cursor: pointer;
+      &:hover {
+        color: var(--color-primary);
+      }
+    }
   }
   .user-name {
     font-size: 18px;
@@ -105,9 +116,9 @@ const Container = styled.div`
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
-    }
-    .all {
-      color: var(--color-primary);
+      &:hover {
+        color: var(--color-primary) !important;
+      }
     }
   }
   .cancle {
@@ -129,7 +140,7 @@ const Container = styled.div`
     .group {
       display: flex;
       width: 100%;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
       align-items: center;
       border-bottom: 1px solid var(--color-gray);
       .inputTitle {

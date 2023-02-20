@@ -7,6 +7,13 @@
     "type": "CREDIT"
   },
   {
+    "id": 2,
+    "name": "DA@카드의정석",
+    "company": "우리카드",
+    "image": "https://api.card-gorilla.com:8080/storage/card/87/card_img/20239/87card.png",
+    "type": "CHECK"
+  },
+  {
     "id": 3,
     "name": "DA@카드의정석",
     "company": "우리카드",

@@ -5,10 +5,16 @@ import { MyCards } from "../ui/MyCard";
 
 export const CardLists = () => {
   const [myCard, setMyCard] = useState<Array<CardType>>();
+  const [section, setSection] = useState("all");
 
   useEffect(() => {
     getMyCard();
   }, []);
+
+  const changeSection = (event: any) => {
+    setSection(event.target.className);
+    console.log(section);
+  };
 
   const getMyCard = async () => {
     const data = await getTokenApi.cardList();
@@ -19,18 +25,46 @@ export const CardLists = () => {
     <div className="myaccount">
       <div className="user-name">소재헌님의 카드</div>
       <div className="cards">
-        <span className="all">전체카드</span>
-        <span className="credit">신용카드</span>
-        <span className="check">체크카드</span>
+        <span
+          className="all"
+          id={section === "all" ? "primary" : "basic"}
+          onClick={changeSection}
+        >
+          전체카드
+        </span>
+        <span
+          className="credit"
+          id={section === "credit" ? "primary" : "basic"}
+          onClick={changeSection}
+        >
+          신용카드
+        </span>
+        <span
+          className="check"
+          id={section === "check" ? "primary" : "basic"}
+          onClick={changeSection}
+        >
+          체크카드
+        </span>
       </div>
       <div className="list">
         {Array.isArray(myCard) ? (
-          myCard.map((data) => (
-            <div key={data.id}>
-              <MyCards card={data} />
-              <div className="cancle">카드 신청 취소</div>
-            </div>
-          ))
+          myCard
+            .filter((card) =>
+              section === "all"
+                ? true
+                : section === "credit"
+                ? card.type.includes("CREDIT")
+                : false || section === "check"
+                ? card.type.includes("CHECK")
+                : false,
+            )
+            .map((data) => (
+              <div key={data.id}>
+                <MyCards card={data} />
+                <div className="cancle">카드 신청 취소</div>
+              </div>
+            ))
         ) : (
           <Empty>나의 카드 정보가 없습니다.</Empty>
         )}
@@ -38,3 +72,18 @@ export const CardLists = () => {
     </div>
   );
 };
+
+{
+  /* <div className="list">
+{Array.isArray(myCard) ? (
+  myCard.map((data) => (
+    <div key={data.id}>
+      <MyCards card={data} />
+      <div className="cancle">카드 신청 취소</div>
+    </div>
+  ))
+) : (
+  <Empty>나의 카드 정보가 없습니다.</Empty>
+)}
+</div> */
+}
