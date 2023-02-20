@@ -23,3 +23,18 @@ interface getReview {
   id: number;
   message: string[];
 }
+
+interface BenefitProps {
+  item: string;
+}
+
+interface signType {
+  userId: string;
+  password: string;
+  name: string;
+}
+
+interface loginType {
+  userId: string;
+  password: string;
+}
