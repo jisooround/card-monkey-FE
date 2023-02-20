@@ -18,8 +18,6 @@ const Login = (props: Props) => {
 
   const login = async () => {
     const res = await setTokenApi.signIn({ userId, password });
-    console.log(res);
-    localStorage.setItem("userId", "qwe");
   };
 
   return (

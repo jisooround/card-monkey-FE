@@ -20,8 +20,8 @@ interface CardInfo {
 }
 
 interface getReview {
-  id: number;
   message: string[];
+  review: string;
 }
 
 interface BenefitProps {
@@ -37,4 +37,9 @@ interface signType {
 interface loginType {
   userId: string;
   password: string;
+}
+
+interface Button {
+  color: string;
+  background: string;
 }

@@ -33,19 +33,13 @@ class MonkeySetToken {
   /** 로그인 */
   async signIn({ userId, password }: loginType) {
     return this.axiosInstance
-      .post(
-        "/login",
-        JSON.stringify({
-          userId: userId,
-          password: password,
-        }),
-      )
+      .post("/login", {
+        userId: userId,
+        password: password,
+      })
       .then((result) => {
-        const res = result.data;
-        // console.log(res);
-        //const { info } = res;
-        // localStorage.setItem("result", JSON.stringify(res));
-        return res;
+        localStorage.setItem("result", JSON.stringify(result.data));
+        return result.data;
       })
       .catch((error) => console.log(error));
   }

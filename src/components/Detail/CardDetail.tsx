@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Back from "../ui/Back";
 import { v4 as uuidv4 } from "uuid";
-import Button from "../ui/Button";
 import getTokenApi from "../../api/monkeyGetToken";
 import BtnSuggest from "../ui/BtnSuggest";
+import { useDispatch } from "react-redux";
 
 type Card = {
   card: CardInfo;
@@ -14,10 +14,14 @@ type Props = {};
 
 const CardDetail = ({ card }: Card) => {
   const [keyword, setKeyword] = useState<Array<getReview>>([]);
+  const [selectedReview, setSelectedReview] = useState<Array<getReview>>([]);
+  const [selected, setSelected] = useState(false);
+
   const getKey = async (id: number) => {
     const data = await getTokenApi.getReview(id);
     setKeyword(data);
   };
+
   useEffect(() => {
     getKey(card.id);
   }, [card.id]);
@@ -68,6 +72,14 @@ const CardDetail = ({ card }: Card) => {
     return result;
   };
 
+  const toggleSelected = () => {
+    setSelected((prev) => !prev);
+  };
+
+  const selectReview = (review) => {
+    setSelectedReview(review);
+  };
+
   const reviewArray = [
     "MZ세대가 선택한 카드",
     "마트,,,다녀오셨어요? 쇼핑할 때 좋은 카드",
@@ -106,15 +118,17 @@ const CardDetail = ({ card }: Card) => {
         <Benefit>{card.benefit && findBenefit()}</Benefit>
         <div className="button-wrapper">
           <Button
-            text={"카드 신청하기"}
-            fontColor={"var(--color-white)"}
+            color={"var(--color-white)"}
             background={"var(--color-primary)"}
-          />
+          >
+            카드 신청하기
+          </Button>
           <Button
-            text={"내 관심카드에 추가하기"}
-            fontColor={"var(--color-brown)"}
+            color={"var(--color-brown)"}
             background={"var(--color-lightgray)"}
-          />
+          >
+            내 관심카드에 추가하기
+          </Button>
         </div>
         <SectionTitle>
           <hr className="top" color="#f5f5f5" />
@@ -132,17 +146,19 @@ const CardDetail = ({ card }: Card) => {
               </li>
             ))}
         </Keyword>
+        <hr className="bottom" color="#f5f5f5" />
         <ChooseKeyword>
           {reviewArray.map((review) => (
-            <BtnSuggest suggest={review} />
+            <BtnSuggest suggest={review}></BtnSuggest>
           ))}
-          <Button
-            text={"리뷰 선택하기"}
-            fontColor={"var(--color-white"}
-            background={"var(--color-primary)"}
-            onClick={card.id}
-          />
         </ChooseKeyword>
+        <Button
+          color={"var(--color-white)"}
+          background={"var(--color-primary)"}
+          onClick={() => {}}
+        >
+          리뷰 선택하기
+        </Button>
       </div>
     </Wrapper>
   );
@@ -157,6 +173,13 @@ const Wrapper = styled.div`
     padding-bottom: var(--margin-bottom);
     .button-wrapper {
       margin-bottom: 40px;
+    }
+  }
+  hr {
+    width: 100%;
+    &.bottom {
+      height: 2px;
+      box-shadow: 0.5px 0.5px 3px rgba(0, 0, 0, 0.1);
     }
   }
 `;
@@ -212,13 +235,6 @@ const SectionTitle = styled.div`
   color: #ff6b00;
   text-align: center;
   margin-top: 10px;
-  hr {
-    width: 100%;
-    &.bottom {
-      height: 2px;
-      box-shadow: 0.5px 0.5px 3px rgba(0, 0, 0, 0.1);
-    }
-  }
   .content {
     height: 100px;
     display: flex;
@@ -235,6 +251,23 @@ const SectionTitle = styled.div`
       font-size: 15px;
       position: relative;
     }
+  }
+`;
+
+const Button = styled.button<Button>`
+  display: block;
+  margin: 20px auto;
+  width: 90%;
+  height: 55px;
+  border: none;
+  font-size: 15px;
+  font-weight: 600;
+  color: ${(props) => props.color};
+  background-color: ${(props) => props.background};
+  &:hover {
+    transition: 0.3s;
+    color: ${(props) => props.background};
+    background-color: var(--color-brown);
   }
 `;
 
@@ -267,20 +300,22 @@ const Benefit = styled.div`
   }
 `;
 
-const Keyword = styled.ol`
+const Keyword = styled.ul`
   display: grid;
   grid-gap: 10px;
-  width: 90%;
+  width: 400px;
   margin: 0 auto;
+  place-items: center;
+  padding-bottom: 30px;
   .text {
-    border-radius: 15px;
-    list-style-type: decimal;
-    background-color: var(--color-lightgray);
-    color: var(--color-primary);
-    text-align: center;
+    display: flex;
     justify-content: center;
     align-items: center;
-    width: 90%;
+    border-radius: 15px;
+    background-color: var(--color-lightgray);
+    color: var(--color-primary);
+    font-weight: 600;
+    width: 100%;
     height: 50px;
     &::marker {
       background-color: var(--color-lightgray);
@@ -289,6 +324,38 @@ const Keyword = styled.ol`
   }
 `;
 
-const ChooseKeyword = styled.div``;
+const ChooseKeyword = styled.div`
+  padding: 20px 0;
+  display: grid;
+  justify-content: center;
+  row-gap: 30px;
+  column-gap: 0;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(3, 30px);
+  place-items: center;
+`;
+
+const Review = styled.button`
+  display: inline-block;
+  border: 1px solid #e0e0e0;
+  background-color: #ffffff;
+  width: 200px;
+  height: auto;
+  line-height: 22px;
+  padding: 0 13px;
+  font-size: 14px;
+  border-radius: 20px;
+  &:hover {
+    border: 1px solid var(--color-primary);
+    background: #f1f2f4;
+  }
+  &.select {
+    border: 1px solid var(--color-primary);
+    border-radius: 20px;
+    &:hover {
+      border: 2px solid var(--color-primary);
+    }
+  }
+`;
 
 export default CardDetail;
