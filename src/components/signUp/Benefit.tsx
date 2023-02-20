@@ -81,6 +81,7 @@ const Benefit = ({ setStep }: Props) => {
       <Button
         disabled={!complete}
         onClick={() => {
+          setStep(6);
           dispatch(selectBenefit(benefit));
           dispatch(submitForm());
           dispatch(resetForm());
