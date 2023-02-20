@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
-import { signUpArray } from "../../types/types";
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
