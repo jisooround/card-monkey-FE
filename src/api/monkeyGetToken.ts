@@ -3,6 +3,13 @@ import instance from "./apiController";
 import favorList from "../mokeup/favorList.json";
 import cardDetail from "../mokeup/cardDetail.json";
 import suggestList from "../mokeup/suggestList.json";
+import benefitByCoffee from "../mokeup/benefitByCoffee.json";
+import benefitByMovie from "../mokeup/benefitByMovie.json";
+import benefitByPhone from "../mokeup/benefitByPhone.json";
+import searchLotte from "../mokeup/searchLotte.json";
+import searchSamsung from "../mokeup/searchSamsung.json";
+import searchShinhan from "../mokeup/searchShinhan.json";
+import searchWoori from "../mokeup/searchWoori.json";
 import getReview from "../mokeup/getReview.json";
 
 class MonkeyGetToken {
@@ -17,11 +24,9 @@ class MonkeyGetToken {
     return this.instance
       .post("/logout")
       .then((result) => {
-        console.log(result);
         return result;
       })
       .catch((error) => {
-        console.log(error);
         return error;
       });
   }
@@ -59,34 +64,35 @@ class MonkeyGetToken {
   }
 
   /**관심혜택 맞춤 카드 */
-  async benefitCard(benefit: string) {
+  async benefitCard(userId: string) {
     return this.instance
-      .get(`/card/benefit/fastcampus3?search=${benefit}`)
+      .get(`/card/benefit/${userId}`)
       .then((result) => result.data)
-      .catch((error) => suggestList);
+      .catch((error) => error);
   }
 
   /**카드명으로 검색 */
   async searchByName(name: string) {
     return this.instance
-      .get(`/card?name=${name}`)
-      .then((result) => result)
+      .get(`/card/name?search=${name}`)
+      .then((result) => result.data)
       .catch((error) => error);
   }
 
   //**카드회사명으로 검색 */
   async searchByCompany(company: string) {
+    console.log(company);
     return this.instance
-      .get(`/card?company=${company}`)
-      .then((result) => result)
+      .get(`/card/company?search=${company}`)
+      .then((result) => result.data)
       .catch((error) => error);
   }
 
   //**카드혜택으로 검색 */
   async searchByBenefit(benefit: string) {
     return this.instance
-      .get(`/card?benefit=${benefit}`)
-      .then((result) => result)
+      .get(`/card/benefit?search=${benefit}`)
+      .then((result) => result.data)
       .catch((error) => error);
   }
 
@@ -94,7 +100,7 @@ class MonkeyGetToken {
   async allCard() {
     return this.instance
       .get(`/card`)
-      .then((result) => result)
+      .then((result) => result.data)
       .catch((error) => error);
   }
 

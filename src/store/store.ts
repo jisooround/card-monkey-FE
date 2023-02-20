@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "./counterSlice";
 import formReducer from "./signUpSlice";
 import favorReducer from "./favorSlice";
+import searchReducer from "./searchSlice";
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
     form: formReducer,
     favor: favorReducer,
+    search: searchReducer,
   },
 });
 
