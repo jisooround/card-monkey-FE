@@ -117,7 +117,7 @@ const Container = styled.div`
       font-weight: 600;
       cursor: pointer;
       &:hover {
-        color: var(--color-primary);
+        color: var(--color-primary) !important;
       }
     }
   }

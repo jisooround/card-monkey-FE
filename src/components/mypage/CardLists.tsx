@@ -49,12 +49,22 @@ export const CardLists = () => {
       </div>
       <div className="list">
         {Array.isArray(myCard) ? (
-          myCard.map((data) => (
-            <div key={data.id}>
-              <MyCards card={data} />
-              <div className="cancle">카드 신청 취소</div>
-            </div>
-          ))
+          myCard
+            .filter((card) =>
+              section === "all"
+                ? true
+                : section === "credit"
+                ? card.type.includes("CREDIT")
+                : false || section === "check"
+                ? card.type.includes("CHECK")
+                : false,
+            )
+            .map((data) => (
+              <div key={data.id}>
+                <MyCards card={data} />
+                <div className="cancle">카드 신청 취소</div>
+              </div>
+            ))
         ) : (
           <Empty>나의 카드 정보가 없습니다.</Empty>
         )}
@@ -62,3 +72,18 @@ export const CardLists = () => {
     </div>
   );
 };
+
+{
+  /* <div className="list">
+{Array.isArray(myCard) ? (
+  myCard.map((data) => (
+    <div key={data.id}>
+      <MyCards card={data} />
+      <div className="cancle">카드 신청 취소</div>
+    </div>
+  ))
+) : (
+  <Empty>나의 카드 정보가 없습니다.</Empty>
+)}
+</div> */
+}
