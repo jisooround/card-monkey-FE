@@ -54,3 +54,11 @@ interface Button {
   color: string;
   background: string;
 }
+
+interface width {
+  width: number;
+  height: number;
+}
+interface Size {
+  size: number;
+}

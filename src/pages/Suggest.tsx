@@ -19,7 +19,7 @@ const Suggest = (props: Props) => {
     delivery: "배달",
     phone: "통신",
     gas: "주유",
-    simplePayment: "간편결재",
+    simplePayment: "간편결제",
     tax: "공과금",
     shopping: "쇼핑",
   };
@@ -48,7 +48,7 @@ const Suggest = (props: Props) => {
       <div className="page-info">
         <div className="title">몽키추천 서비스</div>
         <div className="img-wrapper">
-          <img src="/monkey_star.png" />
+          <img src="/monkeycard_black.png" />
         </div>
       </div>
       <div className="benefit">
