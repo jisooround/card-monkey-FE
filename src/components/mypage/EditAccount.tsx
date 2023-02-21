@@ -8,7 +8,6 @@ export const EditAccount = (props: Props) => {
   const [oldPassword, setOldPassword] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [checkPassword, setCheckPassword] = useState<string>("");
-<<<<<<< HEAD
   const [userId, setUserId] = useState<string>("");
   console.log(userId);
   useEffect(() => {
@@ -20,9 +19,7 @@ export const EditAccount = (props: Props) => {
     const res = await getTokenApi.withdrawal(userId);
     console.log(res);
   };
-=======
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
->>>>>>> e6f713a81cbded219dcf1d52bcb770d73abaf5d8
 
   return (
     <div className="myaccount">
