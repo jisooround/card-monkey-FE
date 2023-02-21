@@ -49,7 +49,7 @@ const Header = ({}: HeaderPropsType) => {
       {pathname !== "/search" ? (
         <NavContainer>
           <LogoWrapper onClick={() => navigate("/")}>
-            <FcWiFiLogo />
+            <img src="/logo.png" alt="로고" />
           </LogoWrapper>
           <Icons>
             <SearchIconWrap>
@@ -117,9 +117,9 @@ const LogoWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  svg {
-    width: 60px;
-    height: 60px;
+  img {
+    /* width: 60px; */
+    height: 45px;
     cursor: pointer;
   }
 `;
