@@ -19,7 +19,7 @@ const Suggest = (props: Props) => {
     delivery: "배달",
     phone: "통신",
     gas: "주유",
-    simplePayment: "간편결재",
+    simplePayment: "간편결제",
     tax: "공과금",
     shopping: "쇼핑",
   };
