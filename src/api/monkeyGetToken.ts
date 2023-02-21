@@ -114,7 +114,7 @@ class MonkeyGetToken {
   }
 
   /**카드 신청 */
-  async cardApplication(id: string) {
+  async cardApplication(id: number) {
     return this.instance
       .post(`/card/${id}`, {
         headers: { "Content-Type": "application/json" },
