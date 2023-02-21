@@ -18,16 +18,11 @@ const Detail = (props: Props) => {
     const getCardInfo = async () => {
       const data = await getTokenApi.cardDetail(location);
       setCardInfo(data);
-      console.log(data);
     };
     getCardInfo();
   }, [pathname]);
 
-  return (
-    <>
-      <CardDetail card={cardInfo}></CardDetail>
-    </>
-  );
+  return <>{cardInfo && <CardDetail card={cardInfo}></CardDetail>}</>;
 };
 
 export default Detail;

@@ -3,28 +3,30 @@ import styled from "styled-components";
 import Back from "../ui/Back";
 import { v4 as uuidv4 } from "uuid";
 import getTokenApi from "../../api/monkeyGetToken";
-import BtnSuggest from "../ui/BtnSuggest";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchReviewList, selectReview } from "../../store/reviewSlice";
-import { RootState } from "../../store/store";
+import {
+  fetchReview,
+  fetchReviewList,
+  selectReview,
+} from "../../store/reviewSlice";
+import { AppDispatch, RootState } from "../../store/store";
 
-type Card = {
-  card: CardInfo;
-};
+interface CardInfo {
+  benefit: string[];
+  company: string;
+  id: number;
+  image: string;
+  name: string;
+  type: string;
+}
 
-const CardDetail = ({ card }: Card) => {
-  const dispatch = useDispatch();
+const CardDetail = ({ card }: CardInfo) => {
+  console.log(card);
+  let id = card.id;
+  const dispatch = useDispatch<AppDispatch>();
   const selectedReview = useSelector(
     (state: RootState) => state.review.message,
   );
-  const [reviews, setReviews] = useState<getReview>({
-    id: 0,
-    message: [""],
-  });
-
-  useEffect(() => {
-    dispatch(fetchReviewList(card.id));
-  }, [card.id]);
 
   const cardImage = new Image();
   cardImage.src = card.image;
@@ -36,31 +38,37 @@ const CardDetail = ({ card }: Card) => {
     ["베달", "delivery"],
     ["통신", "phone"],
     ["주유", "gas"],
-    ["간편결재", "simplePayment"],
+    ["간편결재", "simplepayment"],
     ["공과금", "tax"],
     ["쇼핑", "shopping"],
   ];
 
   const findBenefit = () => {
     const result = [];
-    for (let i = 0; i < benefits.length; i++) {
-      if (card.benefit[i] === "yes") {
-        let eng = benefits[i][1];
-        let kor = benefits[i][0];
-        result.push(
-          <div className="element">
-            <img src={`/benefit_${eng}.png`} key={uuidv4()} />
-            <span>{kor}</span>
-          </div>,
-        );
+    for (let j = 0; j < card.benefit.length; j++) {
+      for (let i = 0; i < benefits.length; i++) {
+        if (benefits[i][1] === card.benefit[j]) {
+          let eng = benefits[i][1];
+          let kor = benefits[i][0];
+          result.push(
+            <div className="element">
+              <img src={`/benefit_${eng}.png`} key={uuidv4()} />
+              <span>{kor}</span>
+            </div>,
+          );
+        }
       }
     }
     return result;
   };
 
-  const clickHandler = (review: string[]) => {
-    dispatch(selectReview(selectedReview));
+  const clickHandler = (text: string) => {
+    dispatch(selectReview(text));
   };
+
+  useEffect(() => {
+    dispatch(fetchReview({ id, selectedReview }));
+  }, [selectedReview, card.id]);
 
   const reviewArray = [
     "MZ세대가 선택한 카드",
@@ -78,13 +86,15 @@ const CardDetail = ({ card }: Card) => {
       <Back />
       <div className="container">
         <CardImg cardImage={cardImage}>
-          <img src={card.image} />
+          <img src={card.imageURL} />
         </CardImg>
         <InfoWrap>
           <span
-            className={card.type === "CREDIT" ? "type credit" : "type check"}
+            className={
+              card.cardType === "CREDIT" ? "type credit" : "type check"
+            }
           >
-            {card.type === "CREDIT" ? "신용카드" : "체크카드"}
+            {card.cardType === "CREDIT" ? "신용카드" : "체크카드"}
           </span>
           <h3 className="name">{card.name}</h3>
           <h4 className="company">{card.company}</h4>
@@ -121,8 +131,8 @@ const CardDetail = ({ card }: Card) => {
           <hr className="bottom" color="#f5f5f5" />
         </SectionTitle>
         <Reviews>
-          {reviews.message &&
-            reviews.message.map((message) => (
+          {selectedReview.message &&
+            selectedReview.message.map((message: string) => (
               <li className="text" key={uuidv4()}>
                 {message}
               </li>
@@ -130,36 +140,17 @@ const CardDetail = ({ card }: Card) => {
         </Reviews>
         <hr className="bottom" color="#f5f5f5" />
         <ChooseKeyword>
-          {reviewArray.map((text, index) => (
+          {reviewArray.map((text) => (
             <BtnReview
-              key={index}
+              type="button"
+              key={uuidv4()}
               className={selectedReview.includes(text) ? "active" : ""}
+              onClick={() => clickHandler(text)}
             >
               {text}
             </BtnReview>
           ))}
         </ChooseKeyword>
-        {reviews.message?.length === undefined ? (
-          <Button
-            color={"var(--color-white)"}
-            background={"var(--color-primary)"}
-            onClick={() => {
-              clickHandler;
-            }}
-          >
-            리뷰 선택하기
-          </Button>
-        ) : (
-          <Button
-            color={"var(--color-white)"}
-            background={"var(--color-primary)"}
-            onClick={() => {
-              clickHandler;
-            }}
-          >
-            선택한 리뷰 변경하기
-          </Button>
-        )}
       </div>
     </Wrapper>
   );
@@ -189,7 +180,7 @@ const CardImg = styled.div<{ cardImage: HTMLImageElement }>`
   text-align: center;
   img {
     width: ${(props) =>
-      props.cardImage.width >= props.cardImage.height ? "220px" : "150px"};
+      props.cardImage.width > props.cardImage.height ? "220px" : "180px"};
     background-color: inherit;
     margin: 20px auto 10px auto;
     box-shadow: 1px 2px 2px 2px rgba(0, 0, 0, 0.25);

@@ -108,7 +108,7 @@ class MonkeyGetToken {
   async cardDetail(id: string) {
     return this.instance
       .get(`/card/${id}`)
-      .then((result) => result)
+      .then((result) => result.data)
       .catch((error) => {
         console.log(error);
         return cardDetail;
@@ -141,7 +141,10 @@ class MonkeyGetToken {
   async getReview(id: number) {
     return this.instance
       .get(`/card/${id}/review`)
-      .then((result) => console.log(result))
+      .then((result) => {
+        console.log("api", result.data);
+        return result.data;
+      })
       .catch((error) => {
         console.log(error);
         return getReview;
@@ -149,12 +152,9 @@ class MonkeyGetToken {
   }
 
   /**리뷰 선택(이모저모) */
-  async selectReview({ id, message }: State) {
+  async selectReview(id: number, message: string[]) {
     return this.instance
-      .post(`/card/${id}/review`, {
-        headers: { "Content-Type": "application/json" },
-        data: { message },
-      })
+      .post(`/card/${id}/review`, { id: id, message: message })
       .then((result) => console.log(result))
       .catch((error) => {
         console.log(error);

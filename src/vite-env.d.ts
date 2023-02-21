@@ -30,6 +30,11 @@ interface State {
   status: "idle" | "loading" | "failed";
 }
 
+interface Argument {
+  id: number;
+  selectedReview: string[];
+}
+
 interface BenefitProps {
   item: string;
 }
