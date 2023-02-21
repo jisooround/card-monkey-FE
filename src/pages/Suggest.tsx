@@ -5,30 +5,12 @@ import CardItem from "../components/searchProduct/CardItem";
 
 type Props = {};
 
-export type SuggestCard = {
-  id: number;
-  name: string;
-  company: string;
-  imageURL: string;
-  cardType: string;
-  benefit: string;
-};
-
-export type SuggestCard2 = {
-  id: number;
-  name: string;
-  company: string;
-  image: string;
-  type: string;
-  benefit: string;
-};
-
 type Benefits = {
   [index: string]: string;
 };
 
 const Suggest = (props: Props) => {
-  const [suggestCards, setSuggestCards] = useState<Array<SuggestCard>>([]);
+  const [suggestCards, setSuggestCards] = useState<Array<Card>>([]);
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   const benefits: Benefits = {
     coffee: "커피",
@@ -45,7 +27,7 @@ const Suggest = (props: Props) => {
     return (
       <CardItemWrapper key={card.id}>
         <BtnBenefit className="benefit-title">
-          #{benefits[card.benefit]}
+          #{benefits[card.benefit!]}
         </BtnBenefit>
         <CardItem card={card} />
       </CardItemWrapper>
@@ -53,11 +35,8 @@ const Suggest = (props: Props) => {
   });
 
   const getSuggestCard = async () => {
-    const data: SuggestCard2[] = await getTokenApi.benefitCard(userInfo.userId);
-    const data2 = data.map(({ image: imageURL, type: cardType, ...rest }) => {
-      return { ...rest, imageURL, cardType };
-    }); // 이부분 백쪽에서 리팩토링 되면 수정 map안해도 댐
-    setSuggestCards(data2);
+    const data = await getTokenApi.benefitCard(userInfo.userId);
+    setSuggestCards(data);
   };
 
   useEffect(() => {
@@ -76,7 +55,7 @@ const Suggest = (props: Props) => {
         <div className="title">{userInfo.name}님이 선택한 관심 혜택</div>
         <div className="buttons">
           {suggestCards.map((item) => (
-            <BtnBenefit key={item.id}>#{benefits[item.benefit]}</BtnBenefit>
+            <BtnBenefit key={item.id}>#{benefits[item.benefit!]}</BtnBenefit>
           ))}
         </div>
       </div>

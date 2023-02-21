@@ -15,7 +15,7 @@ const Login = (props: Props) => {
   const [password, setPassword] = useState<string>("");
   const [fail, setFail] = useState<boolean>(false);
   console.log(fail);
-  const form = useSelector((state: RootState) => state.form);
+  const form = useSelector((state: RootState) => state.signUp);
   console.log(form);
   const dispatch = useDispatch();
   console.log(userId, password);

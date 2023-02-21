@@ -8,14 +8,6 @@ import { fetchFavor } from "../store/favorSlice";
 
 type Props = {};
 
-type FavorCard = {
-  id: number;
-  name: string;
-  company: string;
-  image: string;
-  type: string;
-};
-
 const Favor = (props: Props) => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   const favorList = useSelector((state: RootState) => state.favor.favorList);
@@ -34,10 +26,10 @@ const Favor = (props: Props) => {
         <img src="/monkey_love.png" />
       </TopWrapper>
       <CardWrapper>
-        {favorList.map(({ image: imageURL, type: cardType, ...rest }) => {
+        {favorList.map((card) => {
           return (
             // 이부분 백쪽에서 리팩토링 되면 수정
-            <CardItem card={{ ...rest, imageURL, cardType }} key={rest.id} />
+            <CardItem card={card} key={card.id} />
           );
         })}
       </CardWrapper>

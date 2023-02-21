@@ -67,7 +67,7 @@ const Search = (props: Props) => {
 
   const filterCardType = () => {
     const filteredSearchList = searchList.filter((item) => {
-      return selectedType.find((type) => item.cardType === type);
+      return selectedType.find((type) => item.type === type);
     });
     return filteredSearchList;
   };
@@ -141,13 +141,7 @@ const Search = (props: Props) => {
           </div>
         </SearchGroup>
       </SearchGroupContainer>
-      <div>
-        <div className="title">검색 결과{` ${cardList.length}개`}</div>
-        <select>
-          <option>이름 순</option>
-          {/* <option></option> */}
-        </select>
-      </div>
+      <div className="title">검색 결과{` ${cardList.length}개`}</div>
       <CardListContainer>
         {status === "idle" ? (
           cardList.length === 0 ? (
