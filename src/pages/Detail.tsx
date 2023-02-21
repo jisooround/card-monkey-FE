@@ -8,7 +8,7 @@ import CardDetail from "../components/Detail/CardDetail";
 type Props = {};
 
 const Detail = (props: Props) => {
-  const [cardInfo, setCardInfo] = useState<Array<CardInfo>>([]);
+  const [cardInfo, setCardInfo] = useState<CardInfo>({} as CardInfo);
   const { pathname } = useLocation();
 
   const getLocation = () => {

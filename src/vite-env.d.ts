@@ -1,13 +1,12 @@
 /// <reference types="vite/client" />
 
-interface FavorCard {
+interface Card {
   id: number;
   name: string;
   company: string;
   image: string;
   type: string;
-  liked: boolean;
-  likeCount: number;
+  benefit?: string;
 }
 
 interface CardInfo {

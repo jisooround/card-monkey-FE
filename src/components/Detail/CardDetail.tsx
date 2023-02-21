@@ -13,17 +13,11 @@ import { AppDispatch, RootState } from "../../store/store";
 import { addFavor, deleteFavor, fetchFavor } from "../../store/favorSlice";
 import { CardType } from "../../pages/MainPage";
 
-interface CardInfo {
-  benefit: string[];
-  company: string;
-  id: number;
-  image: string;
-  name: string;
-  cardType: string;
+type Props = {
   card: CardInfo;
-}
+};
 
-const CardDetail = ({ card }: CardInfo) => {
+const CardDetail = ({ card }: Props) => {
   const [myCard, setMyCard] = useState<Array<CardType>>([]);
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
@@ -80,24 +74,21 @@ const CardDetail = ({ card }: CardInfo) => {
 
   const toggleFavor = async (e: any) => {
     e.stopPropagation();
-    const data = await getTokenApi.toggleFavor(card.id); // 이거 관심상품 추가, 삭제 api가 똑같아서 하나로 합침(추가, 삭제 api 함수 아직 있긴 함)
+    const data = await getTokenApi.toggleFavor(card.id);
     console.log(data);
     if (data === "찜하기 완료") {
-      /* 서버에서 관심상품 추가되면 우리도 추가
-         원래는 다시 전체 관심상품 조회해서 가져오는게 더 정확한데 일단은 이렇게 (어제 소재헌이 멘토님한테 질문한거 참고) */
-      console.log("1");
-      dispatch(addFavor({ ...card, image: card.image, type: card.cardType }));
-      // dispatch(addFavor(card));
+      const newCard: Card = {
+        id: card.id,
+        company: card.company,
+        name: card.name,
+        image: card.image,
+        type: card.type,
+      };
+      dispatch(addFavor(newCard));
     } else if (data === "찜하기 취소 완료") {
-      /* 서버에서 관심상품 삭제되면 우리도 삭제
-         원래는 다시 전체 관심상품 조회해서 가져오는게 더 정확한데 일단은 이렇게 (어제 소재헌이 멘토님한테 질문한거 참고) */
       dispatch(deleteFavor(card.id));
-      console.log("2");
     } else {
-      // 일단 지금은 무조건 요기 조건으로 들어옴, 밑에 둘 중 하나만 실행
-      // dispatch(addFavor(card));
-      dispatch(deleteFavor(card.id));
-      console.log("3");
+      console.log("찜하기 에러");
     }
   };
 
@@ -139,11 +130,9 @@ const CardDetail = ({ card }: CardInfo) => {
       <div className="container">
         <InfoWrap>
           <span
-            className={
-              card.cardType === "CREDIT" ? "type credit" : "type check"
-            }
+            className={card.type === "CREDIT" ? "type credit" : "type check"}
           >
-            {card.cardType === "CREDIT" ? "신용카드" : "체크카드"}
+            {card.type === "CREDIT" ? "신용카드" : "체크카드"}
           </span>
           <h3 className="name">{card.name}</h3>
           <h4 className="company">{card.company}</h4>

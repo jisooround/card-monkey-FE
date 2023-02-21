@@ -37,6 +37,7 @@ export const CardLists = () => {
     } else {
       console.log("오류가 발생하였습니다.");
     }
+    getMyCard();
   };
 
   return (
