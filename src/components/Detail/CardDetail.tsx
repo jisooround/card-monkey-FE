@@ -33,9 +33,11 @@ const CardDetail = ({ card }: Props) => {
   cardImage.src = card.image;
 
   const getMyCard = async () => {
-    const data = await getTokenApi.cardList();
+    const data = await getTokenApi.cardList(userInfo.userId);
     setMyCard(data);
   };
+
+  console.log(myCard);
 
   useEffect(() => {
     getMyCard();
@@ -147,7 +149,15 @@ const CardDetail = ({ card }: Props) => {
         </SectionTitle>
         <Benefit>{card.benefit && findBenefit()}</Benefit>
         <div className="button-wrapper">
-          {myCard.find((item) => item.id === card.id) ? (
+          {myCard && myCard.find((item) => item.id === card.id) ? (
+            <Button
+              color={"var(--color-lightgray)"}
+              background={"var(--color-brown)"}
+              disabled
+            >
+              이미 신청한 카드입니다.
+            </Button>
+          ) : (
             <Button
               color={"var(--color-white)"}
               background={"var(--color-primary)"}
@@ -155,14 +165,6 @@ const CardDetail = ({ card }: Props) => {
               className={"able"}
             >
               카드 신청하기
-            </Button>
-          ) : (
-            <Button
-              color={"var(--color-lightgray)"}
-              background={"var(--color-brown)"}
-              disabled
-            >
-              이미 신청한 카드입니다.
             </Button>
           )}
           {favorList.find((item) => item.id === card.id) ? (
