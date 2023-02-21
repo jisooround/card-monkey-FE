@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
-import { selectBenefit } from "../../store/signUpSlice";
-import { BsCheckCircle } from "react-icons/bs";
-import { listenerCompleted } from "@reduxjs/toolkit/dist/listenerMiddleware/exceptions";
+import { selectBenefit, submitForm, resetForm } from "../../store/signUpSlice";
 import BenefitIcon from "../ui/BenefitIcon";
 
 type Props = {
@@ -29,6 +27,10 @@ const Benefit = ({ setStep }: Props) => {
     "tax",
     "shopping",
   ];
+
+  useEffect(() => {
+    console.log(form);
+  }, [form]);
 
   const handleBenefit = (item: string) => {
     if (benefit.length === 3) {
@@ -81,6 +83,8 @@ const Benefit = ({ setStep }: Props) => {
         onClick={() => {
           setStep(6);
           dispatch(selectBenefit(benefit));
+          dispatch(submitForm());
+          dispatch(resetForm());
         }}
       >
         동의
