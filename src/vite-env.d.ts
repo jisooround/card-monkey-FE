@@ -20,8 +20,14 @@ interface CardInfo {
 }
 
 interface getReview {
+  id: number;
+  message: string[] | undefined;
+}
+
+interface State {
+  id: number;
   message: string[];
-  review: string;
+  status: "idle" | "loading" | "failed";
 }
 
 interface BenefitProps {

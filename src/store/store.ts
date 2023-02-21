@@ -3,6 +3,7 @@ import counterReducer from "./counterSlice";
 import formReducer from "./signUpSlice";
 import favorReducer from "./favorSlice";
 import searchReducer from "./searchSlice";
+import reviewReducer from "./reviewSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     form: formReducer,
     favor: favorReducer,
     search: searchReducer,
+    review: reviewReducer,
   },
 });
 

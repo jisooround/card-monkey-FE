@@ -4,63 +4,49 @@ import Back from "../ui/Back";
 import { v4 as uuidv4 } from "uuid";
 import getTokenApi from "../../api/monkeyGetToken";
 import BtnSuggest from "../ui/BtnSuggest";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchReviewList, selectReview } from "../../store/reviewSlice";
+import { RootState } from "../../store/store";
 
 type Card = {
   card: CardInfo;
 };
 
-type Props = {};
-
 const CardDetail = ({ card }: Card) => {
-  const [keyword, setKeyword] = useState<Array<getReview>>([]);
-  const [selectedReview, setSelectedReview] = useState<Array<getReview>>([]);
-  const [selected, setSelected] = useState(false);
-
-  const getKey = async (id: number) => {
-    const data = await getTokenApi.getReview(id);
-    setKeyword(data);
-  };
+  const dispatch = useDispatch();
+  const selectedReview = useSelector(
+    (state: RootState) => state.review.message,
+  );
+  const [reviews, setReviews] = useState<getReview>({
+    id: 0,
+    message: [""],
+  });
 
   useEffect(() => {
-    getKey(card.id);
+    dispatch(fetchReviewList(card.id));
   }, [card.id]);
-
-  console.log(keyword);
 
   const cardImage = new Image();
   cardImage.src = card.image;
 
-  const benefitEnglish = [
-    "coffee",
-    "transportation",
-    "movie",
-    "delivery",
-    "phone",
-    "gas",
-    "simplePayment",
-    "tax",
-    "shopping",
-  ];
-
-  const benefitArray = [
-    "커피",
-    "교통",
-    "영화",
-    "배달",
-    "통신",
-    "주유",
-    "간편결제",
-    "공과금",
-    "쇼핑",
+  const benefits = [
+    ["커피", "coffee"],
+    ["교통", "transportation"],
+    ["영화", "movie"],
+    ["베달", "delivery"],
+    ["통신", "phone"],
+    ["주유", "gas"],
+    ["간편결재", "simplePayment"],
+    ["공과금", "tax"],
+    ["쇼핑", "shopping"],
   ];
 
   const findBenefit = () => {
     const result = [];
-    for (let i = 0; i < benefitArray.length; i++) {
+    for (let i = 0; i < benefits.length; i++) {
       if (card.benefit[i] === "yes") {
-        let eng = benefitEnglish[i];
-        let kor = benefitArray[i];
+        let eng = benefits[i][1];
+        let kor = benefits[i][0];
         result.push(
           <div className="element">
             <img src={`/benefit_${eng}.png`} key={uuidv4()} />
@@ -72,12 +58,8 @@ const CardDetail = ({ card }: Card) => {
     return result;
   };
 
-  const toggleSelected = () => {
-    setSelected((prev) => !prev);
-  };
-
-  const selectReview = (review) => {
-    setSelectedReview(review);
+  const clickHandler = (review: string[]) => {
+    dispatch(selectReview(selectedReview));
   };
 
   const reviewArray = [
@@ -138,27 +120,46 @@ const CardDetail = ({ card }: Card) => {
           </div>
           <hr className="bottom" color="#f5f5f5" />
         </SectionTitle>
-        <Keyword>
-          {keyword.message &&
-            keyword.message.map((message) => (
+        <Reviews>
+          {reviews.message &&
+            reviews.message.map((message) => (
               <li className="text" key={uuidv4()}>
                 {message}
               </li>
             ))}
-        </Keyword>
+        </Reviews>
         <hr className="bottom" color="#f5f5f5" />
         <ChooseKeyword>
-          {reviewArray.map((review) => (
-            <BtnSuggest suggest={review}></BtnSuggest>
+          {reviewArray.map((text, index) => (
+            <BtnReview
+              key={index}
+              className={selectedReview.includes(text) ? "active" : ""}
+            >
+              {text}
+            </BtnReview>
           ))}
         </ChooseKeyword>
-        <Button
-          color={"var(--color-white)"}
-          background={"var(--color-primary)"}
-          onClick={() => {}}
-        >
-          리뷰 선택하기
-        </Button>
+        {reviews.message?.length === undefined ? (
+          <Button
+            color={"var(--color-white)"}
+            background={"var(--color-primary)"}
+            onClick={() => {
+              clickHandler;
+            }}
+          >
+            리뷰 선택하기
+          </Button>
+        ) : (
+          <Button
+            color={"var(--color-white)"}
+            background={"var(--color-primary)"}
+            onClick={() => {
+              clickHandler;
+            }}
+          >
+            선택한 리뷰 변경하기
+          </Button>
+        )}
       </div>
     </Wrapper>
   );
@@ -300,7 +301,7 @@ const Benefit = styled.div`
   }
 `;
 
-const Keyword = styled.ul`
+const Reviews = styled.ul`
   display: grid;
   grid-gap: 10px;
   width: 400px;
@@ -335,26 +336,23 @@ const ChooseKeyword = styled.div`
   place-items: center;
 `;
 
-const Review = styled.button`
+const BtnReview = styled.button`
   display: inline-block;
   border: 1px solid #e0e0e0;
+  border-radius: 15px;
   background-color: #ffffff;
-  width: 200px;
-  height: auto;
+  height: 34px;
   line-height: 22px;
   padding: 0 13px;
-  font-size: 14px;
-  border-radius: 20px;
+  margin-right: 12px;
+  margin-top: 12px;
+  cursor: pointer;
   &:hover {
-    border: 1px solid var(--color-primary);
     background: #f1f2f4;
   }
-  &.select {
+  &.active {
+    background: #fffaef;
     border: 1px solid var(--color-primary);
-    border-radius: 20px;
-    &:hover {
-      border: 2px solid var(--color-primary);
-    }
   }
 `;
 

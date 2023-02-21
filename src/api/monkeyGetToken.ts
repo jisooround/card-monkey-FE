@@ -149,7 +149,7 @@ class MonkeyGetToken {
   }
 
   /**리뷰 선택(이모저모) */
-  async selectReview(id: number, message: Array<string>) {
+  async selectReview({ id, message }: State) {
     return this.instance
       .post(`/card/${id}/review`, {
         headers: { "Content-Type": "application/json" },
