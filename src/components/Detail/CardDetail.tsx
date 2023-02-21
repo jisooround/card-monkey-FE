@@ -10,6 +10,7 @@ import {
   selectReview,
 } from "../../store/reviewSlice";
 import { AppDispatch, RootState } from "../../store/store";
+import { addFavor, deleteFavor } from "../../store/favorSlice";
 
 interface CardInfo {
   benefit: string[];
@@ -27,6 +28,7 @@ const CardDetail = ({ card }: CardInfo) => {
   const selectedReview = useSelector(
     (state: RootState) => state.review.message,
   );
+  const favorList = useSelector((state: RootState) => state.favor.favorList);
 
   const cardImage = new Image();
   cardImage.src = card.image;
@@ -62,24 +64,53 @@ const CardDetail = ({ card }: CardInfo) => {
     return result;
   };
 
-  const clickHandler = (text: string) => {
-    dispatch(selectReview(text));
+  const toggleFavor = async (e: any) => {
+    e.stopPropagation();
+    const data = await getTokenApi.toggleFavor(card.id); // 이거 관심상품 추가, 삭제 api가 똑같아서 하나로 합침(추가, 삭제 api 함수 아직 있긴 함)
+    console.log(data);
+    if (data === "찜하기 완료") {
+      /* 서버에서 관심상품 추가되면 우리도 추가
+         원래는 다시 전체 관심상품 조회해서 가져오는게 더 정확한데 일단은 이렇게 (어제 소재헌이 멘토님한테 질문한거 참고) */
+      console.log("1");
+      dispatch(
+        addFavor({ ...card, image: card.imageURL, type: card.cardType }),
+      );
+      // dispatch(addFavor(card));
+    } else if (data === "찜하기 취소 완료") {
+      /* 서버에서 관심상품 삭제되면 우리도 삭제
+         원래는 다시 전체 관심상품 조회해서 가져오는게 더 정확한데 일단은 이렇게 (어제 소재헌이 멘토님한테 질문한거 참고) */
+      dispatch(deleteFavor(card.id));
+      console.log("2");
+    } else {
+      // 일단 지금은 무조건 요기 조건으로 들어옴, 밑에 둘 중 하나만 실행
+      // dispatch(addFavor(card));
+      dispatch(deleteFavor(card.id));
+      console.log("3");
+    }
   };
 
-  useEffect(() => {
-    dispatch(fetchReview({ id, selectedReview }));
-  }, [selectedReview, card.id]);
+  const application = async (id) => {
+    return await getTokenApi.cardApplication(id);
+  };
 
-  const reviewArray = [
-    "MZ세대가 선택한 카드",
-    "마트,,,다녀오셨어요? 쇼핑할 때 좋은 카드",
-    "뚜벅이분들~대중교통 할인 해줍니다",
-    "중요한건 꺾이지 않은 적립율",
-    "개봉 영화 모두 섭렵하는 나는 영화광",
-    "반려동물도 내 가족이니까! 동물병원 할인",
-    "핸드폰 비용도 알뜰하게 할인!",
-    "꼼꼼한 여행러에게 필수 카드",
-  ];
+  // const clickHandler = (text: string) => {
+  //   dispatch(selectReview(text));
+  // };
+
+  // useEffect(() => {
+  //   dispatch(fetchReview({ id, selectedReview }));
+  // }, [selectedReview, card.id]);
+
+  // const reviewArray = [
+  //   "MZ세대가 선택한 카드",
+  //   "마트,,,다녀오셨어요? 쇼핑할 때 좋은 카드",
+  //   "뚜벅이분들~대중교통 할인 해줍니다",
+  //   "중요한건 꺾이지 않은 적립율",
+  //   "개봉 영화 모두 섭렵하는 나는 영화광",
+  //   "반려동물도 내 가족이니까! 동물병원 할인",
+  //   "핸드폰 비용도 알뜰하게 할인!",
+  //   "꼼꼼한 여행러에게 필수 카드",
+  // ];
 
   return (
     <Wrapper>
@@ -112,17 +143,29 @@ const CardDetail = ({ card }: CardInfo) => {
           <Button
             color={"var(--color-white)"}
             background={"var(--color-primary)"}
+            onClick={() => application(card.id)}
           >
             카드 신청하기
           </Button>
-          <Button
-            color={"var(--color-brown)"}
-            background={"var(--color-lightgray)"}
-          >
-            내 관심카드에 추가하기
-          </Button>
+          {favorList.find((item) => item.id === card.id) ? (
+            <Button
+              color={"var(--color-brown)"}
+              background={"var(--color-lightgray)"}
+              onClick={toggleFavor}
+            >
+              내 관심카드에 삭제하기
+            </Button>
+          ) : (
+            <Button
+              color={"var(--color-brown)"}
+              background={"var(--color-lightgray)"}
+              onClick={toggleFavor}
+            >
+              내 관심카드에 추가하기
+            </Button>
+          )}
         </div>
-        <SectionTitle>
+        {/* <SectionTitle>
           <hr className="top" color="#f5f5f5" />
           <div className="content">
             <h5>Keyword</h5>
@@ -150,7 +193,7 @@ const CardDetail = ({ card }: CardInfo) => {
               {text}
             </BtnReview>
           ))}
-        </ChooseKeyword>
+        </ChooseKeyword> */}
       </div>
     </Wrapper>
   );
