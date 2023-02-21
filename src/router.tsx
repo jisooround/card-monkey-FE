@@ -1,4 +1,8 @@
-import { createBrowserRouter, createMemoryRouter } from "react-router-dom";
+import {
+  createBrowserRouter,
+  createMemoryRouter,
+  Navigate,
+} from "react-router-dom";
 import MyPage from "./pages/MyPage";
 import Detail from "./pages/Detail";
 import Favor from "./pages/Favor";
@@ -8,7 +12,6 @@ import Search from "./pages/Search";
 import App from "./App";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import ReduxTest from "./pages/ReduxTest";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +51,10 @@ const router = createBrowserRouter([
   {
     path: "/signUp",
     element: <SignUp />,
+  },
+  {
+    path: "/*",
+    element: <Navigate to="/" />,
   },
 ]);
 

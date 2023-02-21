@@ -141,7 +141,13 @@ const Search = (props: Props) => {
           </div>
         </SearchGroup>
       </SearchGroupContainer>
-      <div className="title">검색 결과{` ${cardList.length}개`}</div>
+      <div>
+        <div className="title">검색 결과{` ${cardList.length}개`}</div>
+        <select>
+          <option>이름 순</option>
+          {/* <option></option> */}
+        </select>
+      </div>
       <CardListContainer>
         {status === "idle" ? (
           cardList.length === 0 ? (

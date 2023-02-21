@@ -54,8 +54,6 @@ const MainPage = () => {
     getMyCard();
   }, []);
 
-  if (topCard === undefined) return console.log("loading");
-
   return (
     <Container>
       <div className="title">
