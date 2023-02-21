@@ -19,6 +19,10 @@ export type CardType = {
   image: string;
   name: string;
   type: string;
+  card_imageurl: string;
+  card_name: string;
+  card_type: string;
+  card_id: number;
 };
 
 const MainPage = () => {
@@ -54,8 +58,6 @@ const MainPage = () => {
     getMyCard();
   }, []);
 
-  if (topCard === undefined) return console.log("loading");
-
   return (
     <Container>
       <div className="title">
@@ -86,14 +88,14 @@ const MainPage = () => {
         <img className="banner" src="../banner_main.png" />
       </Link>
       {/* top3 카드 출력 */}
-      <div className="top3">몽키차트 TOP 3</div>
+      <div className="top3">몽키차트 TOP 5</div>
       {Array.isArray(topCard) ? (
         topCard.map((data, index) => {
           const cardImage = new Image();
           cardImage.src = data.image;
           return (
             <Link
-              to="/detail/:id"
+              to={`/detail/${data.id}`}
               key={data.id}
               style={{ textDecoration: "none" }}
             >
@@ -107,6 +109,13 @@ const MainPage = () => {
                 <div>
                   <div className="card">{data.name}</div>
                   <div>{data.company}</div>
+                  <div
+                    className={
+                      data.type === "CREDIT" ? "type credit" : "type check"
+                    }
+                  >
+                    {data.type === "CREDIT" ? "신용카드" : "체크카드"}
+                  </div>
                 </div>
               </Topcard>
             </Link>
@@ -195,7 +204,7 @@ export const Empty = styled.div`
 `;
 
 const Topcard = styled.div<{ cardImage: HTMLImageElement }>`
-  height: 80px;
+  height: 95px;
   border: 1px solid var(--color-gray);
   border-radius: 10px;
   margin: 10px 0;
@@ -237,5 +246,22 @@ const Topcard = styled.div<{ cardImage: HTMLImageElement }>`
     font-size: 16px;
     font-weight: 600;
     padding: 3px 0;
+  }
+  .type {
+    width: 40px;
+    border-radius: 40px;
+    font-size: 10px;
+    font-weight: bold;
+    margin-top: 5px;
+    padding: 7px;
+    text-align: center;
+    &.credit {
+      color: #ff6b00;
+      background-color: #ffeacc;
+    }
+    &.check {
+      color: #1bbbee;
+      background-color: #dbf6ff;
+    }
   }
 `;

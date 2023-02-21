@@ -19,9 +19,11 @@ export const MyCards = ({ card }: MyCardType) => {
             <div className="cardname">{card.name}</div>
             <div>{card.company}</div>
             <div
-              className={card.type === "CREDIT" ? "type credit" : "type check"}
+              className={
+                card.card_type === "CREDIT" ? "type credit" : "type check"
+              }
             >
-              {card.type === "CREDIT" ? "신용카드" : "체크카드"}
+              {card.card_type === "CREDIT" ? "신용카드" : "체크카드"}
             </div>
           </div>
         </div>

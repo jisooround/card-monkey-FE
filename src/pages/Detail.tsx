@@ -9,7 +9,7 @@ import Back from "../components/ui/Back";
 type Props = {};
 
 const Detail = (props: Props) => {
-  const [cardInfo, setCardInfo] = useState<CardInfo[]>([]);
+  const [cardInfo, setCardInfo] = useState<Array<CardInfo>>([]);
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -18,20 +18,17 @@ const Detail = (props: Props) => {
     const getCardInfo = async () => {
       const data = await getTokenApi.cardDetail(location);
       setCardInfo(data);
-      console.log(data);
     };
     getCardInfo();
   }, [pathname]);
 
   return (
-    <Wrapper>
-      <CardDetail card={cardInfo}></CardDetail>
-    </Wrapper>
+    <Wrapper>{cardInfo && <CardDetail card={cardInfo}></CardDetail>}</Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  height: 1300px;
+  padding-bottom: var(--margin-bottom);
 `;
 
 export default Detail;

@@ -30,9 +30,9 @@ export const CardLists = () => {
 
   const handleClick = async (id: number) => {
     const res = await getTokenApi.deleteCard(id);
-    if (res === "카드 신청 취소 완료") {
+    if (res === "delete success") {
       notify();
-      let newData = myCard.filter((data) => data.id !== id);
+      let newData = myCard.filter((data) => data.card_id !== data.card_id);
       setMyCard(newData);
     } else {
       console.log("오류가 발생하였습니다.");
@@ -72,9 +72,9 @@ export const CardLists = () => {
               section === "all"
                 ? true
                 : section === "credit"
-                ? card.type.includes("CREDIT")
+                ? card.card_type.includes("CREDIT")
                 : false || section === "check"
-                ? card.type.includes("CHECK")
+                ? card.card_type.includes("CHECK")
                 : false,
             )
             .map((data) => (
