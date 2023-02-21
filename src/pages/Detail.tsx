@@ -4,7 +4,6 @@ import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import getTokenApi from "../api/monkeyGetToken";
 import CardDetail from "../components/Detail/CardDetail";
-import Back from "../components/ui/Back";
 
 type Props = {};
 
@@ -12,9 +11,14 @@ const Detail = (props: Props) => {
   const [cardInfo, setCardInfo] = useState<CardInfo>({} as CardInfo);
   const { pathname } = useLocation();
 
-  useEffect(() => {
+  const getLocation = () => {
     const splitUrl = pathname?.split("/") ?? null;
     const location = splitUrl?.length > 1 ? splitUrl[splitUrl.length - 1] : "";
+    return location;
+  };
+
+  useEffect(() => {
+    const location = getLocation();
     const getCardInfo = async () => {
       const data = await getTokenApi.cardDetail(location);
       setCardInfo(data);
@@ -28,6 +32,7 @@ const Detail = (props: Props) => {
 };
 
 const Wrapper = styled.div`
+  margin-bottom: 70px;
   padding-bottom: var(--margin-bottom);
 `;
 
