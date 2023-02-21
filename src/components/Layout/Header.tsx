@@ -34,7 +34,7 @@ const Header = ({}: HeaderPropsType) => {
       console.log(res);
       if (res?.status === 200 || res.data === "로그아웃 완료") {
         localStorage.removeItem("userInfo");
-        navigate("/login"); // 여기 수정
+        navigate("/login", { replace: true }); // 여기 수정
       } else {
         alert("로그아웃 실패");
       }
