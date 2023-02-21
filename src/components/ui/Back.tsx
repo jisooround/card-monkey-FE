@@ -16,7 +16,7 @@ export default function Back({ color }: BackButtonProps) {
 
   return (
     <Button className={"button"} type="button" onClick={clickHandler}>
-      <IoIosArrowBack style={{ width: 25, height: 25 }} />
+      <IoIosArrowBack className="back" style={{ width: 25, height: 25 }} />
     </Button>
   );
 }
@@ -26,4 +26,14 @@ const Button = styled.button`
   border: none;
   color: ${(props) => props.color || "var(--color-primary)"};
   cursor: pointer;
+  .back {
+    margin-left: -5px;
+    padding-top: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    color: var(--color-gray);
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
 `;

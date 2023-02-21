@@ -15,7 +15,7 @@ const Name = ({ setStep }: Props) => {
   const [name, setName] = useState("");
   const [nameValid, setNameValid] = useState(false);
   console.log("Name  : ", form);
-  const regex = /^[가-힣]{2,5}$/;
+  const regex = /^[가-힣]{2,6}$/;
 
   useEffect(() => {
     if (regex.test(name)) {

@@ -4,14 +4,19 @@ import { RouterProvider } from "react-router";
 import App from "./App";
 import GlobalStyles from "./global/globalStyles";
 import router from "./router";
-import { store } from "./store/store";
+import store from "./store/store";
 import { Provider } from "react-redux";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
 
+let persistor = persistStore(store);
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <>
     <Provider store={store}>
-      <GlobalStyles />
-      <RouterProvider router={router} />
+      <PersistGate loading={null} persistor={persistor}>
+        <GlobalStyles />
+        <RouterProvider router={router} />
+      </PersistGate>
     </Provider>
   </>,
 );

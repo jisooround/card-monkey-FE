@@ -1,11 +1,20 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import congratulations from "../../lottie/congratulations.json";
 import Lottie from "lottie-react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 type Props = {};
 
 const Complete = (props: Props) => {
+  const form = useSelector((state: RootState) => state.form);
+  console.log(form);
+  const navigate = useNavigate();
+
+  const clickButton = () => {
+    navigate(`/login`, { replace: true });
+  };
   return (
     <Wrap>
       <Lottie
@@ -21,9 +30,7 @@ const Complete = (props: Props) => {
         <br />
         카드몽키 회원가입이 완료되었습니다.
       </h4>
-      <Link to={"/login"}>
-        <Button>로그인하러 가기</Button>
-      </Link>
+      <Button onClick={clickButton}>로그인하러 가기</Button>
     </Wrap>
   );
 };
