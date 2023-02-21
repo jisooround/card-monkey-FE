@@ -16,15 +16,15 @@ export const CardLists = () => {
     });
 
   useEffect(() => {
-    getMyCard();
+    getMyCard(userInfo.userId);
   }, []);
 
   const changeSection = (event: any) => {
     setSection(event.target.className);
   };
 
-  const getMyCard = async () => {
-    const data = await getTokenApi.cardList();
+  const getMyCard = async (userId: string) => {
+    const data = await getTokenApi.cardList(userId);
     setMyCard(data);
   };
 
@@ -37,7 +37,7 @@ export const CardLists = () => {
     } else {
       return console.log("오류가 발생하였습니다.");
     }
-    getMyCard();
+    getMyCard(userInfo.userId);
   };
 
   return (

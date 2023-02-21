@@ -28,6 +28,7 @@ export type CardType = {
 const MainPage = () => {
   const [topCard, setTopCard] = useState<Array<CardType>>();
   const [myCard, setMyCard] = useState<Array<CardType>>([]);
+  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   let nowUrl = window.location.href;
   SwiperCore.use([Navigation, Pagination, Scrollbar, Autoplay]);
   const notify = () =>
@@ -41,8 +42,8 @@ const MainPage = () => {
     setTopCard(topList);
   };
 
-  const getMyCard = async () => {
-    const data = await getTokenApi.cardList();
+  const getMyCard = async (userId: string) => {
+    const data = await getTokenApi.cardList(userId);
     setMyCard(data);
     console.log("mycard", myCard);
   };
@@ -55,7 +56,7 @@ const MainPage = () => {
 
   useEffect(() => {
     getHot3();
-    getMyCard();
+    getMyCard(userInfo.userId);
   }, []);
 
   return (
