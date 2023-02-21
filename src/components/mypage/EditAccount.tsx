@@ -7,10 +7,11 @@ export const EditAccount = (props: Props) => {
   const [oldPassword, setOldPassword] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [checkPassword, setCheckPassword] = useState<string>("");
+  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
   return (
     <div className="myaccount">
-      <div className="user-name">소재헌님의 정보 수정</div>
+      <div className="user-name">{userInfo.name}님의 정보 수정</div>
       <Form className="inputWrap">
         <div className="group">
           <div className="inputTitle">현재 비밀번호</div>

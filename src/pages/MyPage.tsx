@@ -18,7 +18,7 @@ const MyPage = (props: Props) => {
   return (
     <Container>
       <div className="title">
-        <img src="../monkey_yellow.png" />
+        <img src="../monkeycard_yellow.png" />
         <div className="text">마이페이지</div>
       </div>
       <div className="category">
@@ -62,9 +62,10 @@ const Container = styled.div`
     font-size: 25px;
     padding: 10px 0 35px;
     .text {
-      padding-top: 15px;
+      margin-top: 5px;
     }
     img {
+      padding: 0 5px;
       width: 100px;
     }
   }

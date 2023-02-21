@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 export const CardLists = () => {
   const [myCard, setMyCard] = useState<Array<CardType>>([]);
   const [section, setSection] = useState("all");
+  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   const notify = () =>
     toast.success("카드 신청이 취소되었습니다.", {
       position: "top-center",
@@ -15,34 +16,33 @@ export const CardLists = () => {
     });
 
   useEffect(() => {
-    getMyCard();
+    getMyCard(userInfo.userId);
   }, []);
 
   const changeSection = (event: any) => {
     setSection(event.target.className);
-    console.log(section);
   };
 
-  const getMyCard = async () => {
-    const data = await getTokenApi.cardList();
+  const getMyCard = async (userId: string) => {
+    const data = await getTokenApi.cardList(userId);
     setMyCard(data);
   };
 
   const handleClick = async (id: number) => {
     const res = await getTokenApi.deleteCard(id);
-    if (res === "delete success") {
+    if (res === "카드신청 취소 완료") {
       notify();
       let newData = myCard.filter((data) => data.id !== data.id);
       setMyCard(newData);
     } else {
-      console.log("오류가 발생하였습니다.");
+      return console.log("오류가 발생하였습니다.");
     }
-    getMyCard();
+    getMyCard(userInfo.userId);
   };
 
   return (
     <div className="myaccount">
-      <div className="user-name">소재헌님의 카드</div>
+      <div className="user-name">{userInfo.name}님의 카드</div>
       <div className="cards">
         <span
           className="all"
@@ -81,10 +81,10 @@ export const CardLists = () => {
             .map((data) => (
               <div key={data.id}>
                 <MyCards card={data} />
+                <ToastContainer limit={1} />
                 <div className="cancle" onClick={() => handleClick(data.id)}>
                   카드 신청 취소
                 </div>
-                <ToastContainer limit={1} />
               </div>
             ))
         ) : (
