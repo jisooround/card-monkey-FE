@@ -11,12 +11,15 @@ import {
 } from "../../store/reviewSlice";
 import { AppDispatch, RootState } from "../../store/store";
 import { addFavor, deleteFavor, fetchFavor } from "../../store/favorSlice";
+import { CardType } from "../../pages/MainPage";
 
 type Props = {
   card: CardInfo;
 };
 
 const CardDetail = ({ card }: Props) => {
+  const [myCard, setMyCard] = useState<Array<CardType>>([]);
+
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   console.log(card);
   let id = card.id;
@@ -28,6 +31,17 @@ const CardDetail = ({ card }: Props) => {
 
   const cardImage = new Image();
   cardImage.src = card.image;
+
+  const getMyCard = async () => {
+    const data = await getTokenApi.cardList(userInfo.userId);
+    setMyCard(data);
+  };
+
+  console.log(myCard);
+
+  useEffect(() => {
+    getMyCard();
+  }, []);
 
   const benefits = [
     ["커피", "coffee"],
@@ -49,8 +63,8 @@ const CardDetail = ({ card }: Props) => {
           let eng = benefits[i][1];
           let kor = benefits[i][0];
           result.push(
-            <div className="element">
-              <img src={`/benefit_${eng}.png`} key={uuidv4()} />
+            <div className="element" key={uuidv4()}>
+              <img src={`/benefit_${eng}.png`} />
               <span>{kor}</span>
             </div>,
           );
@@ -135,18 +149,30 @@ const CardDetail = ({ card }: Props) => {
         </SectionTitle>
         <Benefit>{card.benefit && findBenefit()}</Benefit>
         <div className="button-wrapper">
-          <Button
-            color={"var(--color-white)"}
-            background={"var(--color-primary)"}
-            onClick={() => application(card.id)}
-          >
-            카드 신청하기
-          </Button>
+          {myCard && myCard.find((item) => item.id === card.id) ? (
+            <Button
+              color={"var(--color-lightgray)"}
+              background={"var(--color-brown)"}
+              disabled
+            >
+              이미 신청한 카드입니다.
+            </Button>
+          ) : (
+            <Button
+              color={"var(--color-white)"}
+              background={"var(--color-primary)"}
+              onClick={() => application(card.id)}
+              className={"able"}
+            >
+              카드 신청하기
+            </Button>
+          )}
           {favorList.find((item) => item.id === card.id) ? (
             <Button
               color={"var(--color-brown)"}
               background={"var(--color-lightgray)"}
               onClick={toggleFavor}
+              className={"able"}
             >
               내 관심카드에 삭제하기
             </Button>
@@ -155,6 +181,7 @@ const CardDetail = ({ card }: Props) => {
               color={"var(--color-brown)"}
               background={"var(--color-lightgray)"}
               onClick={toggleFavor}
+              className={"able"}
             >
               내 관심카드에 추가하기
             </Button>
@@ -296,10 +323,12 @@ const Button = styled.button<Button>`
   font-weight: 600;
   color: ${(props) => props.color};
   background-color: ${(props) => props.background};
-  &:hover {
-    transition: 0.3s;
-    color: ${(props) => props.background};
-    background-color: var(--color-brown);
+  &.able {
+    &:hover {
+      transition: 0.3s;
+      color: ${(props) => props.background};
+      background-color: var(--color-brown);
+    }
   }
 `;
 
