@@ -36,7 +36,7 @@ export const reviewSlice = createSlice({
         state.message = state.message;
       }
       let content = action.payload;
-      state.message = content;
+      state.message = [...state.message, content];
     },
   },
   extraReducers: (builder) => {

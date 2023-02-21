@@ -6,10 +6,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import getTokenApi from "../../api/monkeyGetToken";
 import { addFavor, deleteFavor } from "../../store/favorSlice";
-import { SearchCard } from "../../store/searchSlice";
 
 type CardItemPropsType = {
-  card: SearchCard;
+  card: Card;
 };
 
 const CardItem = ({ card }: CardItemPropsType) => {
@@ -18,30 +17,18 @@ const CardItem = ({ card }: CardItemPropsType) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const cardImage = new Image();
-  cardImage.src = card.imageURL;
+  cardImage.src = card.image;
 
   const toggleFavor = async (e: any) => {
     e.stopPropagation();
-    const data = await getTokenApi.toggleFavor(card.id); // 이거 관심상품 추가, 삭제 api가 똑같아서 하나로 합침(추가, 삭제 api 함수 아직 있긴 함)
+    const data = await getTokenApi.toggleFavor(card.id);
     console.log(data);
     if (data === "찜하기 완료") {
-      /* 서버에서 관심상품 추가되면 우리도 추가
-         원래는 다시 전체 관심상품 조회해서 가져오는게 더 정확한데 일단은 이렇게 (어제 소재헌이 멘토님한테 질문한거 참고) */
-      console.log("1");
-      dispatch(
-        addFavor({ ...card, image: card.imageURL, type: card.cardType }),
-      );
-      // dispatch(addFavor(card));
+      dispatch(addFavor(card));
     } else if (data === "찜하기 취소 완료") {
-      /* 서버에서 관심상품 삭제되면 우리도 삭제
-         원래는 다시 전체 관심상품 조회해서 가져오는게 더 정확한데 일단은 이렇게 (어제 소재헌이 멘토님한테 질문한거 참고) */
       dispatch(deleteFavor(card.id));
-      console.log("2");
     } else {
-      // 일단 지금은 무조건 요기 조건으로 들어옴, 밑에 둘 중 하나만 실행
-      // dispatch(addFavor(card));
-      dispatch(deleteFavor(card.id));
-      console.log("3");
+      console.log("찜하기 에러");
     }
   };
 
@@ -53,18 +40,16 @@ const CardItem = ({ card }: CardItemPropsType) => {
     >
       <CardImageWrapper cardImage={cardImage}>
         <div className="circle"></div>
-        <img src={card.imageURL} />
+        <img src={card.image} />
       </CardImageWrapper>
       <CardInfo>
         <div className="wrapper">
           <div className="name">{card.name}</div>
           <div className="company">{card.company}</div>
           <div
-            className={
-              card.cardType === "CREDIT" ? "type credit" : "type check"
-            }
+            className={card.type === "CREDIT" ? "type credit" : "type check"}
           >
-            {card.cardType === "CREDIT" ? "신용카드" : "체크카드"}
+            {card.type === "CREDIT" ? "신용카드" : "체크카드"}
           </div>
         </div>
       </CardInfo>
