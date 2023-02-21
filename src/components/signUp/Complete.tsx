@@ -8,7 +8,7 @@ import { RootState } from "../../store/store";
 type Props = {};
 
 const Complete = (props: Props) => {
-  const form = useSelector((state: RootState) => state.form);
+  const form = useSelector((state: RootState) => state.signUp);
   console.log(form);
   const navigate = useNavigate();
 

@@ -9,7 +9,7 @@ type MyCardType = {
 
 export const MyCards = ({ card }: MyCardType) => {
   return (
-    <Link to="/detail/:id" style={{ textDecoration: "none" }}>
+    <Link to={`/detail/${card.id}`} style={{ textDecoration: "none" }}>
       <Mycard>
         <div className="box">
           <div className="circle">
@@ -19,11 +19,9 @@ export const MyCards = ({ card }: MyCardType) => {
             <div className="cardname">{card.name}</div>
             <div>{card.company}</div>
             <div
-              className={
-                card.card_type === "CREDIT" ? "type credit" : "type check"
-              }
+              className={card.type === "CREDIT" ? "type credit" : "type check"}
             >
-              {card.card_type === "CREDIT" ? "신용카드" : "체크카드"}
+              {card.type === "CREDIT" ? "신용카드" : "체크카드"}
             </div>
           </div>
         </div>
