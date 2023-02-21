@@ -1,14 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import setTokenApi from "../api/monkeySetToken";
 
-export interface FormState {
+export interface SignUpState {
   userId: string;
   password: string;
   name: string;
-  benefit: object;
+  benefit: Array<string>;
 }
 
-const initialState: FormState = {
+const initialState: SignUpState = {
   userId: "",
   password: "",
   name: "",
@@ -16,7 +17,7 @@ const initialState: FormState = {
 };
 
 export const signUpSlice = createSlice({
-  name: "form",
+  name: "signUp",
   initialState,
   reducers: {
     fillName(state, action) {
@@ -35,11 +36,28 @@ export const signUpSlice = createSlice({
       let content = action.payload;
       state.benefit = content;
     },
+    submitForm(state) {
+      if (state.userId && state.password && state.name && state.benefit) {
+        const res = setTokenApi.signUp(state);
+        console.log("res", res);
+      } else {
+        console.log("회원가입을 처음부터 진행해 주세요!");
+      }
+    },
+    resetForm(state) {
+      Object.assign(state, initialState);
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { fillName, fillId, fillPassword, selectBenefit } =
-  signUpSlice.actions;
+export const {
+  fillName,
+  fillId,
+  fillPassword,
+  selectBenefit,
+  submitForm,
+  resetForm,
+} = signUpSlice.actions;
 
 export default signUpSlice.reducer;

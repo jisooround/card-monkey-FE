@@ -37,7 +37,6 @@ class MonkeyGetToken {
       .get("/paid/fastcampus3")
       .then((result) => result.data)
       .catch((error) => {
-        return favorList;
         console.log(error);
       });
   }
@@ -46,9 +45,8 @@ class MonkeyGetToken {
   async hot3() {
     return this.instance
       .get("/card/rank")
-      .then((result) => result)
+      .then((result) => result.data)
       .catch((error) => {
-        return favorList;
         console.log(error);
       });
   }
@@ -165,7 +163,7 @@ class MonkeyGetToken {
   async changePassword() {
     return this.instance
       .post(`/changePassword/fastcampus3`)
-      .then((result) => console.log(result))
+      .then((result) => result)
       .catch((error) => {
         console.log(error);
       });
@@ -182,9 +180,9 @@ class MonkeyGetToken {
   }
 
   /**회원 탈퇴 */
-  async withdrawal() {
+  async withdrawal(userId: string) {
     return this.instance
-      .delete(`/fastcampus3`)
+      .delete(`deleteAccount/${userId}`)
       .then((result) => console.log(result))
       .catch((error) => {
         console.log(error);
@@ -203,12 +201,12 @@ class MonkeyGetToken {
   }
 
   /**신청한 카드 취소*/
-  async deleteCard(id: string) {
+  async deleteCard(id: number) {
     return this.instance
       .delete(`/paid/${id}`)
-      .then((result) => console.log(result))
+      .then((result) => result.data)
       .catch((error) => {
-        console.log(error);
+        console.log("카드 취소 에러", error);
       });
   }
 

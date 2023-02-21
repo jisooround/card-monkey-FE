@@ -43,6 +43,7 @@ interface signType {
   userId: string;
   password: string;
   name: string;
+  benefit: Array<string>;
 }
 
 interface loginType {
