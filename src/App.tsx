@@ -11,7 +11,8 @@ import Header from "./components/Layout/Header";
 import Navbar from "./components/Layout/Navbar";
 
 const App = () => {
-  return (
+  const { token } = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  return token ? (
     <>
       <Header />
       <main>
@@ -19,6 +20,8 @@ const App = () => {
       </main>
       <Navbar />
     </>
+  ) : (
+    <Navigate to="/login" />
   );
 };
 
