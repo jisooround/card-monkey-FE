@@ -19,11 +19,17 @@ const Favor = (props: Props) => {
     dispatch(fetchFavor(userInfo.userId));
   }, []);
 
+  const name = userInfo.name;
+  const length = favorList.length;
+
   return (
     <Wrapper>
       <TopWrapper>
         <h2>나의 관심카드</h2>
         <img src="/monkey_love.png" />
+        <span>
+          {name}님의 관심카드는 {length}개 입니다.
+        </span>
       </TopWrapper>
       <CardWrapper>
         {favorList.map((card) => {
@@ -38,6 +44,8 @@ const Favor = (props: Props) => {
 };
 
 const Wrapper = styled.div`
+  display: inline-block;
+  width: var(--width-inner);
   padding: 30px;
   padding-top: 0;
   margin-bottom: var(--margin-bottom);
@@ -56,12 +64,17 @@ const TopWrapper = styled.div`
   img {
     width: 212px;
   }
+  span {
+    color: var(--color-brown);
+    font-weight: 600;
+  }
 `;
 
 const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  margin-top: 2rem;
 `;
 
 export default Favor;

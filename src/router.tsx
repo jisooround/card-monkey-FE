@@ -12,11 +12,13 @@ import Search from "./pages/Search";
 import App from "./App";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import NotFound from "./pages/NotFound";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <NotFound />,
     children: [
       {
         index: true,

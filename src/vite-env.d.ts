@@ -20,7 +20,18 @@ interface CardInfo {
 
 interface getReview {
   id: number;
+  message: string[] | undefined;
+}
+
+interface State {
+  id: number;
   message: string[];
+  status: "idle" | "loading" | "failed";
+}
+
+interface Argument {
+  id: number;
+  selectedReview: string[];
 }
 
 interface BenefitProps {
@@ -37,4 +48,9 @@ interface signType {
 interface loginType {
   userId: string;
   password: string;
+}
+
+interface Button {
+  color: string;
+  background: string;
 }

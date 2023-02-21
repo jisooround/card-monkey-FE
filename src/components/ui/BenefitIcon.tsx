@@ -55,7 +55,7 @@ const BenefitIcon = ({ item }: { item: BenefitProps["item"] }) => {
   if (item === "simplePayment") {
     return (
       <Icon>
-        <img src="./benefit_simplePayment.png" alt="" />
+        <img src="./benefit_simplepayment.png" alt="" />
         <p>간편결제</p>
       </Icon>
     );

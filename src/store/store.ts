@@ -6,6 +6,7 @@ import search from "./searchSlice";
 import storage from "redux-persist/lib/storage";
 import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
+import review from "./reviewSlice";
 
 const persistConfig = {
   key: "root",
@@ -18,6 +19,7 @@ const reducer = combineReducers({
   signUp: signUp,
   favor: favor,
   search: search,
+  review: review,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);

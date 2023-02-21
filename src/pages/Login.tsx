@@ -23,7 +23,7 @@ const Login = (props: Props) => {
 
   const login = async () => {
     const res = await setTokenApi.signIn({ userId, password });
-    if (res.loginFail === null) {
+    if (res.loginStatus === "로그인 완료") {
       console.log(res);
       navigate(`/`, { replace: true });
     } else {
