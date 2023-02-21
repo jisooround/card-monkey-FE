@@ -165,7 +165,7 @@ class MonkeyGetToken {
   async changePassword() {
     return this.instance
       .post(`/changePassword/fastcampus3`)
-      .then((result) => console.log(result))
+      .then((result) => result)
       .catch((error) => {
         console.log(error);
       });

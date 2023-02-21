@@ -10,6 +10,8 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export type CardType = {
   company: string;
@@ -22,7 +24,13 @@ export type CardType = {
 const MainPage = () => {
   const [topCard, setTopCard] = useState<Array<CardType>>();
   const [myCard, setMyCard] = useState<Array<CardType>>([]);
+  let nowUrl = window.location.href;
   SwiperCore.use([Navigation, Pagination, Scrollbar, Autoplay]);
+  const notify = () =>
+    toast.success("링크가 복사되었습니다!", {
+      position: "top-center",
+      autoClose: 2000,
+    });
 
   const getHot3 = async () => {
     const topList = await getTokenApi.hot3();
@@ -33,6 +41,12 @@ const MainPage = () => {
     const data = await getTokenApi.cardList();
     setMyCard(data);
     console.log("mycard", myCard);
+  };
+
+  const copyUrl = () => {
+    navigator.clipboard.writeText(nowUrl).then((res) => {
+      notify();
+    });
   };
 
   useEffect(() => {
@@ -102,9 +116,12 @@ const MainPage = () => {
         <div>error</div>
       )}
       {/* 링크복사 배너 */}
-      <Link to="/suggest" style={{ textDecoration: "none" }}>
-        <img className="banner" src="../banner_sub.png" />
-      </Link>
+      <img
+        className="banner"
+        src="../banner_sub.png"
+        onClick={() => copyUrl()}
+      />
+      <ToastContainer limit={1} />
     </Container>
   );
 };
@@ -142,6 +159,7 @@ const Container = styled.div`
     margin-top: 10px;
     width: 425px;
     aspect-ratio: auto 1/1;
+    cursor: pointer;
   }
   .swiper-pagination-bullet-active {
     background-color: var(--color-primary) !important;
