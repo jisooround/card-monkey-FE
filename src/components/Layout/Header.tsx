@@ -34,7 +34,7 @@ const Header = ({}: HeaderPropsType) => {
       console.log(res);
       if (res?.status === 200 || res.data === "로그아웃 완료") {
         localStorage.removeItem("userInfo");
-        navigate("/login"); // 여기 수정
+        navigate("/login", { replace: true }); // 여기 수정
       } else {
         alert("로그아웃 실패");
       }
@@ -49,7 +49,7 @@ const Header = ({}: HeaderPropsType) => {
       {pathname !== "/search" ? (
         <NavContainer>
           <LogoWrapper onClick={() => navigate("/")}>
-            <FcWiFiLogo />
+            <img src="/logo.png" alt="로고" />
           </LogoWrapper>
           <Icons>
             <SearchIconWrap>
@@ -117,9 +117,9 @@ const LogoWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  svg {
-    width: 60px;
-    height: 60px;
+  img {
+    /* width: 60px; */
+    height: 45px;
     cursor: pointer;
   }
 `;

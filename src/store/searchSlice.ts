@@ -2,17 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import getTokenApi from "../api/monkeyGetToken";
 
-export type SearchCard = {
-  id: number;
-  name: string;
-  company: string;
-  imageURL: string;
-  cardType: string;
-  benefit?: string;
-};
-
 export interface SearchCardState {
-  searchList: SearchCard[];
+  searchList: Card[];
   searchName: string;
   searchType: string[];
   searchCompany: string[];
@@ -38,7 +29,7 @@ type UnionSearch = {
 
 const getBenefitCard = async (selectedBenefit: string[]) => {
   let index = 0;
-  let benefitCards: SearchCard[] = [];
+  let benefitCards: Card[] = [];
   if (selectedBenefit.length === 0) {
     benefitCards = [];
     return benefitCards;
@@ -48,8 +39,8 @@ const getBenefitCard = async (selectedBenefit: string[]) => {
     if (index === 0) {
       benefitCards = data;
     } else {
-      const newCardList = benefitCards.filter((card: SearchCard) => {
-        return data.find((item: SearchCard) => item.id === card.id);
+      const newCardList = benefitCards.filter((card: Card) => {
+        return data.find((item: Card) => item.id === card.id);
       });
       benefitCards = newCardList;
     }
@@ -59,7 +50,7 @@ const getBenefitCard = async (selectedBenefit: string[]) => {
 };
 
 const getCompanyCard = async (selectedCompany: string[]) => {
-  let companyCards: SearchCard[] = [];
+  let companyCards: Card[] = [];
   if (selectedCompany.length === 0) {
     companyCards = [];
     return companyCards;
@@ -83,8 +74,8 @@ export const fetchSearch = createAsyncThunk(
     if (companyData.length === 0) {
       return benefitData;
     }
-    const newCardList = benefitData.filter((card: SearchCard) => {
-      return companyData.find((item: SearchCard) => item.id === card.id);
+    const newCardList = benefitData.filter((card: Card) => {
+      return companyData.find((item: Card) => item.id === card.id);
     });
     return newCardList;
   },

@@ -67,7 +67,7 @@ const Search = (props: Props) => {
 
   const filterCardType = () => {
     const filteredSearchList = searchList.filter((item) => {
-      return selectedType.find((type) => item.cardType === type);
+      return selectedType.find((type) => item.type === type);
     });
     return filteredSearchList;
   };
