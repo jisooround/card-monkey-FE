@@ -11,7 +11,7 @@ type Props = {
 
 const Id = ({ setStep }: Props) => {
   const dispatch = useDispatch();
-  const form = useSelector((state: RootState) => state.form);
+  const form = useSelector((state: RootState) => state.signUp);
   const [id, setId] = useState("");
   const [idValid, setIdValid] = useState(false);
   console.log("Id  : ", form);
