@@ -13,10 +13,10 @@ export const MyCards = ({ card }: MyCardType) => {
       <Mycard>
         <div className="box">
           <div className="circle">
-            <img src={card.card_imageurl} />
+            <img src={card.image} />
           </div>
           <div>
-            <div className="cardname">{card.card_name}</div>
+            <div className="cardname">{card.name}</div>
             <div>{card.company}</div>
             <div
               className={

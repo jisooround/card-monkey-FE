@@ -75,7 +75,7 @@ const MainPage = () => {
       >
         {myCard.length > 0 ? (
           myCard?.map((data: CardType) => (
-            <SwiperSlide key={data.card_id}>
+            <SwiperSlide key={data.id}>
               <MyCards card={data} />
             </SwiperSlide>
           ))
@@ -95,8 +95,8 @@ const MainPage = () => {
           cardImage.src = data.image;
           return (
             <Link
-              to="/card/:id"
-              key={data.card_id}
+              to={`/detail/${data.id}`}
+              key={data.id}
               style={{ textDecoration: "none" }}
             >
               <Topcard cardImage={cardImage}>
