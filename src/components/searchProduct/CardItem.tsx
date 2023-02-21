@@ -20,23 +20,30 @@ const CardItem = ({ card }: CardItemPropsType) => {
   const cardImage = new Image();
   cardImage.src = card.imageURL;
 
-  // const toggleFavor = async (e: any) => {
-  //   e.stopPropagation();
-  //   const data = await getTokenApi.toggleFavor(card.id); // 이거 관심상품 추가, 삭제 api가 똑같아서 하나로 합침(추가, 삭제 api 함수 아직 있긴 함)
-  //   if (data === "찜하기 완료") {
-  //     /* 서버에서 관심상품 추가되면 우리도 추가
-  //        원래는 다시 전체 관심상품 조회해서 가져오는게 더 정확한데 일단은 이렇게 (어제 소재헌이 멘토님한테 질문한거 참고) */
-  //     dispatch(addFavor(card));
-  //   } else if (data === "찜하기 취소 완료") {
-  //     /* 서버에서 관심상품 삭제되면 우리도 삭제
-  //        원래는 다시 전체 관심상품 조회해서 가져오는게 더 정확한데 일단은 이렇게 (어제 소재헌이 멘토님한테 질문한거 참고) */
-  //     dispatch(deleteFavor(card.id));
-  //   } else {
-  //     // 일단 지금은 무조건 요기 조건으로 들어옴, 밑에 둘 중 하나만 실행
-  //     // dispatch(addFavor(card));
-  //     dispatch(deleteFavor(card.id));
-  //   }
-  // };
+  const toggleFavor = async (e: any) => {
+    e.stopPropagation();
+    const data = await getTokenApi.toggleFavor(card.id); // 이거 관심상품 추가, 삭제 api가 똑같아서 하나로 합침(추가, 삭제 api 함수 아직 있긴 함)
+    console.log(data);
+    if (data === "찜하기 완료") {
+      /* 서버에서 관심상품 추가되면 우리도 추가
+         원래는 다시 전체 관심상품 조회해서 가져오는게 더 정확한데 일단은 이렇게 (어제 소재헌이 멘토님한테 질문한거 참고) */
+      console.log("1");
+      dispatch(
+        addFavor({ ...card, image: card.imageURL, type: card.cardType }),
+      );
+      // dispatch(addFavor(card));
+    } else if (data === "찜하기 취소 완료") {
+      /* 서버에서 관심상품 삭제되면 우리도 삭제
+         원래는 다시 전체 관심상품 조회해서 가져오는게 더 정확한데 일단은 이렇게 (어제 소재헌이 멘토님한테 질문한거 참고) */
+      dispatch(deleteFavor(card.id));
+      console.log("2");
+    } else {
+      // 일단 지금은 무조건 요기 조건으로 들어옴, 밑에 둘 중 하나만 실행
+      // dispatch(addFavor(card));
+      dispatch(deleteFavor(card.id));
+      console.log("3");
+    }
+  };
 
   return (
     <CardContainer
@@ -67,7 +74,7 @@ const CardItem = ({ card }: CardItemPropsType) => {
             ? "favor active"
             : "favor"
         }
-        // onClick={toggleFavor}
+        onClick={toggleFavor}
       >
         <AiFillHeart />
       </div>

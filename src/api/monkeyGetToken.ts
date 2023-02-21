@@ -192,9 +192,9 @@ class MonkeyGetToken {
   }
 
   /**나의 관심상품 */
-  async myFavor() {
+  async myFavor(userId: string) {
     return this.instance
-      .get(`/card/favor/fastcampus3`)
+      .get(`/card/favor/${userId}`)
       .then((result) => result.data)
       .catch((error) => {
         console.log(error);
