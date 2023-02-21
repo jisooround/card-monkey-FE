@@ -77,7 +77,7 @@ export const fetchSearch = createAsyncThunk(
     const benefitData = await getBenefitCard(selected.selectedBenefit);
     const companyData = await getCompanyCard(selected.selectedCompany);
     console.log(benefitData, companyData);
-    if (benefitData.length === 0) {
+    if (benefitData.length === 0 && selected.selectedBenefit.length === 0) {
       return companyData;
     }
     if (companyData.length === 0) {
@@ -124,6 +124,11 @@ export const searchSlice = createSlice({
     handleIsOpen(state) {
       state.isOpen = !state.isOpen;
     },
+    resetSearch(state) {
+      state.searchBenefit = [];
+      state.searchCompany = [];
+      state.searchType = ["CREDIT", "CHECK"];
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchSearch.pending, (state) => {
@@ -131,7 +136,7 @@ export const searchSlice = createSlice({
     });
     builder.addCase(fetchSearch.fulfilled, (state, action) => {
       state.status = "idle";
-      state.searchList = action.payload;
+      if (action.payload) state.searchList = action.payload;
     });
     builder.addCase(fetchSearch.rejected, (state) => {
       state.status = "failed";
@@ -145,6 +150,7 @@ export const {
   handleSearchBenefit,
   handleSearchCompany,
   handleIsOpen,
+  resetSearch,
 } = searchSlice.actions;
 
 export default searchSlice.reducer;

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import getTokenApi from "../api/monkeyGetToken";
+import { SearchCard } from "./searchSlice";
 
 export interface FavorCardState {
   favorList: FavorCard[];
@@ -20,10 +21,13 @@ const initialState = {
   status: "idle",
 };
 
-export const fetchFavor = createAsyncThunk("favor/fetchFavor", async () => {
-  const data = await getTokenApi.myFavor();
-  return data;
-});
+export const fetchFavor = createAsyncThunk(
+  "favor/fetchFavor",
+  async (userId: string) => {
+    const data = await getTokenApi.myFavor(userId);
+    return data;
+  },
+);
 
 export const favorSlice = createSlice({
   name: "favor",
@@ -46,7 +50,7 @@ export const favorSlice = createSlice({
     });
     builder.addCase(fetchFavor.fulfilled, (state, action) => {
       state.status = "idle";
-      state.favorList = action.payload;
+      if (action.payload) state.favorList = action.payload;
     });
     builder.addCase(fetchFavor.rejected, (state) => {
       state.status = "failed";

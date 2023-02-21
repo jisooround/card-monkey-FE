@@ -39,10 +39,6 @@ const router = createBrowserRouter([
         path: "mypage",
         element: <MyPage />,
       },
-      {
-        path: "redux",
-        element: <ReduxTest />,
-      },
     ],
   },
   {
