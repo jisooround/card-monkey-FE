@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Agreement from "../components/signUp/Agreement";
 import Benefit from "../components/signUp/Benefit";
 import Complete from "../components/signUp/Complete";

@@ -11,7 +11,7 @@ type Props = {
 
 const Name = ({ setStep }: Props) => {
   const dispatch = useDispatch();
-  const form = useSelector((state: RootState) => state.form);
+  const form = useSelector((state: RootState) => state.signUp);
   const [name, setName] = useState("");
   const [nameValid, setNameValid] = useState(false);
   console.log("Name  : ", form);
