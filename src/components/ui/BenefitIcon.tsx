@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import { BenefitProps } from "../../types/types";
 
-type Props = {};
+type Props = {
+  item: string;
+};
 
-const BenefitIcon = ({ item }: { item: BenefitProps["item"] }) => {
+const BenefitIcon = ({ item }: Props) => {
   if (item === "coffee") {
     return (
       <Icon>
