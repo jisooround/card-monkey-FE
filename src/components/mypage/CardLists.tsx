@@ -78,12 +78,9 @@ export const CardLists = () => {
                 : false,
             )
             .map((data) => (
-              <div key={data.card_id}>
+              <div key={data.id}>
                 <MyCards card={data} />
-                <div
-                  className="cancle"
-                  onClick={() => handleClick(data.card_id)}
-                >
+                <div className="cancle" onClick={() => handleClick(data.id)}>
                   카드 신청 취소
                 </div>
                 <ToastContainer limit={1} />
