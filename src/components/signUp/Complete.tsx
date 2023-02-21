@@ -13,7 +13,7 @@ const Complete = (props: Props) => {
   const navigate = useNavigate();
 
   const clickButton = () => {
-    navigate(`/login`);
+    navigate(`/login`, { replace: true });
   };
   return (
     <Wrap>

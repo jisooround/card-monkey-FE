@@ -38,7 +38,8 @@ export const signUpSlice = createSlice({
     },
     submitForm(state) {
       if (state.userId && state.password && state.name && state.benefit) {
-        setTokenApi.signUp(state);
+        const res = setTokenApi.signUp(state);
+        console.log("res", res);
       } else {
         console.log("회원가입을 처음부터 진행해 주세요!");
       }

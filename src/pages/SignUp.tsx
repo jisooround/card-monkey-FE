@@ -13,7 +13,7 @@ type Props = {};
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState<number>(1);
+  const [step, setStep] = useState<number>(6);
   if (step === 0) {
     navigate("/login");
   }
@@ -23,13 +23,17 @@ const SignUp = () => {
   return (
     <Container>
       <Inner>
-        <IoIosArrowBack
-          className="back"
-          onClick={() => {
-            setStep(step - 1);
-            console.log("클릭!");
-          }}
-        ></IoIosArrowBack>
+        {step !== 6 ? (
+          <IoIosArrowBack
+            className="back"
+            onClick={() => {
+              setStep(step - 1);
+              console.log("클릭!");
+            }}
+          ></IoIosArrowBack>
+        ) : (
+          <div className="header"></div>
+        )}
         <h3>회원가입</h3>
         <ProgressBar>
           <div style={{ width: `${step * 70.83}px` }}></div>
@@ -73,6 +77,9 @@ const Inner = styled.div`
     &:hover {
       color: var(--color-primary);
     }
+  }
+  .header {
+    height: 51px;
   }
 `;
 
