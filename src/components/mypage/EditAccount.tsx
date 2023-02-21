@@ -4,13 +4,23 @@ import styled from "styled-components";
 type Props = {};
 
 export const EditAccount = (props: Props) => {
-  const [checkPassword, setCheckPassword] = useState<string>("");
+  const [oldPassword, setOldPassword] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [checkPassword, setCheckPassword] = useState<string>("");
 
   return (
     <div className="myaccount">
       <div className="user-name">소재헌님의 정보 수정</div>
       <Form className="inputWrap">
+        <div className="group">
+          <div className="inputTitle">현재 비밀번호</div>
+          <input
+            type="password"
+            placeholder="현재 비밀번호"
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
+          />
+        </div>
         <div className="group">
           <div className="inputTitle">비밀번호</div>
           <input
