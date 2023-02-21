@@ -6,6 +6,7 @@ const { VITE_URL } = import.meta.env;
  * api테스트를 못해서 token설정못했음
  */
 
+// 보류 ) 토큰 만료시 로컬스토리지 정보 삭제
 // function setItemWithExpireTime(value: Array<string>, expireTime: number) {
 //   const object = {
 //     value: JSON.stringify(value),
