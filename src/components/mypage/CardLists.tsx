@@ -32,7 +32,7 @@ export const CardLists = () => {
     const res = await getTokenApi.deleteCard(id);
     if (res === "delete success") {
       notify();
-      let newData = myCard.filter((data) => data.card_id !== data.card_id);
+      let newData = myCard.filter((data) => data.id !== data.id);
       setMyCard(newData);
     } else {
       console.log("오류가 발생하였습니다.");
@@ -72,9 +72,9 @@ export const CardLists = () => {
               section === "all"
                 ? true
                 : section === "credit"
-                ? card.card_type.includes("CREDIT")
+                ? card.type.includes("CREDIT")
                 : false || section === "check"
-                ? card.card_type.includes("CHECK")
+                ? card.type.includes("CHECK")
                 : false,
             )
             .map((data) => (
