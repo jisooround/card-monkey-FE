@@ -182,7 +182,7 @@ class MonkeyGetToken {
   /**회원 탈퇴 */
   async withdrawal(userId: string) {
     return this.instance
-      .delete(`deleteAccount/${userId}`)
+      .delete(`/deleteAccount/${userId}`)
       .then((result) => console.log(result))
       .catch((error) => {
         console.log(error);
