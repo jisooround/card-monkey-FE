@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { resetForm } from "../store/signUpSlice";
 import { useNavigate } from "react-router-dom";
-import { BsCheckCircle } from "react-icons/bs";
 
 type Props = {};
 
