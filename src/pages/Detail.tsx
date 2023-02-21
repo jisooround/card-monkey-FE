@@ -22,7 +22,13 @@ const Detail = (props: Props) => {
     getCardInfo();
   }, [pathname]);
 
-  return <>{cardInfo && <CardDetail card={cardInfo}></CardDetail>}</>;
+  return (
+    <Wrapper>{cardInfo && <CardDetail card={cardInfo}></CardDetail>}</Wrapper>
+  );
 };
+
+const Wrapper = styled.div`
+  padding-bottom: var(--margin-bottom);
+`;
 
 export default Detail;

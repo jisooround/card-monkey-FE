@@ -27,7 +27,7 @@ const Favor = (props: Props) => {
     dispatch(fetchFavor(userInfo.userId));
   }, []);
 
-  const name = localStorage.getItem("name");
+  const name = userInfo.name;
   const length = favorList.length;
 
   return (

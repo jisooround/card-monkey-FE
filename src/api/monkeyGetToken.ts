@@ -119,7 +119,7 @@ class MonkeyGetToken {
       .post(`/card/${id}`, {
         headers: { "Content-Type": "application/json" },
       })
-      .then((result) => console.log(result))
+      .then((result) => console.log(result.data))
       .catch((error) => {
         console.log(error);
       });

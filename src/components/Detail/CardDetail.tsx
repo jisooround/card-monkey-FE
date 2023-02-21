@@ -10,7 +10,7 @@ import {
   selectReview,
 } from "../../store/reviewSlice";
 import { AppDispatch, RootState } from "../../store/store";
-import { addFavor, deleteFavor } from "../../store/favorSlice";
+import { addFavor, deleteFavor, fetchFavor } from "../../store/favorSlice";
 
 interface CardInfo {
   benefit: string[];
@@ -22,6 +22,7 @@ interface CardInfo {
 }
 
 const CardDetail = ({ card }: CardInfo) => {
+  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   console.log(card);
   let id = card.id;
   const dispatch = useDispatch<AppDispatch>();
@@ -89,6 +90,12 @@ const CardDetail = ({ card }: CardInfo) => {
     }
   };
 
+  useEffect(() => {
+    // 여기 페이지 들어오면 관심상품 가져오는데 favorList.json 데이터라 항상 2개 상품 가져옴
+    // 그래서 추가, 삭제해도 다시 이 페이지 들어오면 favorList.json 데이터 상품 2개 가져옴
+    dispatch(fetchFavor(userInfo.userId));
+  }, []);
+
   const application = async (id) => {
     return await getTokenApi.cardApplication(id);
   };
@@ -115,10 +122,10 @@ const CardDetail = ({ card }: CardInfo) => {
   return (
     <Wrapper>
       <Back />
+      <CardImg cardImage={cardImage}>
+        <img src={card.image} />
+      </CardImg>
       <div className="container">
-        <CardImg cardImage={cardImage}>
-          <img src={card.imageURL} />
-        </CardImg>
         <InfoWrap>
           <span
             className={
@@ -205,9 +212,11 @@ const Wrapper = styled.div`
   height: 150px;
   width: 100%;
   .container {
-    padding-bottom: var(--margin-bottom);
+    margin-bottom: var(--margin-bottom);
     .button-wrapper {
-      margin-bottom: 40px;
+      background-color: inherit;
+      height: 150px;
+      padding-bottom: 40px;
     }
   }
   hr {
