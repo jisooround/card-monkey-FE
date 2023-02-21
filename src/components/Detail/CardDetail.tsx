@@ -11,17 +11,15 @@ import {
 } from "../../store/reviewSlice";
 import { AppDispatch, RootState } from "../../store/store";
 import { addFavor, deleteFavor, fetchFavor } from "../../store/favorSlice";
+import { CardType } from "../../pages/MainPage";
 
-interface CardInfo {
-  benefit: string[];
-  company: string;
-  id: number;
-  image: string;
-  name: string;
-  type: string;
-}
+type Props = {
+  card: CardInfo;
+};
 
-const CardDetail = ({ card }: CardInfo) => {
+const CardDetail = ({ card }: Props) => {
+  const [myCard, setMyCard] = useState<Array<CardType>>([]);
+
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   console.log(card);
   let id = card.id;
@@ -33,6 +31,17 @@ const CardDetail = ({ card }: CardInfo) => {
 
   const cardImage = new Image();
   cardImage.src = card.image;
+
+  const getMyCard = async () => {
+    const data = await getTokenApi.cardList(userInfo.userId);
+    setMyCard(data);
+  };
+
+  console.log(myCard);
+
+  useEffect(() => {
+    getMyCard();
+  }, []);
 
   const benefits = [
     ["커피", "coffee"],
@@ -54,8 +63,8 @@ const CardDetail = ({ card }: CardInfo) => {
           let eng = benefits[i][1];
           let kor = benefits[i][0];
           result.push(
-            <div className="element">
-              <img src={`/benefit_${eng}.png`} key={uuidv4()} />
+            <div className="element" key={uuidv4()}>
+              <img src={`/benefit_${eng}.png`} />
               <span>{kor}</span>
             </div>,
           );
@@ -67,26 +76,21 @@ const CardDetail = ({ card }: CardInfo) => {
 
   const toggleFavor = async (e: any) => {
     e.stopPropagation();
-    const data = await getTokenApi.toggleFavor(card.id); // 이거 관심상품 추가, 삭제 api가 똑같아서 하나로 합침(추가, 삭제 api 함수 아직 있긴 함)
+    const data = await getTokenApi.toggleFavor(card.id);
     console.log(data);
     if (data === "찜하기 완료") {
-      /* 서버에서 관심상품 추가되면 우리도 추가
-         원래는 다시 전체 관심상품 조회해서 가져오는게 더 정확한데 일단은 이렇게 (어제 소재헌이 멘토님한테 질문한거 참고) */
-      console.log("1");
-      dispatch(
-        addFavor({ ...card, image: card.imageURL, type: card.cardType }),
-      );
-      // dispatch(addFavor(card));
+      const newCard: Card = {
+        id: card.id,
+        company: card.company,
+        name: card.name,
+        image: card.image,
+        type: card.type,
+      };
+      dispatch(addFavor(newCard));
     } else if (data === "찜하기 취소 완료") {
-      /* 서버에서 관심상품 삭제되면 우리도 삭제
-         원래는 다시 전체 관심상품 조회해서 가져오는게 더 정확한데 일단은 이렇게 (어제 소재헌이 멘토님한테 질문한거 참고) */
       dispatch(deleteFavor(card.id));
-      console.log("2");
     } else {
-      // 일단 지금은 무조건 요기 조건으로 들어옴, 밑에 둘 중 하나만 실행
-      // dispatch(addFavor(card));
-      dispatch(deleteFavor(card.id));
-      console.log("3");
+      console.log("찜하기 에러");
     }
   };
 
@@ -96,7 +100,7 @@ const CardDetail = ({ card }: CardInfo) => {
     dispatch(fetchFavor(userInfo.userId));
   }, []);
 
-  const application = async (id) => {
+  const application = async (id: number) => {
     return await getTokenApi.cardApplication(id);
   };
 
@@ -128,11 +132,9 @@ const CardDetail = ({ card }: CardInfo) => {
       <div className="container">
         <InfoWrap>
           <span
-            className={
-              card.cardType === "CREDIT" ? "type credit" : "type check"
-            }
+            className={card.type === "CREDIT" ? "type credit" : "type check"}
           >
-            {card.cardType === "CREDIT" ? "신용카드" : "체크카드"}
+            {card.type === "CREDIT" ? "신용카드" : "체크카드"}
           </span>
           <h3 className="name">{card.name}</h3>
           <h4 className="company">{card.company}</h4>
@@ -147,18 +149,30 @@ const CardDetail = ({ card }: CardInfo) => {
         </SectionTitle>
         <Benefit>{card.benefit && findBenefit()}</Benefit>
         <div className="button-wrapper">
-          <Button
-            color={"var(--color-white)"}
-            background={"var(--color-primary)"}
-            onClick={() => application(card.id)}
-          >
-            카드 신청하기
-          </Button>
+          {myCard && myCard.find((item) => item.id === card.id) ? (
+            <Button
+              color={"var(--color-lightgray)"}
+              background={"var(--color-brown)"}
+              disabled
+            >
+              이미 신청한 카드입니다.
+            </Button>
+          ) : (
+            <Button
+              color={"var(--color-white)"}
+              background={"var(--color-primary)"}
+              onClick={() => application(card.id)}
+              className={"able"}
+            >
+              카드 신청하기
+            </Button>
+          )}
           {favorList.find((item) => item.id === card.id) ? (
             <Button
               color={"var(--color-brown)"}
               background={"var(--color-lightgray)"}
               onClick={toggleFavor}
+              className={"able"}
             >
               내 관심카드에 삭제하기
             </Button>
@@ -167,6 +181,7 @@ const CardDetail = ({ card }: CardInfo) => {
               color={"var(--color-brown)"}
               background={"var(--color-lightgray)"}
               onClick={toggleFavor}
+              className={"able"}
             >
               내 관심카드에 추가하기
             </Button>
@@ -308,10 +323,12 @@ const Button = styled.button<Button>`
   font-weight: 600;
   color: ${(props) => props.color};
   background-color: ${(props) => props.background};
-  &:hover {
-    transition: 0.3s;
-    color: ${(props) => props.background};
-    background-color: var(--color-brown);
+  &.able {
+    &:hover {
+      transition: 0.3s;
+      color: ${(props) => props.background};
+      background-color: var(--color-brown);
+    }
   }
 `;
 

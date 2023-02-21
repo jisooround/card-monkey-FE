@@ -32,9 +32,9 @@ class MonkeyGetToken {
   }
 
   /**신청한 카드 내역 */
-  async cardList() {
+  async cardList(userId: string) {
     return this.instance
-      .get(`/paid/fastcampus3`)
+      .get(`/paid/${userId}`)
       .then((result) => result.data)
       .catch((error) => {
         console.log(error);
@@ -114,7 +114,7 @@ class MonkeyGetToken {
   }
 
   /**카드 신청 */
-  async cardApplication(id: string) {
+  async cardApplication(id: number) {
     return this.instance
       .post(`/card/${id}`, {
         headers: { "Content-Type": "application/json" },

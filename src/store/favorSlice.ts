@@ -1,23 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import getTokenApi from "../api/monkeyGetToken";
-import { SearchCard } from "./searchSlice";
 
 export interface FavorCardState {
-  favorList: FavorCard[];
+  favorList: Card[];
   status: "idle" | "loading" | "failed";
 }
 
-export interface FavorCard {
-  id: number;
-  name: string;
-  company: string;
-  image: string;
-  type: string;
-}
-
 const initialState = {
-  favorList: [] as FavorCard[],
+  favorList: [] as Card[],
   status: "idle",
 };
 
@@ -33,7 +24,7 @@ export const favorSlice = createSlice({
   name: "favor",
   initialState,
   reducers: {
-    addFavor(state, action: PayloadAction<FavorCard>) {
+    addFavor(state, action: PayloadAction<Card>) {
       const newFavor = action.payload;
       state.favorList = [...state.favorList, newFavor];
     },
