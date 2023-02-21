@@ -34,7 +34,7 @@ class MonkeyGetToken {
   /**신청한 카드 내역 */
   async cardList() {
     return this.instance
-      .get("/paid/fastcampus3")
+      .get(`/paid/fastcampus3`)
       .then((result) => result.data)
       .catch((error) => {
         console.log(error);
