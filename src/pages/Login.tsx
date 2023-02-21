@@ -1,23 +1,43 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import setTokenApi from "../api/monkeySetToken";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { resetForm } from "../store/signUpSlice";
+import { useNavigate } from "react-router-dom";
+import { BsCheckCircle } from "react-icons/bs";
 
 type Props = {};
 
 const Login = (props: Props) => {
   const [userId, setUserId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [fail, setFail] = useState<boolean>(false);
+  console.log(fail);
   const form = useSelector((state: RootState) => state.form);
   console.log(form);
   const dispatch = useDispatch();
   console.log(userId, password);
+  const navigate = useNavigate();
 
   const login = async () => {
-    await setTokenApi.signIn({ userId, password });
+    const res = await setTokenApi.signIn({ userId, password });
+    if (res.loginFail === null) {
+      console.log(res);
+      navigate(`/`, { replace: true });
+    } else {
+      setFail(true);
+      setTimeout(() => {
+        setFail(false);
+      }, 1000);
+    }
+  };
+
+  const onCheckEnter = (e: any) => {
+    if (e.key === "Enter") {
+      login();
+    }
   };
 
   return (
@@ -35,7 +55,12 @@ const Login = (props: Props) => {
           </h2>
           <p>회원 서비스 이용을 위해 로그인 해주세요.</p>
         </div>
-        <div className="inputWrap">
+        <form
+          className="inputWrap"
+          onKeyUp={(e) => {
+            onCheckEnter(e);
+          }}
+        >
           <div className="group">
             <div className="inputTitle">아이디</div>
             <input
@@ -60,7 +85,10 @@ const Login = (props: Props) => {
               }}
             />
           </div>
-        </div>
+          <Message className={fail ? "failError" : "basic"}>
+            <p>아이디 또는 비밀번호가 일치하지 않습니다.</p>
+          </Message>
+        </form>
         <div className="buttonWrap">
           <button className="logIn" type="submit" onClick={login}>
             로그인
@@ -140,6 +168,7 @@ const Inner = styled.div`
     padding-bottom: 93px;
     width: 100%;
     font-size: 14px;
+    position: relative;
     .group {
       display: flex;
       width: 100%;
@@ -188,6 +217,24 @@ const Inner = styled.div`
         color: var(--color-brown);
       }
     }
+  }
+`;
+
+const Message = styled.div`
+  width: 100%;
+  position: absolute;
+  p {
+    text-align: center;
+    color: red;
+    font-size: 14px;
+  }
+  &.failError {
+    display: block;
+    transition: ease-in 0.1s;
+  }
+  &.basic {
+    opacity: 0;
+    transition: ease-in-out 0.2s;
   }
 `;
 

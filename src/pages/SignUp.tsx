@@ -13,7 +13,7 @@ type Props = {};
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const [step, setStep] = useState<number>(6);
+  const [step, setStep] = useState<number>(1);
   if (step === 0) {
     navigate("/login");
   }

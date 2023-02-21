@@ -5,29 +5,30 @@ const { VITE_URL } = import.meta.env;
 /**
  * api테스트를 못해서 token설정못했음
  */
-function setItemWithExpireTime(value: Array<string>, expireTime: number) {
-  const object = {
-    value: JSON.stringify(value),
-    expire: Date.now() + expireTime,
-  };
 
-  window.localStorage.setItem("userInfo", JSON.stringify(object));
-}
+// function setItemWithExpireTime(value: Array<string>, expireTime: number) {
+//   const object = {
+//     value: JSON.stringify(value),
+//     expire: Date.now() + expireTime,
+//   };
 
-function getItemWithExpireTime() {
-  const objectParse = JSON.parse(window.localStorage.getItem("userInfo"));
+//   window.localStorage.setItem("userInfo", JSON.stringify(object));
+// }
 
-  if (!objectParse) {
-    return "확인 가능한 회원정보가 없습니다.";
-  }
+// function getItemWithExpireTime() {
+//   const objectParse = JSON.parse(localStorage.getItem("userInfo"));
 
-  if (Date.now() > objectParse.expire) {
-    window.localStorage.removeItem("userInfo");
-    return "로그인 시간 만료";
-  }
+//   if (!objectParse) {
+//     return "확인 가능한 회원정보가 없습니다.";
+//   }
 
-  return JSON.parse(objectParse.value);
-}
+//   if (Date.now() > objectParse.expire) {
+//     window.localStorage.removeItem("userInfo");
+//     return "로그인 시간 만료";
+//   }
+
+//   return JSON.parse(objectParse.value);
+// }
 // getItemWithExpireTime();
 
 class MonkeySetToken {
