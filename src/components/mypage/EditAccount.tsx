@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
+import getTokenApi from "../../api/monkeyGetToken";
 
 type Props = {};
 
@@ -7,6 +8,17 @@ export const EditAccount = (props: Props) => {
   const [oldPassword, setOldPassword] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [checkPassword, setCheckPassword] = useState<string>("");
+  const [userId, setUserId] = useState<string>("");
+  console.log(userId);
+  useEffect(() => {
+    const { userId } = JSON.parse(localStorage.getItem("userInfo") || "{}");
+    setUserId(userId);
+  }, []);
+
+  const withdrawal = async () => {
+    const res = await getTokenApi.withdrawal(userId);
+    console.log(res);
+  };
 
   return (
     <div className="myaccount">
@@ -51,7 +63,9 @@ export const EditAccount = (props: Props) => {
           비밀번호 변경하기
         </button>
       </Form>
-      <div className="delete">회원탈퇴하기</div>
+      <div className="delete" onClick={() => withdrawal()}>
+        회원탈퇴하기
+      </div>
     </div>
   );
 };
