@@ -2,14 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import setTokenApi from "../api/monkeySetToken";
 
-export interface FormState {
+export interface SignUpState {
   userId: string;
   password: string;
   name: string;
   benefit: Array<string>;
 }
 
-const initialState: FormState = {
+const initialState: SignUpState = {
   userId: "",
   password: "",
   name: "",
@@ -17,7 +17,7 @@ const initialState: FormState = {
 };
 
 export const signUpSlice = createSlice({
-  name: "form",
+  name: "signUp",
   initialState,
   reducers: {
     fillName(state, action) {
