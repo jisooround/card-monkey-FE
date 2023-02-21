@@ -13,6 +13,7 @@ import {
   handleSearchBenefit,
   handleSearchCompany,
   handleSearchType,
+  resetSearch,
 } from "../store/searchSlice";
 import CardSkeleton from "../components/ui/CardSkeleton";
 
@@ -40,7 +41,7 @@ const Search = (props: Props) => {
     ["커피", "coffee"],
     ["교통", "transportation"],
     ["영화", "movie"],
-    ["베달", "delivery"],
+    ["배달", "delivery"],
     ["통신", "phone"],
     ["주유", "gas"],
     ["간편결재", "simplePayment"],
@@ -92,6 +93,9 @@ const Search = (props: Props) => {
       </div>
       <SearchGroupContainer className={isOpen ? "" : "hide"}>
         <SearchGroup>
+          <button className="reset" onClick={() => dispatch(resetSearch())}>
+            태그 초기화
+          </button>
           <Title>신용 / 체크</Title>
           <div>
             {types.map((type, index) => (
@@ -137,7 +141,7 @@ const Search = (props: Props) => {
           </div>
         </SearchGroup>
       </SearchGroupContainer>
-      <div className="title">검색 결과</div>
+      <div className="title">검색 결과{` ${cardList.length}개`}</div>
       <CardListContainer>
         {status === "idle" ? (
           cardList.length === 0 ? (
@@ -178,7 +182,7 @@ const CardListContainer = styled.div`
 `;
 
 const SearchGroupContainer = styled.div`
-  height: 45vh;
+  /* height: 45vh; */
   padding-left: 15px;
   transition: height 0.5s;
   overflow: hidden;
@@ -190,7 +194,23 @@ const SearchGroupContainer = styled.div`
 const SearchGroup = styled.div`
   margin-top: 10px;
   margin-bottom: 20px;
-  /* padding: 0 30px; */
+  position: relative;
+  .reset {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-block;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
+    background-color: #ffffff;
+    height: 34px;
+    line-height: 22px;
+    padding: 0 13px;
+    cursor: pointer;
+    &:hover {
+      background: #f1f2f4;
+    }
+  }
 `;
 
 const Title = styled.div`
@@ -198,6 +218,7 @@ const Title = styled.div`
   color: #46433f;
   font-size: 16px;
   font-weight: bold;
+  /* border: 1px solid red; */
 `;
 
 const NoItem = styled.div`
