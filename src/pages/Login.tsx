@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import setTokenApi from "../api/monkeySetToken";
 import { Link } from "react-router-dom";
@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
-const Login = (props: Props) => {
+const Login = () => {
   const [userId, setUserId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [fail, setFail] = useState<boolean>(false);
@@ -19,6 +19,11 @@ const Login = (props: Props) => {
   const dispatch = useDispatch();
   console.log(userId, password);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const { token } = JSON.parse(localStorage.getItem("userInfo") || "{}");
+    token ? navigate(`/`, { replace: true }) : null;
+  }, []);
 
   const login = async () => {
     const res = await setTokenApi.signIn({ userId, password });
