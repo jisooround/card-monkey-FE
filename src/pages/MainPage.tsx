@@ -88,7 +88,7 @@ const MainPage = () => {
       {/* top3 카드 출력 */}
       <div className="top3">몽키차트 TOP 3</div>
       {Array.isArray(topCard) ? (
-        topCard.map((data) => {
+        topCard.map((data, index) => {
           const cardImage = new Image();
           cardImage.src = data.image;
           return (
@@ -99,7 +99,7 @@ const MainPage = () => {
             >
               <Topcard cardImage={cardImage}>
                 <span className="num">
-                  {data.id}
+                  {index + 1}
                   <div>
                     <img src={data.image} />
                   </div>

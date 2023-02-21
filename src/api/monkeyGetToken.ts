@@ -37,7 +37,6 @@ class MonkeyGetToken {
       .get("/paid/fastcampus3")
       .then((result) => result.data)
       .catch((error) => {
-        return favorList;
         console.log(error);
       });
   }
@@ -46,9 +45,8 @@ class MonkeyGetToken {
   async hot3() {
     return this.instance
       .get("/card/rank")
-      .then((result) => result)
+      .then((result) => result.data)
       .catch((error) => {
-        return favorList;
         console.log(error);
       });
   }
