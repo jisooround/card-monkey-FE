@@ -55,10 +55,6 @@ interface Button {
   background: string;
 }
 
-interface IdCheck {
-  userId: string;
-}
-
 interface width {
   width: number;
   height: number;
