@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../store/store";
 import { fillId } from "../../store/signUpSlice";
 import { BsCheckCircle } from "react-icons/bs";
+import setTokenApi from "../../api/monkeySetToken";
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -12,21 +13,26 @@ type Props = {
 const Id = ({ setStep }: Props) => {
   const dispatch = useDispatch();
   const form = useSelector((state: RootState) => state.signUp);
-  const [id, setId] = useState("");
+  const [userId, setUserId] = useState("");
   const [idValid, setIdValid] = useState(false);
   console.log("Id  : ", form);
   const regex = /^(?=.*[a-z])(?=.*\d)[a-z\d]{5,14}$/;
 
   useEffect(() => {
-    if (regex.test(id)) {
+    if (regex.test(userId)) {
       setIdValid(true);
     } else {
       setIdValid(false);
     }
-  }, [id]);
+  }, [userId]);
+
+  const clickIdCheck = async (userId: IdCheck) => {
+    const res = await setTokenApi.idCheck(userId);
+    console.log(res);
+  };
 
   const handleChange = (value: string) => {
-    setId(value);
+    setUserId(value);
   };
   return (
     <Wrap>
@@ -46,18 +52,27 @@ const Id = ({ setStep }: Props) => {
               handleChange(e.target.value);
             }}
           />
+          <button
+            className="idCheck"
+            onClick={() => {
+              clickIdCheck({ userId });
+            }}
+            disabled={!idValid}
+          >
+            아이디 중복 확인
+          </button>
         </div>
         <ValidConditions
-          className={`${idValid && id.length > 0 && "satisfaction"}`}
+          className={`${idValid && userId.length > 0 && "satisfaction"}`}
         >
           <p>5~12자 영문, 숫자 조합</p>
           <BsCheckCircle className="icon" />
         </ValidConditions>
       </InputWrap>
       <Button
-        disabled={!idValid}
+        // disabled={!idValid}
         onClick={() => {
-          dispatch(fillId(id));
+          dispatch(fillId(userId));
           setStep(4);
         }}
       >
@@ -117,6 +132,21 @@ const InputWrap = styled.div`
       border: none;
       outline: none;
       background-color: transparent;
+    }
+    .idCheck {
+      outline: none;
+      width: 200px;
+      padding: 5px 0;
+      box-sizing: border-box;
+      background-color: transparent;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      color: var(--color-primary);
+      &:disabled {
+        color: var(--color-gray);
+        transition: 0.2s;
+      }
     }
   }
 `;
