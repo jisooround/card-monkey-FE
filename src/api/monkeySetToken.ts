@@ -77,7 +77,7 @@ class MonkeySetToken {
   }
 
   /** 아이디 중복 체크 */
-  async idCheck(userId: IdCheck) {
+  async idCheck(userId: string) {
     return this.axiosInstance
       .post("/userIdValidation", {
         userId: userId,

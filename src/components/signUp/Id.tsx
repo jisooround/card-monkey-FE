@@ -26,9 +26,9 @@ const Id = ({ setStep }: Props) => {
     }
   }, [userId]);
 
-  const clickIdCheck = async (userId: IdCheck) => {
+  const clickIdCheck = async (userId: string) => {
     const res = await setTokenApi.idCheck(userId);
-    console.log(res);
+    console.log("res", res);
   };
 
   const handleChange = (value: string) => {
@@ -55,7 +55,7 @@ const Id = ({ setStep }: Props) => {
           <button
             className="idCheck"
             onClick={() => {
-              clickIdCheck({ userId });
+              clickIdCheck(userId);
             }}
             disabled={!idValid}
           >
