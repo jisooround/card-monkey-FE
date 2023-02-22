@@ -52,9 +52,9 @@ class MonkeyGetToken {
   }
 
   /**관심혜택 맞춤 카드 */
-  async benefitCard(userId: string) {
+  async benefitCard() {
     return this.instance
-      .get(`/card/benefit/${userId}`)
+      .get(`/card/recommend`)
       .then((result) => result.data)
       .catch((error) => error);
   }
@@ -63,7 +63,7 @@ class MonkeyGetToken {
   async searchByName(name: string) {
     return this.instance
       .get(`/card/name?search=${name}`)
-      .then((result) => result.data)
+      .then((result) => result.data.content)
       .catch((error) => error);
   }
 
@@ -71,7 +71,7 @@ class MonkeyGetToken {
   async searchByCompany(company: string) {
     return this.instance
       .get(`/card/company?search=${company}`)
-      .then((result) => result.data)
+      .then((result) => result.data.content)
       .catch((error) => error);
   }
 
@@ -79,7 +79,7 @@ class MonkeyGetToken {
   async searchByBenefit(benefit: string) {
     return this.instance
       .get(`/card/benefit?search=${benefit}`)
-      .then((result) => result.data)
+      .then((result) => result.data.content)
       .catch((error) => error);
   }
 
@@ -176,9 +176,9 @@ class MonkeyGetToken {
   }
 
   /**나의 관심상품 */
-  async myFavor(userId: string) {
+  async myFavor() {
     return this.instance
-      .get(`/card/favor/${userId}`)
+      .get(`/info/favor`)
       .then((result) => result.data)
       .catch((error) => {
         console.log(error);
