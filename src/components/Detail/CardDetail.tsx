@@ -239,7 +239,7 @@ const CardDetail = ({ card }: Props) => {
               {text}
             </BtnReview>
           ))}
-          {selectedReview.length > 0 ? (
+          {reviewList.message[0] !== "" ? (
             <Button
               color={"var(--color-white)"}
               background={"var(--color-primary)"}
