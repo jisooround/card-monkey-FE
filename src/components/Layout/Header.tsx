@@ -10,6 +10,8 @@ import { FcWiFiLogo } from "react-icons/fc";
 import { useLocation, useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
 import getTokenApi from "../../api/monkeyGetToken";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 type HeaderPropsType = {};
 
@@ -28,18 +30,31 @@ const Header = ({}: HeaderPropsType) => {
     setSearchParams(searchParams);
   };
 
-  const handleLogout = async () => {
-    if (confirm("정말로 로그아웃 하시겠습니까?")) {
-      const res = await getTokenApi.signOut();
-      console.log(res);
-      if (res?.status === 200 || res.data === "로그아웃 완료") {
-        localStorage.removeItem("userInfo");
-        navigate("/login", { replace: true }); // 여기 수정
-      } else {
-        alert("로그아웃 실패");
-      }
-    }
+  const handleLogout = () => {
+    confirmAlert({
+      title: "",
+      message: "정말로 로그아웃 하시겠습니까?",
+      buttons: [
+        {
+          label: "네",
+          onClick: async () => {
+            const res = await getTokenApi.signOut();
+            console.log(res);
+            if (res?.status === 200 || res.data === "로그아웃 완료") {
+              localStorage.removeItem("userInfo");
+              navigate("/login", { replace: true });
+            } else {
+              alert("로그아웃 실패");
+            }
+          },
+        },
+        {
+          label: "아니오",
+        },
+      ],
+    });
   };
+
   // 로그인 페이지에서 header null 처리
   if (pathname === "/login") return null;
   /**상세 페이지에서도 header null 처리 */

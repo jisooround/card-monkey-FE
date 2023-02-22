@@ -26,6 +26,19 @@ ${reset}
     width: 500px;
     margin: auto;
     background-color: #eee;
+    .react-confirm-alert {
+      .react-confirm-alert-body {
+        text-align: center;
+        font-size: 18px;
+      }
+      .react-confirm-alert-button-group{
+        justify-content:center;
+      }
+      button {
+        font-size: 15px;
+        background-color: var(--color-primary)
+      }
+    }
   }
   #root {
     width: 100%;
