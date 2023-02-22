@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import {
   AiOutlineSearch,
@@ -10,6 +10,9 @@ import { FcWiFiLogo } from "react-icons/fc";
 import { useLocation, useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
 import getTokenApi from "../../api/monkeyGetToken";
+import { AppDispatch, RootState } from "../../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { handleSearchName } from "../../store/searchSlice";
 
 type HeaderPropsType = {};
 
@@ -17,15 +20,14 @@ const Header = ({}: HeaderPropsType) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchInput, setSearchInput] = useState<string>(
-    searchParams.get("q") || "",
-  );
   const inputRef = useRef<HTMLInputElement>(null);
+  const searchName = useSelector((state: RootState) => state.search.searchName);
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value);
     searchParams.set("q", e.target.value);
-    setSearchParams(searchParams);
+    setSearchParams(searchParams, { replace: true });
+    dispatch(handleSearchName(e.target.value));
   };
 
   const handleLogout = async () => {
@@ -40,6 +42,11 @@ const Header = ({}: HeaderPropsType) => {
       }
     }
   };
+
+  useEffect(() => {
+    dispatch(handleSearchName(searchParams.get("q") || ""));
+  }, [searchParams.get("q")]);
+
   // 로그인 페이지에서 header null 처리
   if (pathname === "/login") return null;
   /**상세 페이지에서도 header null 처리 */
@@ -66,7 +73,6 @@ const Header = ({}: HeaderPropsType) => {
             <SearchClose
               onClick={() => {
                 navigate(-1);
-                setSearchInput("");
               }}
             >
               <AiOutlineLeft />
@@ -74,18 +80,20 @@ const Header = ({}: HeaderPropsType) => {
             <SearchInput>
               <input
                 type="text"
-                value={searchInput}
+                value={searchName}
                 ref={inputRef}
                 onChange={handleInput}
-                placeholder="검색어를 입력해 주세요"
+                placeholder="카드명으로 검색"
                 autoFocus
               />
-              {searchInput.length === 0 ? (
+              {searchName.length === 0 ? (
                 <AiOutlineSearch />
               ) : (
                 <AiOutlineCloseCircle
                   onClick={() => {
-                    setSearchInput("");
+                    dispatch(handleSearchName(""));
+                    searchParams.set("q", "");
+                    setSearchParams(searchParams, { replace: true });
                     inputRef.current?.focus();
                   }}
                 />

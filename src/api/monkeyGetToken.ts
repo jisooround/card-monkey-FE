@@ -79,7 +79,6 @@ class MonkeyGetToken {
 
   //**카드회사명으로 검색 */
   async searchByCompany(company: string) {
-    console.log(company);
     return this.instance
       .get(`/card/company?search=${company}`)
       .then((result) => result.data)
