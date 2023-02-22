@@ -1,7 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import getTokenApi from "../api/monkeyGetToken";
 import CardItem from "../components/searchProduct/CardItem";
 import BtnSuggest from "../components/ui/BtnSuggest";
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
@@ -16,13 +14,11 @@ import {
   resetSearch,
 } from "../store/searchSlice";
 import CardSkeleton from "../components/ui/CardSkeleton";
+import { useDebounce } from "../hooks/useDebounce";
 
 type Props = {};
 
 const Search = (props: Props) => {
-  // const [searchParams, setSearchParams] = useSearchParams();
-  // const searchTerm: string | null = searchParams.get("q");
-
   const searchList = useSelector((state: RootState) => state.search.searchList);
   const selectedType = useSelector(
     (state: RootState) => state.search.searchType,
@@ -33,6 +29,10 @@ const Search = (props: Props) => {
   const selectedCompany = useSelector(
     (state: RootState) => state.search.searchCompany,
   );
+  const searchName = useDebounce(
+    useSelector((state: RootState) => state.search.searchName),
+    500,
+  ) as string;
   const isOpen = useSelector((state: RootState) => state.search.isOpen);
   const status = useSelector((state: RootState) => state.search.status);
   const dispatch = useDispatch<AppDispatch>();
@@ -77,8 +77,8 @@ const Search = (props: Props) => {
   });
 
   useEffect(() => {
-    dispatch(fetchSearch({ selectedBenefit, selectedCompany }));
-  }, [selectedBenefit, selectedCompany]);
+    dispatch(fetchSearch({ selectedBenefit, selectedCompany, searchName }));
+  }, [selectedBenefit, selectedCompany, searchName]);
 
   return (
     <SearchContainer>
@@ -150,8 +150,11 @@ const Search = (props: Props) => {
             cardList
           )
         ) : (
-          // <CardSkeleton />
-          <div>Loading...</div>
+          <>
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+          </>
         )}
       </CardListContainer>
     </SearchContainer>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import getTokenApi from "../../api/monkeyGetToken";
 import { toast, ToastContainer } from "react-toastify";
@@ -9,6 +9,7 @@ type Props = {};
 export const EditAccount = (props: Props) => {
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [userId, setUserId] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   const regex = /^(?=.*?[A-Za-z])(?=.*?\d)[A-Za-z\d]{8,14}$/;
@@ -39,6 +40,17 @@ export const EditAccount = (props: Props) => {
     } else {
       return notify("정확한 비밀번호 형식을 입력해주세요.");
     }
+  };
+
+  console.log(userId);
+  useEffect(() => {
+    const { userId } = JSON.parse(localStorage.getItem("userInfo") || "{}");
+    setUserId(userId);
+  }, []);
+
+  const withdrawal = async () => {
+    const res = await getTokenApi.withdrawal(userId);
+    console.log(res);
   };
 
   return (
@@ -94,7 +106,9 @@ export const EditAccount = (props: Props) => {
           비밀번호 변경하기
         </button>
       </Form>
-      <div className="delete">회원탈퇴하기</div>
+      <div className="delete" onClick={() => withdrawal()}>
+        회원탈퇴하기
+      </div>
     </div>
   );
 };
