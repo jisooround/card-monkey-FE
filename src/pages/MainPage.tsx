@@ -19,10 +19,6 @@ export type CardType = {
   image: string;
   name: string;
   type: string;
-  card_imageurl: string;
-  card_name: string;
-  card_type: string;
-  card_id: number;
 };
 
 const MainPage = () => {
