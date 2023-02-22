@@ -16,9 +16,7 @@ const Favor = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    // 여기 페이지 들어오면 관심상품 가져오는데 favorList.json 데이터라 항상 2개 상품 가져옴
-    // 그래서 추가, 삭제해도 다시 이 페이지 들어오면 favorList.json 데이터 상품 2개 가져옴
-    dispatch(fetchFavor(userInfo.userId));
+    // dispatch(fetchFavor(userInfo.userId));
   }, []);
 
   const name = userInfo.name;
