@@ -7,105 +7,87 @@ const CardSkeleton = (props: Props) => {
   return (
     <CardContainer>
       <CardImageWrapper>
-        <div className="circle"></div>
-        <img />
+        <Circle></Circle>
       </CardImageWrapper>
       <CardInfo>
         <div className="wrapper">
-          <div className="name"></div>
-          <div className="company"></div>
-          <div></div>
+          <Name></Name>
+          <Company></Company>
+          <Type></Type>
         </div>
       </CardInfo>
-      <div>{/* <AiFillHeart /> */}</div>
     </CardContainer>
   );
 };
 
-const CardContainer = styled.div`
-  &:hover img {
-    transform: translateY(-8px);
+export const SkeletonItem = styled.div`
+  background-color: var(--color-lightgray);
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+
+  @keyframes skeleton-gradient {
+    0% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
+    50% {
+      background-color: rgba(165, 165, 165, 0.3);
+    }
+    100% {
+      background-color: rgba(165, 165, 165, 0.1);
+    }
   }
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    animation: skeleton-gradient 1.5s infinite ease-in-out;
+  }
+`;
+
+const CardContainer = styled.div`
   box-sizing: border-box;
   display: flex;
   border: 2px solid var(--color-gray);
   border-radius: 12px;
   padding: 30px;
   position: relative;
-  cursor: pointer;
-  .favor {
-    position: absolute;
-    bottom: 10px;
-    right: 25px;
-    svg {
-      display: inline-block;
-      width: 30px;
-      height: 30px;
-      color: var(--color-gray);
-      transition: 0.6s;
-    }
-    &.active svg {
-      color: var(--color-primary);
-    }
-    &:hover {
-      svg {
-        transform: scale(1.3);
-      }
-    }
-  }
 `;
 
 const CardImageWrapper = styled.div`
   margin-right: 20px;
   width: 110px;
   position: relative;
-  img {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    transition: 0.2s;
-    filter: drop-shadow(6px 4px 4px #c3c3c3);
-  }
-  .circle {
-    width: 110px;
-    height: 110px;
-    border-radius: 50%;
-    background-color: var(--color-lightgray);
-  }
+`;
+
+const Circle = styled(SkeletonItem)`
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
 `;
 
 const CardInfo = styled.div`
   display: flex;
   align-items: center;
-  .name {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  .company {
-    font-size: 14px;
-    font-weight: 530;
-    margin-bottom: 10px;
-  }
-  .type {
-    display: inline-block;
-    border-radius: 40px;
-    font-size: 10px;
-    font-weight: bold;
-    padding: 7px;
-    text-align: center;
-    &.credit {
-      color: #ff6b00;
-      background-color: #ffeacc;
-    }
-    &.check {
-      color: #1bbbee;
-      background-color: #dbf6ff;
-    }
-  }
 `;
 
+const Name = styled(SkeletonItem)`
+  width: 234px;
+  height: 20px;
+  margin-bottom: 10px;
+`;
+const Company = styled(SkeletonItem)`
+  width: 100px;
+  height: 14px;
+  margin-bottom: 10px;
+`;
+const Type = styled(SkeletonItem)`
+  border-radius: 40px;
+  width: 54px;
+  height: 24px;
+`;
 export default CardSkeleton;

@@ -3,9 +3,10 @@ import styled from "styled-components";
 import setTokenApi from "../api/monkeySetToken";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store/store";
+import { AppDispatch, RootState } from "../store/store";
 import { resetForm } from "../store/signUpSlice";
 import { useNavigate } from "react-router-dom";
+import { fetchFavor } from "../store/favorSlice";
 
 type Props = {};
 
@@ -16,7 +17,7 @@ const Login = () => {
   console.log(fail);
   const form = useSelector((state: RootState) => state.signUp);
   console.log(form);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   console.log(userId, password);
   const navigate = useNavigate();
 
@@ -29,6 +30,7 @@ const Login = () => {
     const res = await setTokenApi.signIn({ userId, password });
     if (res.loginStatus === "로그인 완료") {
       console.log(res);
+      dispatch(fetchFavor(userId));
       navigate(`/`, { replace: true });
     } else {
       setFail(true);

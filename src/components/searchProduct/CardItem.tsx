@@ -39,7 +39,6 @@ const CardItem = ({ card }: CardItemPropsType) => {
 
   useEffect(() => {
     loadImage(setImageDimensions, imageUrl);
-    console.log(imageDimensions);
   }, []);
 
   const sizeCalc = () => {

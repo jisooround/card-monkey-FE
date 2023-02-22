@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import getTokenApi from "../api/monkeyGetToken";
+import { useDebounce } from "../hooks/useDebounce";
 
 export interface SearchCardState {
   searchList: Card[];
@@ -25,6 +26,7 @@ const initialState: SearchCardState = {
 type UnionSearch = {
   selectedBenefit: string[];
   selectedCompany: string[];
+  searchName: string;
 };
 
 const getBenefitCard = async (selectedBenefit: string[]) => {
@@ -62,22 +64,53 @@ const getCompanyCard = async (selectedCompany: string[]) => {
   return companyCards;
 };
 
+const getNameCard = async (searchName: string) => {
+  const data = await getTokenApi.searchByName(searchName);
+  return data;
+};
+
 export const fetchSearch = createAsyncThunk(
   "search/fetchSearch",
   async (selected: UnionSearch) => {
     const benefitData = await getBenefitCard(selected.selectedBenefit);
     const companyData = await getCompanyCard(selected.selectedCompany);
-    console.log(benefitData, companyData);
-    if (benefitData.length === 0 && selected.selectedBenefit.length === 0) {
-      return companyData;
+    const nameData =
+      selected.searchName !== "" ? await getNameCard(selected.searchName) : [];
+    console.log(benefitData, companyData, nameData);
+    if (
+      selected.selectedBenefit.length === 0 &&
+      selected.selectedCompany.length === 0
+    ) {
+      return nameData;
+    } else {
+      if (selected.selectedBenefit.length === 0) {
+        if (selected.searchName.length === 0) return companyData;
+        const newCardList = companyData.filter((card: Card) => {
+          return nameData.find((item: Card) => item.id === card.id);
+        });
+        return newCardList;
+      }
+      if (selected.selectedCompany.length === 0) {
+        if (selected.searchName.length === 0) return benefitData;
+        const newCardList = benefitData.filter((card: Card) => {
+          return nameData.find((item: Card) => item.id === card.id);
+        });
+        return newCardList;
+      }
+      if (selected.searchName.length === 0) {
+        const newCardList = benefitData.filter((card: Card) => {
+          return companyData.find((item: Card) => item.id === card.id);
+        });
+        return newCardList;
+      }
+      const newCardList1 = benefitData.filter((card: Card) => {
+        return companyData.find((item: Card) => item.id === card.id);
+      });
+      const newCardList2 = newCardList1.filter((card: Card) => {
+        return nameData.find((item: Card) => item.id === card.id);
+      });
+      return newCardList2;
     }
-    if (companyData.length === 0) {
-      return benefitData;
-    }
-    const newCardList = benefitData.filter((card: Card) => {
-      return companyData.find((item: Card) => item.id === card.id);
-    });
-    return newCardList;
   },
 );
 
@@ -112,6 +145,9 @@ export const searchSlice = createSlice({
         state.searchCompany = [...state.searchCompany, action.payload];
       }
     },
+    handleSearchName(state, action: PayloadAction<string>) {
+      state.searchName = action.payload;
+    },
     handleIsOpen(state) {
       state.isOpen = !state.isOpen;
     },
@@ -140,6 +176,7 @@ export const {
   handleSearchType,
   handleSearchBenefit,
   handleSearchCompany,
+  handleSearchName,
   handleIsOpen,
   resetSearch,
 } = searchSlice.actions;
