@@ -155,7 +155,6 @@ const CardDetail = ({ card }: Props) => {
             <h5>Benefit</h5>
             <span>주요혜택</span>
           </div>
-          <hr className="bottom" color="#f5f5f5" />
         </SectionTitle>
         <Benefit>{card.benefit && findBenefit()}</Benefit>
         <div className="button-wrapper">
@@ -245,22 +244,19 @@ const Wrapper = styled.div`
       padding-bottom: 40px;
     }
   }
-  hr {
-    width: 100%;
-    &.bottom {
-      height: 2px;
-      box-shadow: 0.5px 0.5px 3px rgba(0, 0, 0, 0.1);
-    }
+  .content {
+    box-shadow: 0 7px 10px 4px #f3f3f3;
   }
 `;
 
 const CardImg = styled.div<Size>`
   text-align: center;
   img {
+    mix-blend-mode: darken;
     width: ${(props) => props.size}px;
     background-color: inherit;
     margin: 20px auto 10px auto;
-    box-shadow: 1px 2px 2px 2px rgba(0, 0, 0, 0.25);
+    box-shadow: 1px 10px 35px 3px rgba(0, 0, 0, 0.25);
   }
 `;
 
@@ -343,13 +339,15 @@ const Button = styled.button<Button>`
 `;
 
 const Benefit = styled.div`
-  margin-top: 30px;
-  height: 200px;
+  margin: 30px 0;
+  padding-bottom: 10px;
+  height: auto;
   display: grid;
+  gap: 20px 0;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: auto auto;
-  grid-gap: 20px;
+  grid-template-rows: auto auto auto;
   .element {
+    height: 100px;
     display: flex;
     border-right: 1px solid var(--color-lightgray);
     flex-direction: column;
