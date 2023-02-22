@@ -5,12 +5,14 @@ import CardItem from "../components/searchProduct/CardItem";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import { fetchFavor } from "../store/favorSlice";
+import CardSkeleton from "../components/ui/CardSkeleton";
 
 type Props = {};
 
 const Favor = (props: Props) => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   const favorList = useSelector((state: RootState) => state.favor.favorList);
+  const status = useSelector((state: RootState) => state.favor.status);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
@@ -32,12 +34,24 @@ const Favor = (props: Props) => {
         </span>
       </TopWrapper>
       <CardWrapper>
-        {favorList.map((card) => {
-          return (
-            // 이부분 백쪽에서 리팩토링 되면 수정
-            <CardItem card={card} key={card.id} />
-          );
-        })}
+        {status === "idle" ? (
+          favorList.length === 0 ? (
+            <NoItem>관심카드를 등록해보세요.</NoItem>
+          ) : (
+            favorList.map((card) => {
+              return (
+                // 이부분 백쪽에서 리팩토링 되면 수정
+                <CardItem card={card} key={card.id} />
+              );
+            })
+          )
+        ) : (
+          <>
+            <CardSkeleton />
+            <CardSkeleton />
+            <CardSkeleton />
+          </>
+        )}
       </CardWrapper>
     </Wrapper>
   );
@@ -75,6 +89,13 @@ const CardWrapper = styled.div`
   flex-direction: column;
   gap: 20px;
   margin-top: 2rem;
+`;
+
+const NoItem = styled.div`
+  text-align: center;
+  margin-top: 70px;
+  color: var(--color-brown);
+  font-weight: 600;
 `;
 
 export default Favor;
