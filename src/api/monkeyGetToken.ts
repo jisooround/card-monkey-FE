@@ -183,7 +183,7 @@ class MonkeyGetToken {
   async withdrawal(userId: string) {
     return this.instance
       .delete(`/deleteAccount/${userId}`)
-      .then((result) => console.log(result))
+      .then((result) => result.data)
       .catch((error) => {
         console.log(error);
       });
