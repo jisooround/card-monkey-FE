@@ -215,7 +215,7 @@ const CardDetail = ({ card }: Props) => {
           <hr className="bottom" color="#f5f5f5" />
         </SectionTitle>
         <Reviews>
-          {reviewList.message.length > 0 ? (
+          {reviewList.message[0] !== "" ? (
             reviewList.message.map((message: string) => (
               <li className="text" key={uuidv4()}>
                 {message}
