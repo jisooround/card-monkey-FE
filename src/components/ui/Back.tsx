@@ -27,8 +27,7 @@ const Button = styled.button`
   color: ${(props) => props.color || "var(--color-primary)"};
   cursor: pointer;
   .back {
-    margin-left: -5px;
-    padding-top: 20px;
+    padding: 20px 0 0 20px;
     font-size: 28px;
     cursor: pointer;
     color: var(--color-gray);

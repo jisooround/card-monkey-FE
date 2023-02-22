@@ -28,7 +28,7 @@ const Favor = (props: Props) => {
     <Wrapper>
       <TopWrapper>
         <h2>나의 관심카드</h2>
-        <img src="/monkey_love.png" />
+        <img src="/monkeycard_yellow.png" />
         <span>
           {name}님의 관심카드는 {length}개 입니다.
         </span>
