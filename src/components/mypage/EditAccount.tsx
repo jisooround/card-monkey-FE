@@ -1,14 +1,47 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import getTokenApi from "../../api/monkeyGetToken";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Props = {};
 
 export const EditAccount = (props: Props) => {
-  const [oldPassword, setOldPassword] = useState<string>("");
+  const [currentPassword, setCurrentPassword] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [checkPassword, setCheckPassword] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
+  const [newPassword, setNewPassword] = useState<string>("");
+  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  const regex = /^(?=.*?[A-Za-z])(?=.*?\d)[A-Za-z\d]{8,14}$/;
+  const notify = (message: string) =>
+    toast.error(message, {
+      position: "top-center",
+      autoClose: 2000,
+    });
+
+  const handleSubmit = async (
+    userId: string,
+    currentPassword: string,
+    newPassword: string,
+  ) => {
+    const data = await getTokenApi.changePassword(
+      userId,
+      currentPassword,
+      newPassword,
+    );
+    if (data !== "비밀번호 변경 완료") {
+      return notify("현재 비밀번호가 일치하지 않습니다.");
+    }
+  };
+
+  const handleChange = (event: any) => {
+    if (regex.test(password)) {
+      setNewPassword(event.target.value);
+    } else {
+      return notify("정확한 비밀번호 형식을 입력해주세요.");
+    }
+  };
+
   console.log(userId);
   useEffect(() => {
     const { userId } = JSON.parse(localStorage.getItem("userInfo") || "{}");
@@ -19,26 +52,30 @@ export const EditAccount = (props: Props) => {
     const res = await getTokenApi.withdrawal(userId);
     console.log(res);
   };
-  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
   return (
     <div className="myaccount">
       <div className="user-name">{userInfo.name}님의 정보 수정</div>
-      <Form className="inputWrap">
+      <Form
+        className="inputWrap"
+        onSubmit={() =>
+          handleSubmit(userInfo.userId, currentPassword, newPassword)
+        }
+      >
         <div className="group">
           <div className="inputTitle">현재 비밀번호</div>
           <input
             type="password"
             placeholder="현재 비밀번호"
-            value={oldPassword}
-            onChange={(e) => setOldPassword(e.target.value)}
+            value={currentPassword}
+            onChange={(e) => setCurrentPassword(e.target.value)}
           />
         </div>
         <div className="group">
           <div className="inputTitle">비밀번호</div>
           <input
             type="password"
-            placeholder="새 비밀번호"
+            placeholder="새 비밀번호 (8~12자 영문 숫자 조합)"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -48,17 +85,22 @@ export const EditAccount = (props: Props) => {
           <input
             type="password"
             placeholder="새 비밀번호 확인"
-            value={checkPassword}
-            onChange={(e) => setCheckPassword(e.target.value)}
+            value={newPassword}
+            onChange={handleChange}
           />
         </div>
-        {password !== checkPassword ? (
+        {password !== newPassword ? (
           <div className="wrong">비밀번호가 일치하지 않습니다.</div>
         ) : null}
+        <ToastContainer limit={1} />
         <button
           type="submit"
           disabled={
-            password !== checkPassword || checkPassword === "" ? true : false
+            password !== newPassword ||
+            newPassword === "" ||
+            currentPassword === ""
+              ? true
+              : false
           }
         >
           비밀번호 변경하기
