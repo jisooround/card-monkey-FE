@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import getTokenApi from "../api/monkeyGetToken";
 import CardItem from "../components/searchProduct/CardItem";
+import CardSkeleton, { SkeletonItem } from "../components/ui/CardSkeleton";
 
 type Props = {};
 
@@ -10,6 +11,7 @@ type Benefits = {
 };
 
 const Suggest = (props: Props) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [suggestCards, setSuggestCards] = useState<Array<Card>>([]);
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   const benefits: Benefits = {
@@ -34,9 +36,36 @@ const Suggest = (props: Props) => {
     );
   });
 
+  const skeletonBenefitList = (
+    <>
+      <SkeletonBenefit className="top"></SkeletonBenefit>
+      <SkeletonBenefit className="top"></SkeletonBenefit>
+      <SkeletonBenefit className="top"></SkeletonBenefit>
+    </>
+  );
+
+  const skeletonCardList = (
+    <>
+      <CardItemWrapper>
+        <SkeletonBenefit></SkeletonBenefit>
+        <CardSkeleton />
+      </CardItemWrapper>
+      <CardItemWrapper>
+        <SkeletonBenefit></SkeletonBenefit>
+        <CardSkeleton />
+      </CardItemWrapper>
+      <CardItemWrapper>
+        <SkeletonBenefit></SkeletonBenefit>
+        <CardSkeleton />
+      </CardItemWrapper>
+    </>
+  );
+
   const getSuggestCard = async () => {
+    setIsLoading(true);
     const data = await getTokenApi.benefitCard(userInfo.userId);
     setSuggestCards(data);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -54,14 +83,20 @@ const Suggest = (props: Props) => {
       <div className="benefit">
         <div className="title">{userInfo.name}님이 선택한 관심 혜택</div>
         <div className="buttons">
-          {suggestCards.map((item) => (
-            <BtnBenefit key={item.id}>#{benefits[item.benefit!]}</BtnBenefit>
-          ))}
+          {isLoading
+            ? skeletonBenefitList
+            : suggestCards.map((item) => (
+                <BtnBenefit key={item.id}>
+                  #{benefits[item.benefit!]}
+                </BtnBenefit>
+              ))}
         </div>
       </div>
       <div className="result-wrapper">
         <div className="title">몽키추천 결과입니다.</div>
-        <CardListContainer>{suggestCardList}</CardListContainer>
+        <CardListContainer>
+          {isLoading ? skeletonCardList : suggestCardList}
+        </CardListContainer>
       </div>
     </Container>
   );
@@ -135,6 +170,16 @@ const BtnBenefit = styled.button`
   color: var(--color-primary);
   font-size: 17px;
   font-weight: bold;
+`;
+
+const SkeletonBenefit = styled(SkeletonItem)`
+  width: 76px;
+  height: 34px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  &.top {
+    margin-bottom: 0;
+  }
 `;
 
 export default Suggest;
