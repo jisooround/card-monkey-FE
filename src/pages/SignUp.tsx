@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Agreement from "../components/signUp/Agreement";
 import Benefit from "../components/signUp/Benefit";
 import Complete from "../components/signUp/Complete";
@@ -17,6 +17,10 @@ const SignUp = () => {
   if (step === 0) {
     navigate("/login");
   }
+  useEffect(() => {
+    const { token } = JSON.parse(localStorage.getItem("userInfo") || "{}");
+    token ? navigate(`/`, { replace: true }) : null;
+  }, []);
 
   console.log("step : ", step);
 

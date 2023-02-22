@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
-type Props = {};
+type Props = {
+  item: string;
+};
 
-const BenefitIcon = ({ item }: { item: BenefitProps["item"] }) => {
+const BenefitIcon = ({ item }: Props) => {
   if (item === "coffee") {
     return (
       <Icon>
@@ -71,7 +73,7 @@ const BenefitIcon = ({ item }: { item: BenefitProps["item"] }) => {
   if (item === "shopping") {
     return (
       <Icon>
-        <img src="./benefit_transportation.png" alt="" />
+        <img src="./benefit_shopping.png" alt="" />
         <p>쇼핑</p>
       </Icon>
     );

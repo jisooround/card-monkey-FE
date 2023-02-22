@@ -43,7 +43,7 @@ class MonkeySetToken {
   }
 
   /** 회원가입 */
-  async signUp({ userId, password, name, benefit }: signType) {
+  async signUp({ userId, password, name, benefit }: SignType) {
     return this.axiosInstance
       .post("/signup", {
         userId: userId,
@@ -61,7 +61,7 @@ class MonkeySetToken {
   }
 
   /** 로그인 */
-  async signIn({ userId, password }: loginType) {
+  async signIn({ userId, password }: LoginType) {
     return this.axiosInstance
       .post("/login", {
         userId: userId,
@@ -73,6 +73,16 @@ class MonkeySetToken {
         localStorage.setItem("userInfo", JSON.stringify(res));
         return res;
       })
+      .catch((error) => console.log(error));
+  }
+
+  /** 아이디 중복 체크 */
+  async idCheck(userId: string) {
+    return this.axiosInstance
+      .post("/userIdValidation", {
+        userId: userId,
+      })
+      .then((result) => result.data)
       .catch((error) => console.log(error));
   }
 }
