@@ -41,14 +41,14 @@ interface BenefitProps {
   item: string;
 }
 
-interface signType {
+interface SignType {
   userId: string;
   password: string;
   name: string;
   benefit: Array<string>;
 }
 
-interface loginType {
+interface LoginType {
   userId: string;
   password: string;
 }
