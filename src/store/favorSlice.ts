@@ -15,7 +15,7 @@ const initialState = {
 export const fetchFavor = createAsyncThunk(
   "favor/fetchFavor",
   async (userId: string) => {
-    const data = await getTokenApi.myFavor(userId);
+    const data = await getTokenApi.myFavor();
     return data;
   },
 );
