@@ -12,6 +12,7 @@ import {
 import { AppDispatch, RootState } from "../../store/store";
 import { addFavor, deleteFavor, fetchFavor } from "../../store/favorSlice";
 import { CardType } from "../../pages/MainPage";
+import { CgSmileSad } from "react-icons/cg";
 
 type Props = {
   card: CardInfo;
@@ -20,11 +21,17 @@ type Props = {
 const CardDetail = ({ card }: Props) => {
   const [isApplicated, SetIsApplicated] = useState(false);
   const [myCard, setMyCard] = useState<Array<CardType>>([]);
+  const [reviewList, setReviewList] = useState({
+    id: 0,
+    message: [""],
+  });
+
+  let id = card.id;
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
-  let id = card.id;
   const dispatch = useDispatch<AppDispatch>();
+
   const selectedReview = useSelector(
     (state: RootState) => state.review.message,
   );
@@ -38,10 +45,16 @@ const CardDetail = ({ card }: Props) => {
     setMyCard(data);
   };
 
+  // const getReview = async () => {
+  //   const data = await getTokenApi.getReview(card.id);
+  //   setReviewList(data);
+  // };
+
   console.log(myCard);
 
   useEffect(() => {
     getMyCard();
+    // getReview();
   }, []);
 
   const benefits = [
@@ -96,8 +109,6 @@ const CardDetail = ({ card }: Props) => {
   };
 
   useEffect(() => {
-    // 여기 페이지 들어오면 관심상품 가져오는데 favorList.json 데이터라 항상 2개 상품 가져옴
-    // 그래서 추가, 삭제해도 다시 이 페이지 들어오면 favorList.json 데이터 상품 2개 가져옴
     dispatch(fetchFavor(userInfo.userId));
   }, []);
 
@@ -110,24 +121,21 @@ const CardDetail = ({ card }: Props) => {
     SetIsApplicated((prev) => !prev);
   };
 
-  // const clickHandler = (text: string) => {
-  //   dispatch(selectReview(text));
-  // };
+  const clickSelect = (text: string) => {
+    dispatch(selectReview(text));
+  };
 
-  // useEffect(() => {
-  //   dispatch(fetchReview({ id, selectedReview }));
-  // }, [selectedReview, card.id]);
+  const reviewArray = [
+    "MZ세대가 선택한 카드",
+    "마트,,,다녀오셨어요? 쇼핑할 때 좋은 카드",
+    "뚜벅이분들~대중교통 할인 해줍니다",
+    "중요한건 꺾이지 않은 적립율",
+    "개봉 영화 모두 섭렵하는 나는 영화광",
+    "반려동물도 내 가족이니까! 동물병원 할인",
+    "핸드폰 비용도 알뜰하게 할인!",
+    "꼼꼼한 여행러에게 필수 카드",
+  ];
 
-  // const reviewArray = [
-  //   "MZ세대가 선택한 카드",
-  //   "마트,,,다녀오셨어요? 쇼핑할 때 좋은 카드",
-  //   "뚜벅이분들~대중교통 할인 해줍니다",
-  //   "중요한건 꺾이지 않은 적립율",
-  //   "개봉 영화 모두 섭렵하는 나는 영화광",
-  //   "반려동물도 내 가족이니까! 동물병원 할인",
-  //   "핸드폰 비용도 알뜰하게 할인!",
-  //   "꼼꼼한 여행러에게 필수 카드",
-  // ];
   const width = () => {
     let width = cardImage.width > cardImage.height ? 240 : 150;
     return width;
@@ -197,7 +205,7 @@ const CardDetail = ({ card }: Props) => {
             </Button>
           )}
         </div>
-        {/* <SectionTitle>
+        <SectionTitle>
           <hr className="top" color="#f5f5f5" />
           <div className="content">
             <h5>Keyword</h5>
@@ -206,12 +214,18 @@ const CardDetail = ({ card }: Props) => {
           <hr className="bottom" color="#f5f5f5" />
         </SectionTitle>
         <Reviews>
-          {selectedReview.message &&
-            selectedReview.message.map((message: string) => (
+          {reviewList.message[0] !== "" ? (
+            reviewList.message.map((message: string) => (
               <li className="text" key={uuidv4()}>
                 {message}
               </li>
-            ))}
+            ))
+          ) : (
+            <div className="fail-div">
+              <CgSmileSad className="smile-sad" size={28} />
+              <span className="fail">확인 가능한 키워드가 없어요.</span>
+            </div>
+          )}
         </Reviews>
         <hr className="bottom" color="#f5f5f5" />
         <ChooseKeyword>
@@ -220,12 +234,31 @@ const CardDetail = ({ card }: Props) => {
               type="button"
               key={uuidv4()}
               className={selectedReview.includes(text) ? "active" : ""}
-              onClick={() => clickHandler(text)}
+              onClick={() => clickSelect(text)}
             >
               {text}
             </BtnReview>
           ))}
-        </ChooseKeyword> */}
+          {reviewList.message[0] !== "" ? (
+            <Button
+              color={"var(--color-white)"}
+              background={"var(--color-primary)"}
+              className={"able"}
+              onClick={() => dispatch(fetchReview({ id, selectedReview }))}
+            >
+              선택한 리뷰 변경하기
+            </Button>
+          ) : (
+            <Button
+              color={"var(--color-white)"}
+              background={"var(--color-primary)"}
+              className={"able"}
+              onClick={() => dispatch(fetchReview({ id, selectedReview }))}
+            >
+              리뷰 선택하기
+            </Button>
+          )}
+        </ChooseKeyword>
       </div>
     </Wrapper>
   );
@@ -329,6 +362,7 @@ const Button = styled.button<Button>`
   font-weight: 600;
   color: ${(props) => props.color};
   background-color: ${(props) => props.background};
+  cursor: pointer;
   &.able {
     &:hover {
       transition: 0.3s;
@@ -391,16 +425,31 @@ const Reviews = styled.ul`
       color: var(--color-primary);
     }
   }
+  .fail-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 3px dashed var(--color-gray);
+    border-radius: 10px;
+    width: 90%;
+    height: 150px;
+    margin: 10px;
+    .smile-sad {
+      color: var(--color-gray);
+      padding-bottom: 10px;
+    }
+    .fail {
+      color: var(--color-gray);
+    }
+  }
 `;
 
 const ChooseKeyword = styled.div`
-  padding: 20px 0;
-  display: grid;
+  padding: 50px;
   justify-content: center;
   row-gap: 30px;
   column-gap: 0;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(3, 30px);
   place-items: center;
 `;
 
@@ -409,7 +458,8 @@ const BtnReview = styled.button`
   border: 1px solid #e0e0e0;
   border-radius: 15px;
   background-color: #ffffff;
-  height: 34px;
+  height: 50px;
+  width: 400px;
   line-height: 22px;
   padding: 0 13px;
   margin-right: 12px;
