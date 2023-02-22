@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import getTokenApi from "../../api/monkeyGetToken";
 import { addFavor, deleteFavor } from "../../store/favorSlice";
+import { toast, ToastContainer } from "react-toastify";
 
 type CardItemPropsType = {
   card: Card;
@@ -37,6 +38,22 @@ const CardItem = ({ card }: CardItemPropsType) => {
   const favorList = useSelector((state: RootState) => state.favor.favorList);
   const dispatch = useDispatch<AppDispatch>();
 
+  const addNotify = () => {
+    toast.success("관심상품에 추가되었습니다!", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: true,
+    });
+  };
+
+  const deleteNotify = () => {
+    toast.success("관심상품에서 삭제되었습니다!", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: true,
+    });
+  };
+
   useEffect(() => {
     loadImage(setImageDimensions, imageUrl);
   }, []);
@@ -50,8 +67,10 @@ const CardItem = ({ card }: CardItemPropsType) => {
     const data = await getTokenApi.toggleFavor(card.id);
     console.log(data);
     if (data === "찜하기 완료") {
+      addNotify();
       dispatch(addFavor(card));
     } else if (data === "찜하기 취소 완료") {
+      deleteNotify();
       dispatch(deleteFavor(card.id));
     } else {
       console.log("찜하기 에러");
@@ -89,6 +108,7 @@ const CardItem = ({ card }: CardItemPropsType) => {
       >
         <AiFillHeart />
       </div>
+      <ToastContainer limit={1} />
     </CardContainer>
   );
 };
