@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AiFillHeart } from "react-icons/ai";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
@@ -11,13 +11,40 @@ type CardItemPropsType = {
   card: Card;
 };
 
+const loadImage = (setImageDimensions: any, imageUrl: string) => {
+  const img = new Image();
+  img.src = imageUrl;
+
+  img.onload = () => {
+    setImageDimensions({
+      height: img.height,
+      width: img.width,
+    });
+  };
+  img.onerror = (err) => {
+    console.log("img error");
+    console.error(err);
+  };
+};
+
 const CardItem = ({ card }: CardItemPropsType) => {
+  const [imageDimensions, setImageDimensions] = useState<width>({
+    width: 0,
+    height: 0,
+  });
+  const imageUrl = card.image;
   const navigate = useNavigate();
   const favorList = useSelector((state: RootState) => state.favor.favorList);
   const dispatch = useDispatch<AppDispatch>();
 
-  const cardImage = new Image();
-  cardImage.src = card.image;
+  useEffect(() => {
+    loadImage(setImageDimensions, imageUrl);
+    console.log(imageDimensions);
+  }, []);
+
+  const sizeCalc = () => {
+    return imageDimensions.width > imageDimensions.height ? 110 : 75;
+  };
 
   const toggleFavor = async (e: any) => {
     e.stopPropagation();
@@ -38,7 +65,7 @@ const CardItem = ({ card }: CardItemPropsType) => {
         navigate(`/detail/${card.id}`);
       }}
     >
-      <CardImageWrapper cardImage={cardImage}>
+      <CardImageWrapper size={sizeCalc()}>
         <div className="circle"></div>
         <img src={card.image} />
       </CardImageWrapper>
@@ -100,7 +127,7 @@ const CardContainer = styled.div`
   }
 `;
 
-const CardImageWrapper = styled.div<{ cardImage: HTMLImageElement }>`
+const CardImageWrapper = styled.div<Size>`
   margin-right: 20px;
   width: 110px;
   position: relative;
@@ -113,8 +140,7 @@ const CardImageWrapper = styled.div<{ cardImage: HTMLImageElement }>`
     margin: auto;
     transition: 0.2s;
     filter: drop-shadow(6px 4px 4px #c3c3c3);
-    width: ${(props) =>
-      props.cardImage.width >= props.cardImage.height ? "110px" : "75px"};
+    width: ${(props) => props.size}px;
   }
   .circle {
     width: 110px;

@@ -18,10 +18,11 @@ type Props = {
 };
 
 const CardDetail = ({ card }: Props) => {
+  const [isApplicated, SetIsApplicated] = useState(false);
   const [myCard, setMyCard] = useState<Array<CardType>>([]);
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
-  console.log(card);
+
   let id = card.id;
   const dispatch = useDispatch<AppDispatch>();
   const selectedReview = useSelector(
@@ -47,10 +48,10 @@ const CardDetail = ({ card }: Props) => {
     ["커피", "coffee"],
     ["교통", "transportation"],
     ["영화", "movie"],
-    ["베달", "delivery"],
+    ["배달", "delivery"],
     ["통신", "phone"],
     ["주유", "gas"],
-    ["간편결재", "simplepayment"],
+    ["간편결제", "simplepayment"],
     ["공과금", "tax"],
     ["쇼핑", "shopping"],
   ];
@@ -104,6 +105,11 @@ const CardDetail = ({ card }: Props) => {
     return await getTokenApi.cardApplication(id);
   };
 
+  const clickHandler = (id: number) => {
+    application(id);
+    SetIsApplicated((prev) => !prev);
+  };
+
   // const clickHandler = (text: string) => {
   //   dispatch(selectReview(text));
   // };
@@ -122,11 +128,15 @@ const CardDetail = ({ card }: Props) => {
   //   "핸드폰 비용도 알뜰하게 할인!",
   //   "꼼꼼한 여행러에게 필수 카드",
   // ];
+  const width = () => {
+    let width = cardImage.width > cardImage.height ? 240 : 150;
+    return width;
+  };
 
   return (
     <Wrapper>
       <Back />
-      <CardImg cardImage={cardImage}>
+      <CardImg size={width()}>
         <img src={card.image} />
       </CardImg>
       <div className="container">
@@ -149,7 +159,8 @@ const CardDetail = ({ card }: Props) => {
         </SectionTitle>
         <Benefit>{card.benefit && findBenefit()}</Benefit>
         <div className="button-wrapper">
-          {myCard && myCard.find((item) => item.id === card.id) ? (
+          {isApplicated ||
+          (myCard && myCard.find((item) => item.id === card.id)) ? (
             <Button
               color={"var(--color-lightgray)"}
               background={"var(--color-brown)"}
@@ -161,7 +172,7 @@ const CardDetail = ({ card }: Props) => {
             <Button
               color={"var(--color-white)"}
               background={"var(--color-primary)"}
-              onClick={() => application(card.id)}
+              onClick={() => clickHandler(card.id)}
               className={"able"}
             >
               카드 신청하기
@@ -243,11 +254,10 @@ const Wrapper = styled.div`
   }
 `;
 
-const CardImg = styled.div<{ cardImage: HTMLImageElement }>`
+const CardImg = styled.div<Size>`
   text-align: center;
   img {
-    width: ${(props) =>
-      props.cardImage.width > props.cardImage.height ? "220px" : "180px"};
+    width: ${(props) => props.size}px;
     background-color: inherit;
     margin: 20px auto 10px auto;
     box-shadow: 1px 2px 2px 2px rgba(0, 0, 0, 0.25);

@@ -58,3 +58,11 @@ interface Button {
 interface IdCheck {
   userId: string;
 }
+
+interface width {
+  width: number;
+  height: number;
+}
+interface Size {
+  size: number;
+}
