@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import {
   AiOutlineSearch,
@@ -6,7 +6,6 @@ import {
   AiOutlineCloseCircle,
 } from "react-icons/ai";
 import { TbLogout } from "react-icons/tb";
-import { FcWiFiLogo } from "react-icons/fc";
 import { useLocation, useNavigate } from "react-router";
 import { useSearchParams } from "react-router-dom";
 import getTokenApi from "../../api/monkeyGetToken";

@@ -97,6 +97,12 @@ export const fetchSearch = createAsyncThunk(
         });
         return newCardList;
       }
+      if (selected.searchName.length === 0) {
+        const newCardList = benefitData.filter((card: Card) => {
+          return companyData.find((item: Card) => item.id === card.id);
+        });
+        return newCardList;
+      }
       const newCardList1 = benefitData.filter((card: Card) => {
         return companyData.find((item: Card) => item.id === card.id);
       });
