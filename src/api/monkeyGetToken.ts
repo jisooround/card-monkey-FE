@@ -51,16 +51,6 @@ class MonkeyGetToken {
       });
   }
 
-  /**추천 카드 */
-  async recommend() {
-    return this.instance
-      .get("/card/suggest/fastcampus3")
-      .then((result) => console.log(result))
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
   /**관심혜택 맞춤 카드 */
   async benefitCard(userId: string) {
     return this.instance
@@ -160,20 +150,17 @@ class MonkeyGetToken {
   }
 
   /**비밀번호 변경 */
-  async changePassword() {
+  async changePassword(
+    userId: string,
+    currentPassword: string,
+    newPassword: string,
+  ) {
     return this.instance
-      .post(`/changePassword/fastcampus3`)
-      .then((result) => result)
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  /**혜택 변경 */
-  async changeBenefit() {
-    return this.instance
-      .patch(`/changeBenefit/fastcampus3`)
-      .then((result) => console.log(result))
+      .post(`/changePassword/${userId}`, {
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      })
+      .then((result) => result.data)
       .catch((error) => {
         console.log(error);
       });

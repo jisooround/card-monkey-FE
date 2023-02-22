@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import getTokenApi from "../api/monkeyGetToken";
 import { CardLists } from "../components/mypage/CardLists";
 import { EditAccount } from "../components/mypage/EditAccount";
-import { MyCards } from "../components/ui/MyCard";
-import { CardType, Empty } from "./MainPage";
 
 type Props = {};
 
@@ -18,7 +15,7 @@ const MyPage = (props: Props) => {
   return (
     <Container>
       <div className="title">
-        <img src="../monkeycard_yellow.png" />
+        <img src="../monkeycard_white.png" />
         <div className="text">마이페이지</div>
       </div>
       <div className="category">
