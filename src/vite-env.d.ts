@@ -33,6 +33,9 @@ interface Argument {
   id: number;
   selectedReview: string[];
 }
+interface selectedReview {
+  message: string;
+}
 
 interface BenefitProps {
   item: string;
