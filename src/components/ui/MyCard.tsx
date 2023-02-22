@@ -7,14 +7,45 @@ type MyCardType = {
   card: CardType;
 };
 
+const loadImage = (setImageDimensions: any, imageUrl: string) => {
+  const img = new Image();
+  img.src = imageUrl;
+
+  img.onload = () => {
+    setImageDimensions({
+      height: img.height,
+      width: img.width,
+    });
+  };
+  img.onerror = (err) => {
+    console.log("img error");
+    console.error(err);
+  };
+};
+
 export const MyCards = ({ card }: MyCardType) => {
+  const [imageDimensions, setImageDimensions] = useState<width>({
+    width: 0,
+    height: 0,
+  });
+  const imageUrl = card.image;
+  useEffect(() => {
+    loadImage(setImageDimensions, imageUrl);
+  }, []);
+
+  const sizeCalc = () => {
+    return imageDimensions.width > imageDimensions.height ? 110 : 70;
+  };
+
   return (
     <Link to={`/detail/${card.id}`} style={{ textDecoration: "none" }}>
       <Mycard>
         <div className="box">
-          <div className="circle">
-            <img src={card.image} />
-          </div>
+          <ImageWrapper size={sizeCalc()}>
+            <div className="circle">
+              <img src={card.image} />
+            </div>
+          </ImageWrapper>
           <div>
             <div className="cardname">{card.name}</div>
             <div>{card.company}</div>
@@ -41,26 +72,11 @@ const Mycard = styled.div`
     font-size: 13px;
     color: black;
     cursor: pointer;
-  }
-  .circle {
-    background-color: var(--color-lightgray);
-    border-radius: 50%;
-    width: 110px;
-    height: 110px;
-    margin-right: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    img {
-      height: 70px;
-      aspect-ratio: auto 1/1;
-      transition: 0.2s;
-      filter: drop-shadow(6px 4px 4px #c3c3c3);
-      :hover {
-        transform: translateY(-5px);
-      }
+    &:hover img {
+      transform: translateY(-5px);
     }
   }
+
   .cardname {
     font-size: 18px;
     font-weight: 600;
@@ -82,6 +98,25 @@ const Mycard = styled.div`
     &.check {
       color: #1bbbee;
       background-color: #dbf6ff;
+    }
+  }
+`;
+
+const ImageWrapper = styled.div<Size>`
+  .circle {
+    background-color: var(--color-lightgray);
+    border-radius: 50%;
+    width: 110px;
+    height: 110px;
+    margin-right: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: ${(props) => props.size}px;
+      aspect-ratio: auto 1/1;
+      transition: 0.2s;
+      filter: drop-shadow(6px 4px 4px #c3c3c3);
     }
   }
 `;
