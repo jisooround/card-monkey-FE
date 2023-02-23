@@ -18,7 +18,6 @@ const MyPage = () => {
     <Container>
       <div className="fixed">
         <div className="title">
-          {/* <img src="../monkeycard_white.png" /> */}
           <div className="text">마이페이지</div>
         </div>
         <div className="category">
@@ -145,6 +144,7 @@ const Container = styled.div`
     }
   }
   .cancle {
+    display: inline-block;
     font-size: 14px;
     color: var(--color-gray);
     position: relative;
