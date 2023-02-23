@@ -8,7 +8,6 @@ import { resetForm } from "../store/signUpSlice";
 import { useNavigate, useLocation } from "react-router-dom";
 import { fetchFavor } from "../store/favorSlice";
 import { authCheck, getCookie } from "../utils/cookie";
-import axios from "axios";
 
 type Props = {};
 

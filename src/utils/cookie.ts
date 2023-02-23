@@ -1,5 +1,6 @@
 import { Cookies } from "react-cookie";
 import axios from "axios";
+const { VITE_URL } = import.meta.env;
 
 const cookies = new Cookies();
 
@@ -23,7 +24,7 @@ export const deleteCookie = () => {
 export const authCheck = (pathname: string, navigate: any) => {
   const token = getCookie();
   axios
-    .get(`http://www.card-monkey.store/info/apply`, {
+    .get(VITE_URL + `/info/apply`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((result) => {

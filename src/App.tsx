@@ -10,24 +10,6 @@ const App = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  // const authCheck = () => {
-  //   const token = getCookie();
-  //   axios
-  //     .get(`http://www.card-monkey.store/info/apply`, {
-  //       headers: { Authorization: `Bearer ${token}` },
-  //     })
-  //     .then((result) => {
-  //       // if (pathname === "/login" || pathname === "/signUp") {
-  //       //   navigate(`/`);
-  //       // }
-  //       console.log("토큰확인");
-  //     })
-  //     .catch((error) => {
-  //       console.log("토큰삭제");
-  //       navigate(`/login`);
-  //     });
-  // };
-
   useEffect(() => {
     authCheck(pathname, navigate);
   });
