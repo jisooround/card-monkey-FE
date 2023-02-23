@@ -19,7 +19,7 @@
 
 ### 링크 모음
 <a href="https://card-monkey.netlify.app/">
-  <img src="https://img.shields.io/badge/배포사이트-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
+  <img src="https://img.shields.io/badge/배포사이트-FF0000?style=for-the-badge&color=yellow" />
 </a>&nbsp;&nbsp;
 <a href="https://github.com/React-Team-Project/Youtube-Clone">
   <img src="https://img.shields.io/badge/팀레포-181717?style=for-the-badge&logo=github&logoColor=white" />
