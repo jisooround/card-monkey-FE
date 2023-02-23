@@ -16,7 +16,7 @@ const Favor = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    // dispatch(fetchFavor());
+    dispatch(fetchFavor());
   }, []);
 
   const name = userInfo.name;

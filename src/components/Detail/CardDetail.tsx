@@ -11,7 +11,6 @@ import {
 } from "../../store/reviewSlice";
 import { AppDispatch, RootState } from "../../store/store";
 import { addFavor, deleteFavor, fetchFavor } from "../../store/favorSlice";
-import { CardType } from "../../pages/MainPage";
 import { CgSmileSad } from "react-icons/cg";
 import Suggest from "../../pages/Suggest";
 import SuggestCard from "../ui/SuggestCard";
