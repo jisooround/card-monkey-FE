@@ -34,7 +34,7 @@ class MonkeyGetToken {
   /**신청한 카드 내역 */
   async cardList(userId: string) {
     return this.instance
-      .get(`/paid/${userId}`)
+      .get(`/info/apply`)
       .then((result) => result.data)
       .catch((error) => {
         console.log(error);
@@ -155,7 +155,8 @@ class MonkeyGetToken {
     newPassword: string,
   ) {
     return this.instance
-      .post(`/changePassword/${userId}`, {
+      .patch(`/info/changePassword`, {
+        userId: userId,
         currentPassword: currentPassword,
         newPassword: newPassword,
       })
@@ -189,7 +190,7 @@ class MonkeyGetToken {
   /**신청한 카드 취소*/
   async deleteCard(id: number) {
     return this.instance
-      .delete(`/paid/${id}`)
+      .delete(`/card/apply/${id}`)
       .then((result) => result.data)
       .catch((error) => {
         console.log("카드 취소 에러", error);

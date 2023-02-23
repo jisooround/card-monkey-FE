@@ -30,7 +30,7 @@ export const EditAccount = (props: Props) => {
       newPassword,
     );
     if (data !== "비밀번호 변경 완료") {
-      return notify("현재 비밀번호가 일치하지 않습니다.");
+      return alert("현재 비밀번호가 일치하지 않습니다.");
     }
   };
 
