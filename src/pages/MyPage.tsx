@@ -3,7 +3,9 @@ import styled from "styled-components";
 import { CardLists } from "../components/mypage/CardLists";
 import { EditAccount } from "../components/mypage/EditAccount";
 
-type Props = {};
+type Props = {
+  changeSetSection: any;
+};
 
 const MyPage = (props: Props) => {
   const [section, setSection] = useState("card-lists");
@@ -12,33 +14,39 @@ const MyPage = (props: Props) => {
     setSection(event.target.className);
   };
 
+  const changeSetSection = () => {
+    setSection("card-lists");
+  };
+
   return (
     <Container>
-      <div className="fixed">
-        <div className="title">
-          {/* <img src="../monkeycard_white.png" /> */}
-          <div className="text">마이페이지</div>
-        </div>
-        <div className="category">
-          <div
-            className="card-lists"
-            id={section === "card-lists" ? "primary" : "basic"}
-            onClick={changeSection}
-          >
-            나의 카드
-          </div>
-          <div className="y-line"></div>
-          <div
-            className="edit-account"
-            id={section === "edit-account" ? "primary" : "basic"}
-            onClick={changeSection}
-          >
-            회원정보 수정
-          </div>
-        </div>
-        <div className="line"></div>
+      <div className="title">
+        <img src="../monkeycard_white.png" />
+        <div className="text">마이페이지</div>
       </div>
-      {section === "card-lists" ? <CardLists /> : <EditAccount />}
+      <div className="category">
+        <div
+          className="card-lists"
+          id={section === "card-lists" ? "primary" : "basic"}
+          onClick={changeSection}
+        >
+          나의 카드
+        </div>
+        <div className="y-line"></div>
+        <div
+          className="edit-account"
+          id={section === "edit-account" ? "primary" : "basic"}
+          onClick={changeSection}
+        >
+          회원정보 수정
+        </div>
+      </div>
+      <div className="line"></div>
+      {section === "card-lists" ? (
+        <CardLists />
+      ) : (
+        <EditAccount changeSetSection={changeSetSection} />
+      )}
     </Container>
   );
 };
@@ -144,7 +152,7 @@ const Container = styled.div`
     color: var(--color-gray);
     position: relative;
     top: -25px;
-    left: 330px;
+    left: 315px;
     cursor: pointer;
     :hover {
       color: var(--color-primary);
