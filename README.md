@@ -18,8 +18,8 @@
 - 1차: 2023.2.13 ~ 2023.2.24(총 12일)
 
 ### 링크 모음
-<a href="">
-  <img src="https://img.shields.io/badge/배포사이트-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
+<a href="https://card-monkey.netlify.app/">
+  <img src="https://img.shields.io/badge/배포사이트-FF0000?style=for-the-badge&color=yellow" />
 </a>&nbsp;&nbsp;
 <a href="https://github.com/React-Team-Project/Youtube-Clone">
   <img src="https://img.shields.io/badge/팀레포-181717?style=for-the-badge&logo=github&logoColor=white" />
@@ -34,7 +34,7 @@
 
 |소재헌👑|이혜란|우지수|공혜지|
 |:---:|:---:|:---:|:---:|
-|<a href=><img src= width=160/></a>|<a href="https://github.com/hwisaac"><img src="https://avatars.githubusercontent.com/u/54179672?v=4" width=160/></a>|<a href="https://github.com/syoon0624"><img src="https://avatars.githubusercontent.com/u/77139957?v=4" width=160/></a>|<a href="https://github.com/hayden365"><img src="https://avatars.githubusercontent.com/u/109419531?v=4" width=160/></a>|
+|<a href=><img src= width=160/></a>|<a href=""><img src="" width=160/></a>|<a href=""><img src="" width=160/></a>|<a href="https://github.com/hayden365"><img src="https://avatars.githubusercontent.com/u/109419531?v=4" width=160/></a>|
 |메인 페이지<br>검색 페이지|초기 세팅<br>상세 페이지<br>리팩토링|사이드 바<br>추천 동영상|네비게이션 바<br>README(...)|
 
 <br><br>
