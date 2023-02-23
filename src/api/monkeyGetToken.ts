@@ -1,16 +1,5 @@
 import axios from "axios";
 import instance from "./apiController";
-import favorList from "../mokeup/favorList.json";
-import cardDetail from "../mokeup/cardDetail.json";
-import suggestList from "../mokeup/suggestList.json";
-import benefitByCoffee from "../mokeup/benefitByCoffee.json";
-import benefitByMovie from "../mokeup/benefitByMovie.json";
-import benefitByPhone from "../mokeup/benefitByPhone.json";
-import searchLotte from "../mokeup/searchLotte.json";
-import searchSamsung from "../mokeup/searchSamsung.json";
-import searchShinhan from "../mokeup/searchShinhan.json";
-import searchWoori from "../mokeup/searchWoori.json";
-import getReview from "../mokeup/getReview.json";
 
 class MonkeyGetToken {
   instance;
@@ -122,7 +111,6 @@ class MonkeyGetToken {
       })
       .catch((error) => {
         console.log(error);
-        return getReview;
       });
   }
 
@@ -173,7 +161,6 @@ class MonkeyGetToken {
       .then((result) => result.data)
       .catch((error) => {
         console.log(error);
-        return favorList;
       });
   }
 
