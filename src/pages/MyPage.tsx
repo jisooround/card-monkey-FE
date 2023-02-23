@@ -52,7 +52,8 @@ export default MyPage;
 
 const Container = styled.div`
   margin: 0 auto;
-  padding-bottom: 90px;
+  padding-top: 80px;
+  padding-bottom: 80px;
   width: 100%;
   #primary {
     color: var(--color-primary);
