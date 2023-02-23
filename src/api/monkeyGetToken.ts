@@ -32,7 +32,7 @@ class MonkeyGetToken {
   }
 
   /**신청한 카드 내역 */
-  async cardList(userId: string) {
+  async cardList() {
     return this.instance
       .get(`/info/apply`)
       .then((result) => result.data)
