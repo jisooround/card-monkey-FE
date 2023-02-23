@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { CardType } from "../../pages/MainPage";
 import { loadImage } from "./LoadImage";
 
 type MyCardType = {
