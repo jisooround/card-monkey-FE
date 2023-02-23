@@ -32,7 +32,7 @@ class MonkeyGetToken {
   }
 
   /**신청한 카드 내역 */
-  async cardList(userId: string) {
+  async cardList() {
     return this.instance
       .get(`/info/apply`)
       .then((result) => result.data)
@@ -109,16 +109,6 @@ class MonkeyGetToken {
         headers: { "Content-Type": "application/json" },
       })
       .then((result) => console.log(result.data))
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
-  /**찜하기(관심상품) */
-  async favorCheck(id: number) {
-    return this.instance
-      .post(`/card/${id}/favor`)
-      .then((result) => console.log(result))
       .catch((error) => {
         console.log(error);
       });

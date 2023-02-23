@@ -6,7 +6,7 @@ import CardSkeleton, { SkeletonItem } from "../components/ui/CardSkeleton";
 
 type Props = {};
 
-type Benefits = {
+export type Benefits = {
   [index: string]: string;
 };
 

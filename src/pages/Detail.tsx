@@ -32,7 +32,6 @@ const Detail = (props: Props) => {
 };
 
 const Wrapper = styled.div`
-  margin-bottom: 70px;
   padding-bottom: var(--margin-bottom);
 `;
 

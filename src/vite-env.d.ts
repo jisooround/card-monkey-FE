@@ -16,6 +16,9 @@ interface CardInfo {
   image: string;
   name: string;
   type: string;
+  annualFee: number;
+  apply: string;
+  lastMonthPaid: number;
 }
 
 interface getReview {
