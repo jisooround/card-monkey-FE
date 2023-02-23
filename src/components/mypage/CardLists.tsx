@@ -9,8 +9,8 @@ export const CardLists = () => {
   const [myCard, setMyCard] = useState<Array<CardType>>([]);
   const [section, setSection] = useState("all");
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
-  const notify = () =>
-    toast.success("카드 신청이 취소되었습니다.", {
+  const notify = (message: string) =>
+    toast.success(message, {
       position: "top-center",
       autoClose: 2000,
     });
@@ -31,11 +31,11 @@ export const CardLists = () => {
   const handleClick = async (id: number) => {
     const res = await getTokenApi.deleteCard(id);
     if (res === "카드신청 취소 완료") {
-      notify();
+      notify("카드신청 취소가 완료되었습니다.");
       let newData = myCard.filter((data) => data.id !== data.id);
       setMyCard(newData);
     } else {
-      return console.log("오류가 발생하였습니다.");
+      return notify("오류가 발생하였습니다.");
     }
     getMyCard(userInfo.userId);
   };

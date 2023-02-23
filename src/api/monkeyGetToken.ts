@@ -145,7 +145,8 @@ class MonkeyGetToken {
     newPassword: string,
   ) {
     return this.instance
-      .post(`/changePassword/${userId}`, {
+      .patch(`/info/changePassword`, {
+        userId: userId,
         currentPassword: currentPassword,
         newPassword: newPassword,
       })
