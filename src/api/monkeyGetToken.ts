@@ -63,7 +63,7 @@ class MonkeyGetToken {
   async searchByName(name: string) {
     return this.instance
       .get(`/card/name?search=${name}`)
-      .then((result) => result.data)
+      .then((result) => result.data.content)
       .catch((error) => error);
   }
 
@@ -71,7 +71,7 @@ class MonkeyGetToken {
   async searchByCompany(company: string) {
     return this.instance
       .get(`/card/company?search=${company}`)
-      .then((result) => result.data)
+      .then((result) => result.data.content)
       .catch((error) => error);
   }
 
@@ -79,7 +79,7 @@ class MonkeyGetToken {
   async searchByBenefit(benefit: string) {
     return this.instance
       .get(`/card/benefit?search=${benefit}`)
-      .then((result) => result.data)
+      .then((result) => result.data.content)
       .catch((error) => error);
   }
 
@@ -166,7 +166,7 @@ class MonkeyGetToken {
   }
 
   /**나의 관심상품 */
-  async myFavor(userId: string) {
+  async myFavor() {
     return this.instance
       .get(`/info/favor`)
       .then((result) => result.data)
