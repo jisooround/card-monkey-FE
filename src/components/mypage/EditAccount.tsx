@@ -52,7 +52,6 @@ export const EditAccount = ({ changeSetSection }: Props) => {
     }
   };
 
-  console.log(userId);
   useEffect(() => {
     const { userId } = JSON.parse(localStorage.getItem("userInfo") || "{}");
     setUserId(userId);
@@ -67,7 +66,6 @@ export const EditAccount = ({ changeSetSection }: Props) => {
           label: "네",
           onClick: async () => {
             const res = await getTokenApi.withdrawal();
-            console.log(res);
             if (res?.status === 200 || res?.data === "회원탈퇴 완료") {
               localStorage.removeItem("userInfo");
               navigate("/login", { replace: true });
