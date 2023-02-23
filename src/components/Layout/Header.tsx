@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleSearchName } from "../../store/searchSlice";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import { IoIosArrowBack } from "react-icons/io";
 
 type HeaderPropsType = {};
 
@@ -82,13 +83,14 @@ const Header = ({}: HeaderPropsType) => {
       ) : (
         <SearchContainer>
           <SearchBar>
-            <SearchClose
+            <IoIosArrowBack
+              className="icon"
               onClick={() => {
                 navigate(-1);
               }}
             >
               <AiOutlineLeft />
-            </SearchClose>
+            </IoIosArrowBack>
             <SearchInput>
               <input
                 type="text"
@@ -153,22 +155,32 @@ const Icons = styled.div`
 
 const SearchIconWrap = styled.div`
   svg {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     cursor: pointer;
     color: var(--color-black);
   }
 `;
 const LogoutIconWrap = styled.div`
   svg {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     cursor: pointer;
     color: var(--color-black);
   }
 `;
 
-const SearchContainer = styled.div``;
+const SearchContainer = styled.div`
+  .icon {
+    font-size: 26px;
+    padding-left: 10px;
+    color: var(--color-gray);
+    cursor: pointer;
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+`;
 
 const SearchBar = styled.div`
   display: flex;
@@ -176,17 +188,18 @@ const SearchBar = styled.div`
   padding: 9px;
 `;
 
-const SearchClose = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  svg {
-    width: 38px;
-    height: 30px;
-    cursor: pointer;
-    color: var(--color-black);
-  }
-`;
+// const SearchClose = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   svg {
+//     width: 25px;
+//     height: 25px;
+//     cursor: pointer;
+//     color: var(--color-black);
+//     padding-left: 10px;
+//   }
+// `;
 
 const SearchInput = styled.div`
   display: flex;
@@ -212,10 +225,11 @@ const SearchInput = styled.div`
   }
 
   svg {
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
     cursor: pointer;
     color: var(--color-gray);
+    padding-right: 10px;
   }
 `;
 
