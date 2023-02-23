@@ -18,7 +18,7 @@
 - 1차: 2023.2.13 ~ 2023.2.24(총 12일)
 
 ### 링크 모음
-<a href="">
+<a href="https://card-monkey.netlify.app/">
   <img src="https://img.shields.io/badge/배포사이트-FF0000?style=for-the-badge&logo=youtube&logoColor=white" />
 </a>&nbsp;&nbsp;
 <a href="https://github.com/React-Team-Project/Youtube-Clone">
