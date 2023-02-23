@@ -6,9 +6,11 @@ import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { confirmAlert } from "react-confirm-alert";
 
-type Props = {};
+type Props = {
+  changeSetSection: () => void;
+};
 
-export const EditAccount = (props: Props) => {
+export const EditAccount = ({ changeSetSection }: Props) => {
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
@@ -34,8 +36,11 @@ export const EditAccount = (props: Props) => {
       currentPassword,
       newPassword,
     );
-    if (data !== "비밀번호 변경 완료") {
-      return notify("현재 비밀번호가 일치하지 않습니다.");
+    if (data !== "비밀번호가 변경 되었습니다.") {
+      notify("현재 비밀번호가 일치하지 않습니다.");
+    } else {
+      alert("비밀번호 변경이 완료되었습니다.");
+      changeSetSection();
     }
   };
 
