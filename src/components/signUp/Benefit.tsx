@@ -14,8 +14,6 @@ const Benefit = ({ setStep }: Props) => {
   const form = useSelector((state: RootState) => state.signUp);
   const [benefit, setBenefit] = useState<string[]>([]);
   const [complete, setComplete] = useState(false);
-  console.log("Benefit  : ", form);
-  console.log(benefit);
   const benefits = [
     "coffee",
     "transportation",
