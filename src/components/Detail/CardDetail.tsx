@@ -22,7 +22,6 @@ type Props = {
 
 const CardDetail = ({ card }: Props) => {
   const dispatch = useDispatch<AppDispatch>();
-
   const [isApplicated, SetIsApplicated] = useState(false);
   const [myCard, setMyCard] = useState<Array<CardType>>([]);
   // const [reviewList, setReviewList] = useState({
@@ -165,7 +164,7 @@ const CardDetail = ({ card }: Props) => {
         )}
         {card.annualFee !== 0 ? (
           <span className="detail-info">
-            연회비 <strong>{card.annualFee.toLocaleString("ko-KR")}</strong> 원
+            연회비 <strong>{card.annualFee?.toLocaleString("ko-KR")}</strong> 원
           </span>
         ) : (
           ""

@@ -1,5 +1,5 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import styled from "styled-components";
 
@@ -9,6 +9,7 @@ interface BackButtonProps {
 
 export default function Back({ color }: BackButtonProps) {
   const navigate = useNavigate();
+
 
   const clickHandler = () => {
     navigate(-1);

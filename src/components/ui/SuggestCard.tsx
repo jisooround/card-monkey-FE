@@ -71,7 +71,7 @@ const SuggestCard = (props: Props) => {
 const Wrapper = styled.div`
   height: 100%;
   background-color: var(--color-white);
-  padding: 50px;
+  padding: 30px 50px 50px;
   .head {
     .title {
       font-size: 20px;
