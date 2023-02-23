@@ -8,22 +8,6 @@ type MyCardType = {
   card: CardType;
 };
 
-// const loadImage = (setImageDimensions: any, imageUrl: string) => {
-//   const img = new Image();
-//   img.src = imageUrl;
-
-//   img.onload = () => {
-//     setImageDimensions({
-//       height: img.height,
-//       width: img.width,
-//     });
-//   };
-//   img.onerror = (err) => {
-//     console.log("img error");
-//     console.error(err);
-//   };
-// };
-
 export const MyCards = ({ card }: MyCardType) => {
   const [imageDimensions, setImageDimensions] = useState<width>({
     width: 0,
@@ -33,7 +17,7 @@ export const MyCards = ({ card }: MyCardType) => {
   useEffect(() => {
     loadImage(setImageDimensions, imageUrl);
   }, []);
-  loadImage(setImageDimensions, imageUrl);
+
   const sizeCalc = () => {
     return imageDimensions.width > imageDimensions.height ? 110 : 70;
   };

@@ -99,8 +99,6 @@ const MainPage = () => {
       <div className="top3">몽키차트 TOP 5</div>
       {Array.isArray(topCard) ? (
         topCard.map((data, index) => {
-          const imageUrl = data.image;
-          loadImage(setImageDimensions, imageUrl);
           return (
             <Link
               to={`/detail/${data.id}`}
