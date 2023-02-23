@@ -23,14 +23,16 @@ export const EditAccount = (props: Props) => {
     userId: string,
     currentPassword: string,
     newPassword: string,
+    e: any,
   ) => {
+    e.preventDefault();
     const data = await getTokenApi.changePassword(
       userId,
       currentPassword,
       newPassword,
     );
     if (data !== "비밀번호 변경 완료") {
-      return alert("현재 비밀번호가 일치하지 않습니다.");
+      return notify("현재 비밀번호가 일치하지 않습니다.");
     }
   };
 
@@ -58,8 +60,8 @@ export const EditAccount = (props: Props) => {
       <div className="user-name">{userInfo.name}님의 정보 수정</div>
       <Form
         className="inputWrap"
-        onSubmit={() =>
-          handleSubmit(userInfo.userId, currentPassword, newPassword)
+        onSubmit={(e) =>
+          handleSubmit(userInfo.userId, currentPassword, newPassword, e)
         }
       >
         <div className="group">
