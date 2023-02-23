@@ -14,14 +14,14 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loadImage } from "../components/ui/LoadImage";
 
-export type CardType = {
-  company: string;
-  id: number;
-  image: string;
-  name: string;
-  type: string;
-  imageUrl: string;
-};
+// export type CardType = {
+//   company: string;
+//   id: number;
+//   image: string;
+//   name: string;
+//   type: string;
+//   imageUrl: string;
+// };
 
 const MainPage = () => {
   const [topCard, setTopCard] = useState<Array<CardType>>();
@@ -49,7 +49,6 @@ const MainPage = () => {
   const getMyCard = async (userId: string) => {
     const data = await getTokenApi.cardList();
     setMyCard(data);
-    console.log("mycard", myCard);
   };
 
   const copyUrl = () => {

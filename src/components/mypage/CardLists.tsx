@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import getTokenApi from "../../api/monkeyGetToken";
-import { CardType, Empty } from "../../pages/MainPage";
+import { Empty } from "../../pages/MainPage";
 import { MyCards } from "../ui/MyCard";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -32,7 +32,6 @@ export const CardLists = () => {
   const handleClick = async (id: number, e: any) => {
     e.stopPropagation();
     const res = await getTokenApi.deleteCard(id);
-    console.log("취소취소", res);
     if (res === "카드신청 취소 완료") {
       notify("카드신청 취소가 완료되었습니다.");
       let newData = myCard.filter((data) => data.id !== data.id);
