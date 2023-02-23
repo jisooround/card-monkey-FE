@@ -63,7 +63,7 @@ const Suggest = (props: Props) => {
 
   const getSuggestCard = async () => {
     setIsLoading(true);
-    const data = await getTokenApi.benefitCard(userInfo.userId);
+    const data = await getTokenApi.benefitCard();
     setSuggestCards(data);
     setIsLoading(false);
   };
