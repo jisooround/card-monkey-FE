@@ -30,7 +30,7 @@ const Login = () => {
     const res = await setTokenApi.signIn({ userId, password });
     if (res.loginStatus === "로그인 완료") {
       console.log(res);
-      dispatch(fetchFavor(userId));
+      dispatch(fetchFavor());
       navigate(`/`, { replace: true });
     } else {
       setFail(true);

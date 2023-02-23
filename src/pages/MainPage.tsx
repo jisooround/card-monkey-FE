@@ -47,7 +47,7 @@ const MainPage = () => {
   };
 
   const getMyCard = async (userId: string) => {
-    const data = await getTokenApi.cardList(userId);
+    const data = await getTokenApi.cardList();
     setMyCard(data);
     console.log("mycard", myCard);
   };

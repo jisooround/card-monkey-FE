@@ -39,6 +39,7 @@ class MonkeySetToken {
     this.axiosInstance = axios.create({
       baseURL: VITE_URL,
       headers: { "Content-Type": "application/json" },
+      timeout: 10000,
     });
   }
 

@@ -76,7 +76,6 @@ export const fetchSearch = createAsyncThunk(
     const companyData = await getCompanyCard(selected.selectedCompany);
     const nameData =
       selected.searchName !== "" ? await getNameCard(selected.searchName) : [];
-    console.log(benefitData, companyData, nameData);
     if (
       selected.selectedBenefit.length === 0 &&
       selected.selectedCompany.length === 0

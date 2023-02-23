@@ -40,7 +40,6 @@ const Header = ({}: HeaderPropsType) => {
           label: "네",
           onClick: async () => {
             const res = await getTokenApi.signOut();
-            console.log(res);
             if (res?.status === 200 || res.data === "로그아웃 완료") {
               localStorage.removeItem("userInfo");
               navigate("/login", { replace: true });
