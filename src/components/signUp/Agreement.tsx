@@ -26,9 +26,6 @@ const Agreement = ({ setStep }: Props) => {
 
   const [agree, setAgree] = useState<string[]>([]);
 
-  console.log(agree);
-  console.log("Agreement  : ", form);
-
   const handleCheck = (checked: boolean, id: string) => {
     if (checked) {
       setAgree((prev) => [...prev, id]);

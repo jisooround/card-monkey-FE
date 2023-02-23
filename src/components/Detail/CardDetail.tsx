@@ -24,10 +24,6 @@ const CardDetail = ({ card }: Props) => {
   const dispatch = useDispatch<AppDispatch>();
   const [isApplicated, SetIsApplicated] = useState(false);
   const [myCard, setMyCard] = useState<Array<CardType>>([]);
-  // const [reviewList, setReviewList] = useState({
-  //   id: 0,
-  //   message: [""],
-  // });
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
@@ -41,11 +37,8 @@ const CardDetail = ({ card }: Props) => {
     setMyCard(data);
   };
 
-  console.log(card);
-
   useEffect(() => {
     getMyCard();
-    // getReview();
   }, []);
 
   const benefits = [
@@ -82,7 +75,6 @@ const CardDetail = ({ card }: Props) => {
   const toggleFavor = async (e: any) => {
     e.stopPropagation();
     const data = await getTokenApi.toggleFavor(card.id);
-    console.log(data);
     if (data === "찜하기 완료") {
       const newCard: Card = {
         id: card.id,
@@ -95,12 +87,12 @@ const CardDetail = ({ card }: Props) => {
     } else if (data === "찜하기 취소 완료") {
       dispatch(deleteFavor(card.id));
     } else {
-      console.log("찜하기 에러");
+      alert("찜하기 오류 발생");
     }
   };
 
   useEffect(() => {
-    dispatch(fetchFavor(userInfo.userId));
+    dispatch(fetchFavor());
   }, []);
 
   const application = async (id: number) => {
@@ -204,7 +196,7 @@ const CardDetail = ({ card }: Props) => {
             color={"var(--color-primary)"}
             background={"var(--color-white)"}
             className={"able card"}
-            onClick={() => (location.href = card.apply)}
+            onClick={() => window.open(card.apply)}
           >
             카드사 바로가기
           </Button>

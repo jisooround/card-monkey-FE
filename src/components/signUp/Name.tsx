@@ -14,7 +14,6 @@ const Name = ({ setStep }: Props) => {
   const form = useSelector((state: RootState) => state.signUp);
   const [name, setName] = useState("");
   const [nameValid, setNameValid] = useState(false);
-  console.log("Name  : ", form);
   const regex = /^[가-힣]{2,6}$/;
 
   useEffect(() => {

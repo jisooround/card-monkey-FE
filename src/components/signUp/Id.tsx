@@ -15,7 +15,6 @@ const Id = ({ setStep }: Props) => {
   const form = useSelector((state: RootState) => state.signUp);
   const [userId, setUserId] = useState("");
   const [idValid, setIdValid] = useState(false);
-  console.log("Id  : ", form);
   const regex = /^(?=.*[a-z])(?=.*\d)[a-z\d]{5,14}$/;
 
   useEffect(() => {
@@ -28,7 +27,6 @@ const Id = ({ setStep }: Props) => {
 
   const clickIdCheck = async (userId: string) => {
     const res = await setTokenApi.idCheck(userId);
-    console.log("res", res);
   };
 
   const handleChange = (value: string) => {

@@ -21,11 +21,9 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   function (response) {
-    console.log("응답완료");
     return response;
   },
   function (error) {
-    console.log("오류 응답");
     return Promise.reject(error);
   },
 );

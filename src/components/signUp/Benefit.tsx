@@ -26,10 +26,6 @@ const Benefit = ({ setStep }: Props) => {
     "shopping",
   ];
 
-  useEffect(() => {
-    console.log(form);
-  }, [form]);
-
   const handleBenefit = (item: string) => {
     if (benefit.length === 3) {
       if (benefit.includes(item)) {
@@ -62,7 +58,6 @@ const Benefit = ({ setStep }: Props) => {
       </h4>
       <BenefitWrap>
         {benefits.map((item, idx) => {
-          console.log(item);
           return (
             <div
               key={idx}

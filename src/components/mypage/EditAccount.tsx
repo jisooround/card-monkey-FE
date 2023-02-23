@@ -44,7 +44,6 @@ export const EditAccount = (props: Props) => {
     }
   };
 
-  console.log(userId);
   useEffect(() => {
     const { userId } = JSON.parse(localStorage.getItem("userInfo") || "{}");
     setUserId(userId);
@@ -52,7 +51,6 @@ export const EditAccount = (props: Props) => {
 
   const withdrawal = async () => {
     const res = await getTokenApi.withdrawal(userId);
-    console.log(res);
   };
 
   return (

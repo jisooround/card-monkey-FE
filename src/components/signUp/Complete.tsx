@@ -9,7 +9,6 @@ type Props = {};
 
 const Complete = (props: Props) => {
   const form = useSelector((state: RootState) => state.signUp);
-  console.log(form);
   const navigate = useNavigate();
 
   const clickButton = () => {

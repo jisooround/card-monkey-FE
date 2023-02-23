@@ -98,7 +98,6 @@ class MonkeyGetToken {
       .then((result) => result.data)
       .catch((error) => {
         console.log(error);
-        return cardDetail;
       });
   }
 
@@ -119,7 +118,6 @@ class MonkeyGetToken {
     return this.instance
       .get(`/card/review/${id}`)
       .then((result) => {
-        console.log("api", result.data);
         return result.data;
       })
       .catch((error) => {
