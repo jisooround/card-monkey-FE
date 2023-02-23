@@ -52,9 +52,9 @@ class MonkeyGetToken {
   }
 
   /**관심혜택 맞춤 카드 */
-  async benefitCard(userId: string) {
+  async benefitCard() {
     return this.instance
-      .get(`/card/benefit/${userId}`)
+      .get(`/card/recommend`)
       .then((result) => result.data)
       .catch((error) => error);
   }
@@ -114,16 +114,6 @@ class MonkeyGetToken {
       });
   }
 
-  /**찜하기(관심상품) */
-  async favorCheck(id: number) {
-    return this.instance
-      .post(`/card/${id}/favor`)
-      .then((result) => console.log(result))
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
   /**리뷰 조회(이모저모) */
   async getReview(id: number) {
     return this.instance
@@ -178,7 +168,7 @@ class MonkeyGetToken {
   /**나의 관심상품 */
   async myFavor(userId: string) {
     return this.instance
-      .get(`/card/favor/${userId}`)
+      .get(`/info/favor`)
       .then((result) => result.data)
       .catch((error) => {
         console.log(error);
@@ -189,7 +179,7 @@ class MonkeyGetToken {
   /**신청한 카드 취소*/
   async deleteCard(id: number) {
     return this.instance
-      .delete(`/paid/${id}`)
+      .delete(`/card/apply/${id}`)
       .then((result) => result.data)
       .catch((error) => {
         console.log("카드 취소 에러", error);

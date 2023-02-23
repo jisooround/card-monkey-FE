@@ -44,7 +44,7 @@ const Search = (props: Props) => {
     ["배달", "delivery"],
     ["통신", "phone"],
     ["주유", "gas"],
-    ["간편결재", "simplePayment"],
+    ["간편결제", "simplePayment"],
     ["공과금", "tax"],
     ["쇼핑", "shopping"],
   ];

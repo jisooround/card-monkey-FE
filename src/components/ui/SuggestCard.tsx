@@ -1,19 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import getTokenApi from "../api/monkeyGetToken";
-import CardItem from "../components/searchProduct/CardItem";
-import CardSkeleton, { SkeletonItem } from "../components/ui/CardSkeleton";
+import getTokenApi from "../../api/monkeyGetToken";
+import { Benefits } from "../../pages/Suggest";
+import CardSkeleton, { SkeletonItem } from "./CardSkeleton";
+import CardItem from "../searchProduct/CardItem";
 
 type Props = {};
 
-export type Benefits = {
-  [index: string]: string;
-};
-
-const Suggest = (props: Props) => {
+const SuggestCard = (props: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [suggestCards, setSuggestCards] = useState<Array<Card>>([]);
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+
   const benefits: Benefits = {
     coffee: "커피",
     transportation: "교통",
@@ -25,6 +23,7 @@ const Suggest = (props: Props) => {
     tax: "공과금",
     shopping: "쇼핑",
   };
+
   const suggestCardList = suggestCards.map((card) => {
     return (
       <CardItemWrapper key={card.id}>
@@ -35,15 +34,6 @@ const Suggest = (props: Props) => {
       </CardItemWrapper>
     );
   });
-
-  const skeletonBenefitList = (
-    <>
-      <SkeletonBenefit className="top"></SkeletonBenefit>
-      <SkeletonBenefit className="top"></SkeletonBenefit>
-      <SkeletonBenefit className="top"></SkeletonBenefit>
-    </>
-  );
-
   const skeletonCardList = (
     <>
       <CardItemWrapper>
@@ -60,92 +50,46 @@ const Suggest = (props: Props) => {
       </CardItemWrapper>
     </>
   );
-
   const getSuggestCard = async () => {
     setIsLoading(true);
-    const data = await getTokenApi.benefitCard(userInfo.userId);
+    const data = await getTokenApi.benefitCard();
     setSuggestCards(data);
     setIsLoading(false);
   };
-
   useEffect(() => {
     getSuggestCard();
   }, []);
 
   return (
-    <Container>
-      <div className="page-info">
-        <div className="title">몽키추천 서비스</div>
-        <div className="img-wrapper">
-          <img src="/monkeycard_black.png" />
-        </div>
+    <Wrapper>
+      <div className="head">
+        <div className="title">다른 추천카드</div>
+        <span>{userInfo.name}님의 관심 혜택 기반으로 추천드립니다.</span>
       </div>
-      <div className="benefit">
-        <div className="title">{userInfo.name}님이 선택한 관심 혜택</div>
-        <div className="buttons">
-          {isLoading
-            ? skeletonBenefitList
-            : suggestCards.map((item) => (
-                <BtnBenefit key={item.id}>
-                  #{benefits[item.benefit!]}
-                </BtnBenefit>
-              ))}
-        </div>
-      </div>
-      <div className="result-wrapper">
-        <div className="title">몽키추천 결과입니다.</div>
-        <CardListContainer>
-          {isLoading ? skeletonCardList : suggestCardList}
-        </CardListContainer>
-      </div>
-    </Container>
+      <CardListContainer>
+        {isLoading ? skeletonCardList : suggestCardList}
+      </CardListContainer>
+    </Wrapper>
   );
 };
 
-const Container = styled.div`
+const Wrapper = styled.div`
+  height: 100%;
+  background-color: var(--color-white);
   padding: 30px;
   padding-top: 0;
-  margin-bottom: var(--margin-bottom);
-  .page-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  padding-bottom: var(--margin-bottom);
+  .head {
     .title {
       font-size: 20px;
       font-weight: bold;
+      padding-bottom: 15px;
     }
-    .img-wrapper {
-      img {
-        width: 212px;
-      }
-    }
-  }
-  .benefit {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 35px;
-    .title {
-      font-size: 18px;
-      font-weight: bold;
-      color: #6b4d29;
-    }
-    .buttons {
-      display: flex;
-      gap: 20px;
-    }
-  }
-  .result-wrapper {
-    .title {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 30px;
-    }
+    margin-bottom: 30px;
   }
 `;
-
 const CardItemWrapper = styled.div`
+  display: inline-block;
   .benefit-title {
     margin-bottom: 20px;
   }
@@ -158,7 +102,6 @@ const CardListContainer = styled.div`
   flex-direction: column;
   gap: 20px;
 `;
-
 const BtnBenefit = styled.button`
   display: inline-block;
   border: 1px solid #e0e0e0;
@@ -182,4 +125,4 @@ const SkeletonBenefit = styled(SkeletonItem)`
   }
 `;
 
-export default Suggest;
+export default SuggestCard;
