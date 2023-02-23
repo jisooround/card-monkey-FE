@@ -163,6 +163,7 @@ const Search = (props: Props) => {
 
 const SearchContainer = styled.div`
   padding: 10px 30px;
+  padding-top: 65px;
   .title {
     color: #46433f;
     font-size: 18px;
