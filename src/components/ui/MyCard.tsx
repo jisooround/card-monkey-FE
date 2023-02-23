@@ -2,26 +2,27 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { CardType } from "../../pages/MainPage";
+import { loadImage } from "./LoadImage";
 
 type MyCardType = {
   card: CardType;
 };
 
-const loadImage = (setImageDimensions: any, imageUrl: string) => {
-  const img = new Image();
-  img.src = imageUrl;
+// const loadImage = (setImageDimensions: any, imageUrl: string) => {
+//   const img = new Image();
+//   img.src = imageUrl;
 
-  img.onload = () => {
-    setImageDimensions({
-      height: img.height,
-      width: img.width,
-    });
-  };
-  img.onerror = (err) => {
-    console.log("img error");
-    console.error(err);
-  };
-};
+//   img.onload = () => {
+//     setImageDimensions({
+//       height: img.height,
+//       width: img.width,
+//     });
+//   };
+//   img.onerror = (err) => {
+//     console.log("img error");
+//     console.error(err);
+//   };
+// };
 
 export const MyCards = ({ card }: MyCardType) => {
   const [imageDimensions, setImageDimensions] = useState<width>({
@@ -32,7 +33,7 @@ export const MyCards = ({ card }: MyCardType) => {
   useEffect(() => {
     loadImage(setImageDimensions, imageUrl);
   }, []);
-
+  loadImage(setImageDimensions, imageUrl);
   const sizeCalc = () => {
     return imageDimensions.width > imageDimensions.height ? 110 : 70;
   };
