@@ -78,7 +78,10 @@ const CardItem = ({ card }: CardItemPropsType) => {
   return (
     <CardContainer
       onClick={() => {
-        navigate(`/detail/${card.id}`);
+        location.pathname.slice(0, 7) === "/detail"
+          ? navigate(`/detail/${card.id}`, { replace: true })
+          : navigate(`/detail/${card.id}`);
+        window.scrollTo(0, 0);
       }}
     >
       <CardImageWrapper size={sizeCalc()}>
