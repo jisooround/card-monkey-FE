@@ -25,7 +25,7 @@ const Login = () => {
 
   const login = async () => {
     const res = await setTokenApi.signIn({ userId, password });
-    if (res.loginStatus === "로그인 완료") {
+    if (res?.loginStatus === "로그인 완료") {
       dispatch(fetchFavor());
       navigate(`/`, { replace: true });
     } else {
