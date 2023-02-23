@@ -56,37 +56,55 @@ export default MyPage;
 const Container = styled.div`
   margin: 0 auto;
   padding-bottom: 90px;
+  width: 100%;
   #primary {
     color: var(--color-primary);
   }
   #basic {
     color: var(--color-gray);
-  }
-  .title {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    font-size: 25px;
-    padding: 10px 0 35px;
-    .text {
-      margin-top: 5px;
-    }
-    img {
-      padding: 0 5px;
-      width: 100px;
+    &:hover {
+      color: var(--color-primary);
     }
   }
-  .category {
-    display: flex;
-    justify-content: center;
-    font-size: 15px;
-    font-weight: 600;
-    align-items: center;
-    justify-content: space-evenly;
-    cursor: pointer;
-    .y-line {
-      border-right: 1px solid var(--color-lightgray);
-      height: 40px;
+  .fixed {
+    width: 500px;
+    height: auto;
+    background-color: var(--color-white);
+    position: fixed;
+    z-index: 3;
+    .title {
+      width: var(--width-inner);
+      margin: auto;
+      padding: 50px 0;
+      font-size: 28px;
+      font-weight: 300;
+      .text {
+        margin-top: 5px;
+      }
+      img {
+        padding: 0 5px;
+        width: 100px;
+      }
+    }
+    .category {
+      display: flex;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 600;
+      align-items: center;
+      justify-content: space-evenly;
+      cursor: pointer;
+      .card-lists,
+      .edit-account {
+        width: 50%;
+        height: 100%;
+        text-align: center;
+        cursor: pointer;
+      }
+      .y-line {
+        border-right: 1px solid var(--color-lightgray);
+        height: 40px;
+      }
     }
   }
 
@@ -99,7 +117,7 @@ const Container = styled.div`
     flex-direction: column;
     width: 425px;
     margin: 0 auto;
-    padding-top: 20px;
+    padding-top: 200px;
     .delete {
       align-self: flex-end;
       font-size: 14px;

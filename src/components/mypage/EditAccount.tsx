@@ -3,6 +3,8 @@ import styled from "styled-components";
 import getTokenApi from "../../api/monkeyGetToken";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import { confirmAlert } from "react-confirm-alert";
 
 type Props = {
   changeSetSection: () => void;
@@ -14,6 +16,7 @@ export const EditAccount = ({ changeSetSection }: Props) => {
   const [userId, setUserId] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+  const navigate = useNavigate();
   const regex = /^(?=.*?[A-Za-z])(?=.*?\d)[A-Za-z\d]{8,14}$/;
   const notify = (message: string) =>
     toast.error(message, {
@@ -55,9 +58,29 @@ export const EditAccount = ({ changeSetSection }: Props) => {
     setUserId(userId);
   }, []);
 
-  const withdrawal = async () => {
-    const res = await getTokenApi.withdrawal(userId);
-    console.log(res);
+  const handleWithdrawal = async () => {
+    confirmAlert({
+      title: "",
+      message: "정말로 회원탈퇴 하시겠습니까?",
+      buttons: [
+        {
+          label: "네",
+          onClick: async () => {
+            const res = await getTokenApi.withdrawal();
+            console.log(res);
+            if (res?.status === 200 || res?.data === "회원탈퇴 완료") {
+              localStorage.removeItem("userInfo");
+              navigate("/login", { replace: true });
+            } else {
+              alert("회원탈퇴 실패");
+            }
+          },
+        },
+        {
+          label: "아니오",
+        },
+      ],
+    });
   };
 
   return (
@@ -113,7 +136,7 @@ export const EditAccount = ({ changeSetSection }: Props) => {
           비밀번호 변경하기
         </button>
       </Form>
-      <div className="delete" onClick={() => withdrawal()}>
+      <div className="delete" onClick={handleWithdrawal}>
         회원탈퇴하기
       </div>
     </div>

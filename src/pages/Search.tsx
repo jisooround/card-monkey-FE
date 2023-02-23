@@ -162,12 +162,14 @@ const Search = (props: Props) => {
 };
 
 const SearchContainer = styled.div`
-  padding: 0 30px;
+  padding: 10px 30px;
   .title {
     color: #46433f;
     font-size: 18px;
     font-weight: bold;
-    padding: 10px 0px;
+    padding: 15px 0px;
+    margin-top: 10px;
+    border-bottom: 1px solid var(--color-lightgray);
     &.tags {
       display: flex;
       justify-content: space-between;
@@ -220,7 +222,8 @@ const Title = styled.div`
   margin-bottom: 5px;
   color: #46433f;
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 500;
+  padding-top: 10px;
   /* border: 1px solid red; */
 `;
 
