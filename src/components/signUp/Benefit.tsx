@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store/store";
+import { useDispatch } from "react-redux";
 import { selectBenefit, submitForm, resetForm } from "../../store/signUpSlice";
 import BenefitIcon from "../ui/BenefitIcon";
 
@@ -11,7 +10,6 @@ type Props = {
 
 const Benefit = ({ setStep }: Props) => {
   const dispatch = useDispatch();
-  const form = useSelector((state: RootState) => state.signUp);
   const [benefit, setBenefit] = useState<string[]>([]);
   const [complete, setComplete] = useState(false);
   const benefits = [
@@ -25,10 +23,6 @@ const Benefit = ({ setStep }: Props) => {
     "tax",
     "shopping",
   ];
-
-  useEffect(() => {
-    console.log(form);
-  }, [form]);
 
   const handleBenefit = (item: string) => {
     if (benefit.length === 3) {
@@ -62,7 +56,6 @@ const Benefit = ({ setStep }: Props) => {
       </h4>
       <BenefitWrap>
         {benefits.map((item, idx) => {
-          console.log(item);
           return (
             <div
               key={idx}
@@ -85,7 +78,7 @@ const Benefit = ({ setStep }: Props) => {
           dispatch(resetForm());
         }}
       >
-        동의
+        다음
       </Button>
     </Wrap>
   );

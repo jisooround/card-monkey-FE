@@ -23,8 +23,7 @@ const loadImage = (setImageDimensions: any, imageUrl: string) => {
     });
   };
   img.onerror = (err) => {
-    console.log("img error");
-    console.error(err);
+    alert("img error");
   };
 };
 
@@ -65,7 +64,6 @@ const CardItem = ({ card }: CardItemPropsType) => {
   const toggleFavor = async (e: any) => {
     e.stopPropagation();
     const data = await getTokenApi.toggleFavor(card.id);
-    console.log(data);
     if (data === "찜하기 완료") {
       addNotify();
       dispatch(addFavor(card));
@@ -73,7 +71,7 @@ const CardItem = ({ card }: CardItemPropsType) => {
       deleteNotify();
       dispatch(deleteFavor(card.id));
     } else {
-      console.log("찜하기 에러");
+      alert("찜하기 실패");
     }
   };
 

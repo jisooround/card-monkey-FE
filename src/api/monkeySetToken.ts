@@ -10,6 +10,7 @@ class MonkeySetToken {
     this.axiosInstance = axios.create({
       baseURL: VITE_URL,
       headers: { "Content-Type": "application/json" },
+      timeout: 10000,
     });
   }
 
@@ -23,7 +24,6 @@ class MonkeySetToken {
         benefit: benefit,
       })
       .then((result) => {
-        console.log(result);
         return result;
       })
       .catch((error) => {

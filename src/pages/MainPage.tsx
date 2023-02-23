@@ -14,15 +14,6 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { loadImage } from "../components/ui/LoadImage";
 
-export type CardType = {
-  company: string;
-  id: number;
-  image: string;
-  name: string;
-  type: string;
-  imageUrl: string;
-};
-
 const MainPage = () => {
   const [topCard, setTopCard] = useState<Array<CardType>>();
   const [myCard, setMyCard] = useState<Array<CardType>>([]);
@@ -49,7 +40,6 @@ const MainPage = () => {
   const getMyCard = async (userId: string) => {
     const data = await getTokenApi.cardList();
     setMyCard(data);
-    console.log("mycard", myCard);
   };
 
   const copyUrl = () => {
@@ -147,6 +137,7 @@ const Container = styled.div`
   width: 425px;
   margin: 0 auto;
   padding-bottom: 80px;
+  padding-top: 80px;
   .title {
     display: flex;
     justify-content: space-between;
@@ -171,10 +162,13 @@ const Container = styled.div`
   }
   .banner {
     border-radius: 10px;
-    margin-top: 10px;
+    margin-top: 20px;
     width: 425px;
     aspect-ratio: auto 1/1;
     cursor: pointer;
+    :nth-child(2n) {
+      margin-top: 10px;
+    }
   }
   .swiper-pagination-bullet-active {
     background-color: var(--color-primary) !important;

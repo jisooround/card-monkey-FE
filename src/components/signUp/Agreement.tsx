@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store/store";
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -22,12 +20,8 @@ const Agreement = ({ setStep }: Props) => {
       content: "[필수] 개인정보 처리방침 동의",
     },
   ];
-  const form = useSelector((state: RootState) => state.signUp);
 
   const [agree, setAgree] = useState<string[]>([]);
-
-  console.log(agree);
-  console.log("Agreement  : ", form);
 
   const handleCheck = (checked: boolean, id: string) => {
     if (checked) {

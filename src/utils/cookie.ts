@@ -7,7 +7,7 @@ const cookies = new Cookies();
 export const setCookie = (token: string) => {
   return cookies.set("token", token, {
     path: "/",
-    maxAge: 1800000,
+    maxAge: 86400,
   });
 };
 
@@ -33,10 +33,8 @@ export const authCheck = (pathname: string, navigate: any) => {
       if (pathname === "/login" || pathname === "/signup") {
         navigate(`/`);
       }
-      console.log("토큰확인");
     })
     .catch((error) => {
-      console.log("토큰삭제");
       removeCookie();
       if (pathname === `/signup`) {
         return;

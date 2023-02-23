@@ -3,11 +3,7 @@ import styled from "styled-components";
 import { CardLists } from "../components/mypage/CardLists";
 import { EditAccount } from "../components/mypage/EditAccount";
 
-type Props = {
-  changeSetSection: any;
-};
-
-const MyPage = (props: Props) => {
+const MyPage = () => {
   const [section, setSection] = useState("card-lists");
 
   const changeSection = (event: any) => {
@@ -20,28 +16,29 @@ const MyPage = (props: Props) => {
 
   return (
     <Container>
-      <div className="title">
-        <img src="../monkeycard_white.png" />
-        <div className="text">마이페이지</div>
-      </div>
-      <div className="category">
-        <div
-          className="card-lists"
-          id={section === "card-lists" ? "primary" : "basic"}
-          onClick={changeSection}
-        >
-          나의 카드
+      <div className="fixed">
+        <div className="title">
+          <div className="text">마이페이지</div>
         </div>
-        <div className="y-line"></div>
-        <div
-          className="edit-account"
-          id={section === "edit-account" ? "primary" : "basic"}
-          onClick={changeSection}
-        >
-          회원정보 수정
+        <div className="category">
+          <div
+            className="card-lists"
+            id={section === "card-lists" ? "primary" : "basic"}
+            onClick={changeSection}
+          >
+            나의 카드
+          </div>
+          <div className="y-line"></div>
+          <div
+            className="edit-account"
+            id={section === "edit-account" ? "primary" : "basic"}
+            onClick={changeSection}
+          >
+            회원정보 수정
+          </div>
         </div>
+        <div className="line"></div>
       </div>
-      <div className="line"></div>
       {section === "card-lists" ? (
         <CardLists />
       ) : (
@@ -55,7 +52,8 @@ export default MyPage;
 
 const Container = styled.div`
   margin: 0 auto;
-  padding-bottom: 90px;
+  padding-top: 80px;
+  padding-bottom: 80px;
   width: 100%;
   #primary {
     color: var(--color-primary);
@@ -107,7 +105,6 @@ const Container = styled.div`
       }
     }
   }
-
   .line {
     height: 7px;
     background-color: var(--color-lightgray);
@@ -148,11 +145,12 @@ const Container = styled.div`
     }
   }
   .cancle {
+    display: inline-block;
     font-size: 14px;
     color: var(--color-gray);
     position: relative;
     top: -25px;
-    left: 315px;
+    left: 330px;
     cursor: pointer;
     :hover {
       color: var(--color-primary);

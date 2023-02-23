@@ -12,13 +12,10 @@ const initialState = {
   status: "idle",
 };
 
-export const fetchFavor = createAsyncThunk(
-  "favor/fetchFavor",
-  async (userId: string) => {
-    const data = await getTokenApi.myFavor();
-    return data;
-  },
-);
+export const fetchFavor = createAsyncThunk("favor/fetchFavor", async () => {
+  const data = await getTokenApi.myFavor();
+  return data;
+});
 
 export const favorSlice = createSlice({
   name: "favor",
@@ -32,7 +29,6 @@ export const favorSlice = createSlice({
     deleteFavor(state, action: PayloadAction<number>) {
       const id = action.payload;
       state.favorList = state.favorList.filter((item) => item.id !== id);
-      console.log("delete");
     },
   },
   extraReducers: (builder) => {

@@ -104,15 +104,17 @@ const Suggest = (props: Props) => {
 
 const Container = styled.div`
   padding: 30px;
-  padding-top: 0;
-  margin-bottom: var(--margin-bottom);
+  padding-top: 80px;
+  padding-bottom: var(--margin-bottom);
   .page-info {
     display: flex;
     flex-direction: column;
     align-items: center;
     .title {
-      font-size: 20px;
-      font-weight: bold;
+      font-size: 18px;
+      font-weight: 900;
+      margin: 0 auto;
+      padding: 1rem 2rem;
     }
     .img-wrapper {
       img {

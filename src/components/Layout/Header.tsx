@@ -41,7 +41,6 @@ const Header = ({}: HeaderPropsType) => {
           label: "네",
           onClick: async () => {
             const res = await getTokenApi.signOut();
-            console.log(res);
             if (res?.status === 200 || res.data === "로그아웃 완료") {
               localStorage.removeItem("userInfo");
               navigate("/login", { replace: true });
@@ -122,9 +121,12 @@ const Header = ({}: HeaderPropsType) => {
 };
 
 const MonkeyHeader = styled.header`
-  position: sticky;
+  position: fixed;
+  width: 500px;
   top: 0;
   left: 0;
+  right: 0;
+  margin: auto;
   background-color: #fff;
   z-index: 100;
 `;

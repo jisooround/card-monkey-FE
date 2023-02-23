@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store/store";
+import { useDispatch } from "react-redux";
 import { fillId } from "../../store/signUpSlice";
 import { BsCheckCircle } from "react-icons/bs";
 import setTokenApi from "../../api/monkeySetToken";
@@ -12,10 +11,10 @@ type Props = {
 
 const Id = ({ setStep }: Props) => {
   const dispatch = useDispatch();
-  const form = useSelector((state: RootState) => state.signUp);
   const [userId, setUserId] = useState("");
   const [idValid, setIdValid] = useState(false);
-  console.log("Id  : ", form);
+  const [idCheck, setIdCheck] = useState(false);
+  const [fail, setFail] = useState<boolean>(false);
   const regex = /^(?=.*[a-z])(?=.*\d)[a-z\d]{5,14}$/;
 
   useEffect(() => {
@@ -24,11 +23,19 @@ const Id = ({ setStep }: Props) => {
     } else {
       setIdValid(false);
     }
+    setIdCheck(false);
   }, [userId]);
 
   const clickIdCheck = async (userId: string) => {
     const res = await setTokenApi.idCheck(userId);
-    console.log("res", res);
+    if (!res) {
+      setIdCheck(true);
+    } else {
+      setFail(true);
+      setTimeout(() => {
+        setFail(false);
+      }, 1000);
+    }
   };
 
   const handleChange = (value: string) => {
@@ -62,21 +69,33 @@ const Id = ({ setStep }: Props) => {
             아이디 중복 확인
           </button>
         </div>
-        <ValidConditions
-          className={`${idValid && userId.length > 0 && "satisfaction"}`}
-        >
-          <p>5~12자 영문, 숫자 조합</p>
-          <BsCheckCircle className="icon" />
-        </ValidConditions>
+        <div className="valid">
+          <ValidConditions
+            className={`${idValid && userId.length > 0 && "satisfaction"}`}
+          >
+            <p>5~12자 영문, 숫자 조합</p>
+            <BsCheckCircle className="icon" />
+          </ValidConditions>
+          <ValidConditions
+            className={`${idCheck && userId.length > 0 && "satisfaction"}`}
+          >
+            <p>아이디 중복 확인</p>
+            <BsCheckCircle className="icon" />
+          </ValidConditions>
+        </div>
+
+        <Message className={fail ? "failError" : "basic"}>
+          <p>동일한 아이디가 있습니다. 다른 아이디를 입력해주세요.</p>
+        </Message>
       </InputWrap>
       <Button
-        // disabled={!idValid}
+        disabled={!idCheck}
         onClick={() => {
           dispatch(fillId(userId));
           setStep(4);
         }}
       >
-        동의
+        다음
       </Button>
     </Wrap>
   );
@@ -149,18 +168,40 @@ const InputWrap = styled.div`
       }
     }
   }
+  .valid {
+    display: flex;
+    flex-wrap: nowrap;
+  }
 `;
 
 const ValidConditions = styled.div`
   display: flex;
   font-size: 14px;
-  width: 100%;
+  width: auto;
   color: var(--color-gray);
   .icon {
     padding: 0 15px 0 3px;
   }
   &.satisfaction {
     color: green;
+  }
+`;
+
+const Message = styled.div`
+  width: 100%;
+  padding-top: 20px;
+  p {
+    text-align: left;
+    color: red;
+    font-size: 14px;
+  }
+  &.failError {
+    display: block;
+    transition: ease-in 0.1s;
+  }
+  &.basic {
+    opacity: 0;
+    transition: ease-in-out 0.2s;
   }
 `;
 export default Id;
