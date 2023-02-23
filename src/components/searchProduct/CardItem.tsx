@@ -23,7 +23,7 @@ const loadImage = (setImageDimensions: any, imageUrl: string) => {
     });
   };
   img.onerror = (err) => {
-    alert("img error");
+    console.log("img error");
   };
 };
 
