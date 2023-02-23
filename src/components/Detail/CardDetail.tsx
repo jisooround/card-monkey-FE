@@ -155,13 +155,21 @@ const CardDetail = ({ card }: Props) => {
         </span>
         <h3 className="name">{card.name}</h3>
         <h4 className="company">{card.company}</h4>
-        <span className="lastMonthPaid">
-          전월실적 <strong>{String(card.lastMonthPaid).slice(0, -4)}</strong>{" "}
-          만원 이상
-        </span>
-        <span className="annualFee">
-          {card.annualFee !== 0 ? "{card.annualFee}원" : ""}
-        </span>
+        {card.lastMonthPaid !== 0 ? (
+          <span className="detail-info">
+            전월실적 <strong>{String(card.lastMonthPaid).slice(0, -4)}</strong>{" "}
+            만원 이상
+          </span>
+        ) : (
+          ""
+        )}
+        {card.annualFee !== 0 ? (
+          <span className="detail-info">
+            연회비 <strong>{card.annualFee.toLocaleString("ko-KR")}</strong> 원
+          </span>
+        ) : (
+          ""
+        )}
       </InfoWrap>
       <SectionTitle>
         <hr className="top" color="#f5f5f5" />
@@ -350,20 +358,15 @@ const InfoWrap = styled.div`
   .company {
     font-size: 14px;
     font-weight: 530;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
   }
-  .lastMonthPaid {
-    font-weight: bold;
-    margin-top: 15px;
-    font-size: 12px;
-    strong {
-      font-size: 18px;
-    }
-  }
-  .annualFee {
-    font-weight: bold;
+  .detail-info {
     margin-top: 10px;
     font-size: 12px;
+    strong {
+      font-weight: bold;
+      font-size: 18px;
+    }
   }
 
   .type {
