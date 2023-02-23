@@ -12,6 +12,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { loadImage } from "../components/ui/LoadImage";
 
 export type CardType = {
   company: string;
@@ -19,14 +20,21 @@ export type CardType = {
   image: string;
   name: string;
   type: string;
+  imageUrl: string;
 };
 
 const MainPage = () => {
   const [topCard, setTopCard] = useState<Array<CardType>>();
   const [myCard, setMyCard] = useState<Array<CardType>>([]);
+  const [imageDimensions, setImageDimensions] = useState<width>({
+    width: 0,
+    height: 0,
+  });
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
   let nowUrl = window.location.href;
+
   SwiperCore.use([Navigation, Pagination, Scrollbar, Autoplay]);
+
   const notify = () =>
     toast.success("링크가 복사되었습니다!", {
       position: "top-center",
@@ -48,6 +56,9 @@ const MainPage = () => {
     navigator.clipboard.writeText(nowUrl).then((res) => {
       notify();
     });
+  };
+  const sizeCalc = () => {
+    return imageDimensions.width > imageDimensions.height ? 70 : 70;
   };
 
   useEffect(() => {
@@ -88,22 +99,20 @@ const MainPage = () => {
       <div className="top3">몽키차트 TOP 5</div>
       {Array.isArray(topCard) ? (
         topCard.map((data, index) => {
-          const cardImage = new Image();
-          cardImage.src = data.image;
           return (
             <Link
               to={`/detail/${data.id}`}
               key={data.id}
               style={{ textDecoration: "none" }}
             >
-              <Topcard cardImage={cardImage}>
+              <Topcard>
                 <span className="num">
                   {index + 1}
-                  <div>
+                  <ImageWrapper size={sizeCalc()}>
                     <img src={data.image} />
-                  </div>
+                  </ImageWrapper>
                 </span>
-                <div>
+                <div className="cardInfo">
                   <div className="card">{data.name}</div>
                   <div>{data.company}</div>
                   <div
@@ -200,7 +209,7 @@ export const Empty = styled.div`
   color: var(--color-gray);
 `;
 
-const Topcard = styled.div<{ cardImage: HTMLImageElement }>`
+const Topcard = styled.div`
   height: 95px;
   border: 1px solid var(--color-gray);
   border-radius: 10px;
@@ -218,20 +227,11 @@ const Topcard = styled.div<{ cardImage: HTMLImageElement }>`
   span {
     font-size: 25px;
     font-weight: 700;
-    margin-right: 50px;
+    margin-right: 70px;
     width: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    div {
-      margin: 0 auto;
-    }
-    img {
-      margin-left: 20px;
-      height: ${(props) =>
-        props.cardImage.width > props.cardImage.height ? "50px" : "70px"};
-      /* aspect-ratio: auto 1/1; */
-    }
   }
 
   div {
@@ -260,5 +260,12 @@ const Topcard = styled.div<{ cardImage: HTMLImageElement }>`
       color: #1bbbee;
       background-color: #dbf6ff;
     }
+  }
+`;
+const ImageWrapper = styled.div<Size>`
+  img {
+    margin-left: 25px;
+    height: ${(props) => props.size}px;
+    aspect-ratio: auto 1/1;
   }
 `;

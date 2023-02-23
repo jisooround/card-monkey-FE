@@ -16,6 +16,9 @@ interface CardInfo {
   image: string;
   name: string;
   type: string;
+  annualFee: number;
+  apply: string;
+  lastMonthPaid: number;
 }
 
 interface getReview {
@@ -32,6 +35,9 @@ interface State {
 interface Argument {
   id: number;
   selectedReview: string[];
+}
+interface selectedReview {
+  message: string;
 }
 
 interface BenefitProps {

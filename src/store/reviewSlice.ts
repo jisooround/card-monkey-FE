@@ -1,3 +1,5 @@
+/**review(이모저모)기능에 사용했지만 기능 구현이 어려워져서 사용하지 않음. */
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 

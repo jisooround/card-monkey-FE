@@ -6,7 +6,7 @@ import CardSkeleton, { SkeletonItem } from "../components/ui/CardSkeleton";
 
 type Props = {};
 
-type Benefits = {
+export type Benefits = {
   [index: string]: string;
 };
 
@@ -63,7 +63,7 @@ const Suggest = (props: Props) => {
 
   const getSuggestCard = async () => {
     setIsLoading(true);
-    const data = await getTokenApi.benefitCard(userInfo.userId);
+    const data = await getTokenApi.benefitCard();
     setSuggestCards(data);
     setIsLoading(false);
   };

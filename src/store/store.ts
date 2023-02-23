@@ -19,7 +19,7 @@ const reducer = combineReducers({
   signUp: signUp,
   favor: favor,
   search: search,
-  review: review,
+  // review: review,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
