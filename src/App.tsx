@@ -1,24 +1,38 @@
-import React, { useEffect } from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  Outlet,
-  useNavigate,
-} from "react-router-dom";
-
+import React, { useEffect, useState } from "react";
+import { Navigate, Outlet, useNavigate, useLocation } from "react-router-dom";
 import Header from "./components/Layout/Header";
 import Navbar from "./components/Layout/Navbar";
+import { authCheck, getCookie } from "./utils/cookie";
+import getTokenApi from "./api/monkeyGetToken";
+import axios from "axios";
 
 const App = () => {
-  const { token } = JSON.parse(localStorage.getItem("userInfo") || "{}");
-  const navigete = useNavigate();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  // const authCheck = () => {
+  //   const token = getCookie();
+  //   axios
+  //     .get(`http://www.card-monkey.store/info/apply`, {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     })
+  //     .then((result) => {
+  //       // if (pathname === "/login" || pathname === "/signUp") {
+  //       //   navigate(`/`);
+  //       // }
+  //       console.log("토큰확인");
+  //     })
+  //     .catch((error) => {
+  //       console.log("토큰삭제");
+  //       navigate(`/login`);
+  //     });
+  // };
+
   useEffect(() => {
-    if (!token) navigete("/login", { replace: true });
+    authCheck(pathname, navigate);
   });
 
-  return token ? (
+  return (
     <>
       <Header />
       <main>
@@ -26,8 +40,6 @@ const App = () => {
       </main>
       <Navbar />
     </>
-  ) : (
-    <Navigate to="/login" />
   );
 };
 

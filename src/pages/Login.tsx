@@ -5,8 +5,10 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import { resetForm } from "../store/signUpSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { fetchFavor } from "../store/favorSlice";
+import { authCheck, getCookie } from "../utils/cookie";
+import axios from "axios";
 
 type Props = {};
 
@@ -20,10 +22,10 @@ const Login = () => {
   const dispatch = useDispatch<AppDispatch>();
   console.log(userId, password);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    const { token } = JSON.parse(localStorage.getItem("userInfo") || "{}");
-    token ? navigate(`/`, { replace: true }) : null;
+    authCheck(pathname, navigate);
   }, []);
 
   const login = async () => {
