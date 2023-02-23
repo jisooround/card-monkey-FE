@@ -68,3 +68,12 @@ interface width {
 interface Size {
   size: number;
 }
+
+interface CardType {
+  company: string;
+  id: number;
+  image: string;
+  name: string;
+  type: string;
+  imageUrl: string;
+}

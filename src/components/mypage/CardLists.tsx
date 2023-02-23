@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import getTokenApi from "../../api/monkeyGetToken";
-import { CardType, Empty } from "../../pages/MainPage";
+import { Empty } from "../../pages/MainPage";
 import { MyCards } from "../ui/MyCard";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,23 +12,25 @@ export const CardLists = () => {
   const notify = (message: string) =>
     toast.success(message, {
       position: "top-center",
-      autoClose: 2000,
+      autoClose: 1000,
+      hideProgressBar: true,
     });
 
   useEffect(() => {
-    getMyCard(userInfo.userId);
+    getMyCard();
   }, []);
 
   const changeSection = (event: any) => {
     setSection(event.target.className);
   };
 
-  const getMyCard = async (userId: string) => {
-    const data = await getTokenApi.cardList(userId);
+  const getMyCard = async () => {
+    const data = await getTokenApi.cardList();
     setMyCard(data);
   };
 
-  const handleClick = async (id: number) => {
+  const handleClick = async (id: number, e: any) => {
+    e.stopPropagation();
     const res = await getTokenApi.deleteCard(id);
     if (res === "카드신청 취소 완료") {
       notify("카드신청 취소가 완료되었습니다.");
@@ -37,7 +39,7 @@ export const CardLists = () => {
     } else {
       return notify("오류가 발생하였습니다.");
     }
-    getMyCard(userInfo.userId);
+    getMyCard();
   };
 
   return (
@@ -81,8 +83,10 @@ export const CardLists = () => {
             .map((data) => (
               <div key={data.id}>
                 <MyCards card={data} />
-                <ToastContainer limit={1} />
-                <div className="cancle" onClick={() => handleClick(data.id)}>
+                <div
+                  className="cancle"
+                  onClick={(e) => handleClick(data.id, e)}
+                >
                   카드 신청 취소
                 </div>
               </div>
@@ -91,6 +95,7 @@ export const CardLists = () => {
           <Empty>나의 카드 정보가 없습니다.</Empty>
         )}
       </div>
+      <ToastContainer limit={1} />
     </div>
   );
 };
