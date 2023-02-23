@@ -114,16 +114,6 @@ class MonkeyGetToken {
       });
   }
 
-  /**찜하기(관심상품) */
-  async favorCheck(id: number) {
-    return this.instance
-      .post(`/card/${id}/favor`)
-      .then((result) => console.log(result))
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
   /**리뷰 조회(이모저모) */
   async getReview(id: number) {
     return this.instance
