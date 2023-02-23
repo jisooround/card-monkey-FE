@@ -1,25 +1,18 @@
-import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Navigate,
-  Outlet,
-  useNavigate,
-} from "react-router-dom";
-
+import React, { useEffect, useState } from "react";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import Header from "./components/Layout/Header";
 import Navbar from "./components/Layout/Navbar";
+import { authCheck } from "./utils/cookie";
 import { SlArrowUp } from "react-icons/sl";
 import throttle from "lodash.throttle";
 import styled from "styled-components";
 
 const App = () => {
-  const [scroll, setScroll] = useState(false);
-  const { token } = JSON.parse(localStorage.getItem("userInfo") || "{}");
-  const navigete = useNavigate();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [scroll, setScroll] = useState<boolean>(false);
   useEffect(() => {
-    if (!token) navigete("/login", { replace: true });
+    authCheck(pathname, navigate);
   });
 
   useEffect(() => {
@@ -37,7 +30,7 @@ const App = () => {
     }
   };
 
-  return token ? (
+  return (
     <>
       <Header />
       <Main>
@@ -57,8 +50,6 @@ const App = () => {
       </Main>
       <Navbar />
     </>
-  ) : (
-    <Navigate to="/login" />
   );
 };
 
