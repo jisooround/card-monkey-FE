@@ -157,10 +157,12 @@ class MonkeyGetToken {
   }
 
   /**회원 탈퇴 */
-  async withdrawal(userId: string) {
+  async withdrawal() {
     return this.instance
-      .delete(`/deleteAccount/${userId}`)
-      .then((result) => result.data)
+      .delete(`/info/deleteAccount`)
+      .then((result) => {
+        return result;
+      })
       .catch((error) => {
         console.log(error);
       });
