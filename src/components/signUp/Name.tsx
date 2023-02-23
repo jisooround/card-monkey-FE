@@ -11,7 +11,6 @@ type Props = {
 
 const Name = ({ setStep }: Props) => {
   const dispatch = useDispatch();
-  const form = useSelector((state: RootState) => state.signUp);
   const [name, setName] = useState("");
   const [nameValid, setNameValid] = useState(false);
   const regex = /^[가-힣]{2,6}$/;
@@ -57,7 +56,7 @@ const Name = ({ setStep }: Props) => {
           setStep(3);
         }}
       >
-        동의
+        다음
       </Button>
     </Wrap>
   );

@@ -15,7 +15,6 @@ const Login = () => {
   const [userId, setUserId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [fail, setFail] = useState<boolean>(false);
-  const form = useSelector((state: RootState) => state.signUp);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { pathname } = useLocation();

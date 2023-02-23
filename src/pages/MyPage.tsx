@@ -18,7 +18,6 @@ const MyPage = () => {
     <Container>
       <div className="fixed">
         <div className="title">
-          {/* <img src="../monkeycard_white.png" /> */}
           <div className="text">마이페이지</div>
         </div>
         <div className="category">
@@ -53,7 +52,8 @@ export default MyPage;
 
 const Container = styled.div`
   margin: 0 auto;
-  padding-bottom: 90px;
+  padding-top: 80px;
+  padding-bottom: 80px;
   width: 100%;
   #primary {
     color: var(--color-primary);
@@ -145,6 +145,7 @@ const Container = styled.div`
     }
   }
   .cancle {
+    display: inline-block;
     font-size: 14px;
     color: var(--color-gray);
     position: relative;

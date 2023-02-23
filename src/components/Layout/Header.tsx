@@ -121,9 +121,12 @@ const Header = ({}: HeaderPropsType) => {
 };
 
 const MonkeyHeader = styled.header`
-  position: sticky;
+  position: fixed;
+  width: 500px;
   top: 0;
   left: 0;
+  right: 0;
+  margin: auto;
   background-color: #fff;
   z-index: 100;
 `;
