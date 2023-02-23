@@ -1,4 +1,4 @@
-import { Cookies } from "react-cookie";
+import { Cookies, useCookies } from "react-cookie";
 import axios from "axios";
 const { VITE_URL } = import.meta.env;
 
@@ -16,9 +16,11 @@ export const getCookie = () => {
   return token;
 };
 
-export const deleteCookie = () => {
-  const token = cookies.get("token");
-  return token;
+export const removeCookie = () => {
+  return cookies.set("token", "", {
+    path: "/",
+    maxAge: -1,
+  });
 };
 
 export const authCheck = (pathname: string, navigate: any) => {
@@ -35,6 +37,10 @@ export const authCheck = (pathname: string, navigate: any) => {
     })
     .catch((error) => {
       console.log("토큰삭제");
+      removeCookie();
+      if (pathname === `/signup`) {
+        return;
+      }
       navigate(`/login`);
     });
 };
