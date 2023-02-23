@@ -57,7 +57,7 @@ const BenefitIcon = ({ item }: Props) => {
   if (item === "simplePayment") {
     return (
       <Icon>
-        <img src="./benefit_simplepayment.png" alt="" />
+        <img src="./benefit_simplePayment.png" alt="" />
         <p>간편결제</p>
       </Icon>
     );
