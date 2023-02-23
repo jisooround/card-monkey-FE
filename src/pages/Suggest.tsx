@@ -111,8 +111,10 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     .title {
-      font-size: 20px;
-      font-weight: bold;
+      font-size: 18px;
+      font-weight: 900;
+      margin: 0 auto;
+      padding: 1rem 2rem;
     }
     .img-wrapper {
       img {

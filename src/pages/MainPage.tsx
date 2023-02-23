@@ -171,10 +171,13 @@ const Container = styled.div`
   }
   .banner {
     border-radius: 10px;
-    margin-top: 10px;
+    margin-top: 20px;
     width: 425px;
     aspect-ratio: auto 1/1;
     cursor: pointer;
+    :nth-child(2n) {
+      margin-top: 10px;
+    }
   }
   .swiper-pagination-bullet-active {
     background-color: var(--color-primary) !important;
