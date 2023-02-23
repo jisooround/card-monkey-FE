@@ -10,7 +10,6 @@ type Props = {};
 const SuggestCard = (props: Props) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [suggestCards, setSuggestCards] = useState<Array<Card>>([]);
-  const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
   const benefits: Benefits = {
     coffee: "커피",
@@ -62,10 +61,6 @@ const SuggestCard = (props: Props) => {
 
   return (
     <Wrapper>
-      <div className="head">
-        <div className="title">다른 추천카드</div>
-        <span>{userInfo.name}님의 관심 혜택 기반으로 추천드립니다.</span>
-      </div>
       <CardListContainer>
         {isLoading ? skeletonCardList : suggestCardList}
       </CardListContainer>
@@ -76,9 +71,7 @@ const SuggestCard = (props: Props) => {
 const Wrapper = styled.div`
   height: 100%;
   background-color: var(--color-white);
-  padding: 30px;
-  padding-top: 0;
-  padding-bottom: var(--margin-bottom);
+  padding: 50px;
   .head {
     .title {
       font-size: 20px;

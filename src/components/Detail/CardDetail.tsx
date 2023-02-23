@@ -21,18 +21,16 @@ type Props = {
 };
 
 const CardDetail = ({ card }: Props) => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const [isApplicated, SetIsApplicated] = useState(false);
   const [myCard, setMyCard] = useState<Array<CardType>>([]);
-  const [reviewList, setReviewList] = useState({
-    id: 0,
-    message: [""],
-  });
-
-  let id = card.id;
+  // const [reviewList, setReviewList] = useState({
+  //   id: 0,
+  //   message: [""],
+  // });
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
-
-  const dispatch = useDispatch<AppDispatch>();
 
   const favorList = useSelector((state: RootState) => state.favor.favorList);
 
@@ -40,7 +38,7 @@ const CardDetail = ({ card }: Props) => {
   cardImage.src = card.image;
 
   const getMyCard = async () => {
-    const data = await getTokenApi.cardList(userInfo.userId);
+    const data = await getTokenApi.cardList();
     setMyCard(data);
   };
 
@@ -145,29 +143,36 @@ const CardDetail = ({ card }: Props) => {
 
   return (
     <Wrapper>
-      <Back />
-      <CardImg size={width()}>
-        <img src={card.image} />
-      </CardImg>
-      <div className="container">
-        <InfoWrap>
-          <span
-            className={card.type === "CREDIT" ? "type credit" : "type check"}
-          >
-            {card.type === "CREDIT" ? "신용카드" : "체크카드"}
-          </span>
-          <h3 className="name">{card.name}</h3>
-          <h4 className="company">{card.company}</h4>
-        </InfoWrap>
-        <SectionTitle>
-          <hr className="top" color="#f5f5f5" />
-          <div className="content">
-            <h5>Benefit</h5>
-            <span>주요혜택</span>
-          </div>
-        </SectionTitle>
-        <Benefit>{card.benefit && findBenefit()}</Benefit>
-        <div className="button-wrapper">
+      <div className="Half">
+        <Back />
+        <CardImg size={width()}>
+          <img src={card.image} />
+        </CardImg>
+      </div>
+      <InfoWrap>
+        <span className={card.type === "CREDIT" ? "type credit" : "type check"}>
+          {card.type === "CREDIT" ? "신용카드" : "체크카드"}
+        </span>
+        <h3 className="name">{card.name}</h3>
+        <h4 className="company">{card.company}</h4>
+        <span className="lastMonthPaid">
+          전월실적 <strong>{String(card.lastMonthPaid).slice(0, -4)}</strong>{" "}
+          만원 이상
+        </span>
+        <span className="annualFee">
+          {card.annualFee !== 0 ? "{card.annualFee}원" : ""}
+        </span>
+      </InfoWrap>
+      <SectionTitle>
+        <hr className="top" color="#f5f5f5" />
+        <div className="content">
+          <h5>Benefit</h5>
+          <span>주요혜택</span>
+        </div>
+      </SectionTitle>
+      <Benefit>{card.benefit && findBenefit()}</Benefit>
+      <ButtonWrapper>
+        <div className="first-row">
           {isApplicated ||
           (myCard && myCard.find((item) => item.id === card.id)) ? (
             <Button
@@ -183,34 +188,49 @@ const CardDetail = ({ card }: Props) => {
               color={"var(--color-white)"}
               background={"var(--color-primary)"}
               onClick={() => clickHandler(card.id)}
-              className={"able apply"}
+              className={"able"}
             >
               카드 신청하기
             </Button>
           )}
-          {favorList.find((item) => item.id === card.id) ? (
-            <Button
-              color={"var(--color-brown)"}
-              background={"var(--color-lightgray)"}
-              onClick={toggleFavor}
-              className={"able"}
-            >
-              내 관심카드에서 삭제하기
-            </Button>
-          ) : (
-            <Button
-              color={"var(--color-brown)"}
-              background={"var(--color-lightgray)"}
-              onClick={toggleFavor}
-              className={"able"}
-            >
-              내 관심카드에 추가하기
-            </Button>
-          )}
-          <hr className="content" color="#f5f5f5" />
+          <Button
+            color={"var(--color-primary)"}
+            background={"var(--color-white)"}
+            className={"able card"}
+            onClick={() => (location.href = card.apply)}
+          >
+            카드사 바로가기
+          </Button>
         </div>
-        <SuggestCard />
-        {/* <SectionTitle>
+        {favorList.find((item) => item.id === card.id) ? (
+          <Button
+            color={"var(--color-brown)"}
+            background={"var(--color-lightgray)"}
+            onClick={toggleFavor}
+            className={"able"}
+          >
+            내 관심카드에서 삭제하기
+          </Button>
+        ) : (
+          <Button
+            color={"var(--color-brown)"}
+            background={"var(--color-lightgray)"}
+            onClick={toggleFavor}
+            className={"able"}
+          >
+            내 관심카드에 추가하기
+          </Button>
+        )}
+      </ButtonWrapper>
+      <SectionTitle>
+        <hr className="top" color="#f5f5f5" />
+        <div className="content">
+          <h5>Suggest</h5>
+          <span>{userInfo.name}님의 관심혜택을 기반으로 추천드립니다.</span>
+        </div>
+      </SectionTitle>
+      <SuggestCard />
+      {/* <SectionTitle>
           <hr className="top" color="#f5f5f5" />
           <div className="content">
             <h5>Keyword</h5>
@@ -264,24 +284,25 @@ const CardDetail = ({ card }: Props) => {
             </Button>
           )}
         </ChooseKeyword> */}
-      </div>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   display: inline-block;
-  background-color: #f5f5f5;
-  height: 150px;
   width: 100%;
-  .container {
-    margin-bottom: var(--margin-bottom);
-    .button-wrapper {
-      background-color: inherit;
-      height: 150px;
-      padding-bottom: 40px;
-    }
+  .Half {
+    width: 500px;
+    height: auto;
+    background: linear-gradient(
+      to top,
+      var(--color-white) 0%,
+      var(--color-white) 50%,
+      #f5f5f5 50%,
+      #f5f5f5 100%
+    );
   }
+
   .content {
     box-shadow: 0 7px 10px 4px #f3f3f3;
   }
@@ -331,6 +352,19 @@ const InfoWrap = styled.div`
     font-weight: 530;
     margin-bottom: 10px;
   }
+  .lastMonthPaid {
+    font-weight: bold;
+    margin-top: 15px;
+    font-size: 12px;
+    strong {
+      font-size: 18px;
+    }
+  }
+  .annualFee {
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 12px;
+  }
 
   .type {
     display: inline-block;
@@ -375,28 +409,42 @@ const SectionTitle = styled.div`
   }
 `;
 
+const ButtonWrapper = styled.div`
+  background-color: inherit;
+  padding-bottom: 40px;
+  width: 90%;
+  margin: 0 auto;
+  .first-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+  }
+`;
+
 const Button = styled.button<Button>`
   display: block;
-  margin: 20px auto;
-  width: 90%;
-  height: 55px;
+  margin: 10px auto;
+  height: 70px;
+  width: 100%;
   border: none;
   font-size: 15px;
   font-weight: 600;
   color: ${(props) => props.color};
   background-color: ${(props) => props.background};
   cursor: pointer;
+  transition: 0.5s;
   &.able {
     &:hover {
-      transition: 0.3s;
-      color: ${(props) => props.background};
+      color: var(--color-white);
       background-color: var(--color-brown);
     }
-    &.apply {
-      width: 40%;
+    &.card {
+      border: 2px solid var(--color-primary);
+      &:hover {
+        background-color: var(--color-primary);
+      }
     }
   }
-  transition: 0.5s;
 `;
 
 const Benefit = styled.div`
@@ -430,57 +478,57 @@ const Benefit = styled.div`
   }
 `;
 
-const Reviews = styled.ul`
-  display: grid;
-  grid-gap: 10px;
-  width: 400px;
-  margin: 0 auto;
-  place-items: center;
-  padding-bottom: 30px;
-  .text {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 15px;
-    background-color: var(--color-lightgray);
-    color: var(--color-primary);
-    font-weight: 600;
-    width: 100%;
-    height: 50px;
-    &::marker {
-      background-color: var(--color-lightgray);
-      color: var(--color-primary);
-    }
-  }
-`;
+// const Reviews = styled.ul`
+//   display: grid;
+//   grid-gap: 10px;
+//   width: 400px;
+//   margin: 0 auto;
+//   place-items: center;
+//   padding-bottom: 30px;
+//   .text {
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     border-radius: 15px;
+//     background-color: var(--color-lightgray);
+//     color: var(--color-primary);
+//     font-weight: 600;
+//     width: 100%;
+//     height: 50px;
+//     &::marker {
+//       background-color: var(--color-lightgray);
+//       color: var(--color-primary);
+//     }
+//   }
+// `;
 
-const ChooseKeyword = styled.div`
-  padding: 50px;
-  justify-content: center;
-  row-gap: 30px;
-  column-gap: 0;
-  place-items: center;
-`;
+// const ChooseKeyword = styled.div`
+//   padding: 50px;
+//   justify-content: center;
+//   row-gap: 30px;
+//   column-gap: 0;
+//   place-items: center;
+// `;
 
-const BtnReview = styled.button`
-  display: inline-block;
-  border: 1px solid #e0e0e0;
-  border-radius: 15px;
-  background-color: #ffffff;
-  height: 50px;
-  width: 400px;
-  line-height: 22px;
-  padding: 0 13px;
-  margin-right: 12px;
-  margin-top: 12px;
-  cursor: pointer;
-  &:hover {
-    background: #f1f2f4;
-  }
-  &.active {
-    background: #fffaef;
-    border: 1px solid var(--color-primary);
-  }
-`;
+// const BtnReview = styled.button`
+//   display: inline-block;
+//   border: 1px solid #e0e0e0;
+//   border-radius: 15px;
+//   background-color: #ffffff;
+//   height: 50px;
+//   width: 400px;
+//   line-height: 22px;
+//   padding: 0 13px;
+//   margin-right: 12px;
+//   margin-top: 12px;
+//   cursor: pointer;
+//   &:hover {
+//     background: #f1f2f4;
+//   }
+//   &.active {
+//     background: #fffaef;
+//     border: 1px solid var(--color-primary);
+//   }
+// `;
 
 export default CardDetail;
