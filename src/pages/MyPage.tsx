@@ -3,13 +3,19 @@ import styled from "styled-components";
 import { CardLists } from "../components/mypage/CardLists";
 import { EditAccount } from "../components/mypage/EditAccount";
 
-type Props = {};
+type Props = {
+  changeSetSection: any;
+};
 
 const MyPage = (props: Props) => {
   const [section, setSection] = useState("card-lists");
 
   const changeSection = (event: any) => {
     setSection(event.target.className);
+  };
+
+  const changeSetSection = () => {
+    setSection("card-lists");
   };
 
   return (
@@ -36,7 +42,11 @@ const MyPage = (props: Props) => {
         </div>
       </div>
       <div className="line"></div>
-      {section === "card-lists" ? <CardLists /> : <EditAccount />}
+      {section === "card-lists" ? (
+        <CardLists />
+      ) : (
+        <EditAccount changeSetSection={changeSetSection} />
+      )}
     </Container>
   );
 };
@@ -124,7 +134,7 @@ const Container = styled.div`
     color: var(--color-gray);
     position: relative;
     top: -25px;
-    left: 330px;
+    left: 315px;
     cursor: pointer;
     :hover {
       color: var(--color-primary);
