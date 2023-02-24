@@ -60,7 +60,7 @@ export const EditAccount = ({ changeSetSection }: Props) => {
   const handleWithdrawal = async () => {
     confirmAlert({
       title: "",
-      message: "정말로 회원탈퇴 하시겠습니까?",
+      message: `${userInfo.name}님 ${userId} 계정 탈퇴를 하시겠습니까?`,
       buttons: [
         {
           label: "네",
