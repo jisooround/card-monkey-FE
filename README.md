@@ -1,6 +1,6 @@
 <div align="center">
 <h1>Card Monkey</h1>
-  <img src="./public/readme_title.jpg" width=500 />
+  <img src="./public/readme_title.jpg" width=100% />
   <h4>
     🐒Toy Project 2조🐒</br>
     FE 소재헌, 이혜란, 우지수, 공혜지</br>
