@@ -16,7 +16,7 @@ const App = () => {
   });
 
   useEffect(() => {
-    window.addEventListener("scroll", throttle(handleScroll, 20));
+    window.addEventListener("scroll", throttle(handleScroll, 300));
     return () => {
       window.removeEventListener("scroll", handleScroll); //clean up
     };

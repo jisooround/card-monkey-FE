@@ -12,8 +12,8 @@ import {
 import { AppDispatch, RootState } from "../../store/store";
 import { addFavor, deleteFavor, fetchFavor } from "../../store/favorSlice";
 import { CgSmileSad } from "react-icons/cg";
-import Suggest from "../../pages/Suggest";
 import SuggestCard from "../ui/SuggestCard";
+import { Benefits } from "../../pages/Suggest";
 
 type Props = {
   card: CardInfo;
@@ -40,33 +40,29 @@ const CardDetail = ({ card }: Props) => {
     getMyCard();
   }, []);
 
-  const benefits = [
-    ["커피", "coffee"],
-    ["교통", "transportation"],
-    ["영화", "movie"],
-    ["배달", "delivery"],
-    ["통신", "phone"],
-    ["주유", "gas"],
-    ["간편결제", "simplePayment"],
-    ["공과금", "tax"],
-    ["쇼핑", "shopping"],
-  ];
+  const benefits: Benefits = {
+    coffee: "커피",
+    transportation: "교통",
+    movie: "영화",
+    delivery: "배달",
+    phone: "통신",
+    gas: "주유",
+    simplePayment: "간편결제",
+    tax: "공과금",
+    shopping: "쇼핑",
+  };
 
   const findBenefit = () => {
     const result = [];
-    for (let j = 0; j < card.benefit.length; j++) {
-      for (let i = 0; i < benefits.length; i++) {
-        if (benefits[i][1] === card.benefit[j]) {
-          let eng = benefits[i][1];
-          let kor = benefits[i][0];
-          result.push(
-            <div className="element" key={uuidv4()}>
-              <img src={`/benefit_${eng}.png`} />
-              <span>{kor}</span>
-            </div>,
-          );
-        }
-      }
+    for (let i = 0; i < card.benefit.length; i++) {
+      const benefit = card.benefit[i];
+      const kor = benefits[`${benefit}`];
+      result.push(
+        <div className="element" key={uuidv4()}>
+          <img src={`/benefit_${card.benefit[i]}.png`} />
+          <span>{kor}</span>
+        </div>,
+      );
     }
     return result;
   };
