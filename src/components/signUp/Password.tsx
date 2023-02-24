@@ -38,7 +38,7 @@ const Password = ({ setStep }: Props) => {
     } else {
       setPwdChkValid(false);
     }
-  }, [pwdChk]);
+  }, [pwdChk, pwd]);
 
   return (
     <Wrap>
