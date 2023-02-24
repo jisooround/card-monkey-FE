@@ -12,8 +12,9 @@ import {
 import { AppDispatch, RootState } from "../../store/store";
 import { addFavor, deleteFavor, fetchFavor } from "../../store/favorSlice";
 import { CgSmileSad } from "react-icons/cg";
-import Suggest from "../../pages/Suggest";
 import SuggestCard from "../ui/SuggestCard";
+import { Benefits } from "../../pages/Suggest";
+import { toast, ToastContainer } from "react-toastify";
 
 type Props = {
   card: CardInfo;
@@ -40,33 +41,29 @@ const CardDetail = ({ card }: Props) => {
     getMyCard();
   }, []);
 
-  const benefits = [
-    ["커피", "coffee"],
-    ["교통", "transportation"],
-    ["영화", "movie"],
-    ["배달", "delivery"],
-    ["통신", "phone"],
-    ["주유", "gas"],
-    ["간편결제", "simplePayment"],
-    ["공과금", "tax"],
-    ["쇼핑", "shopping"],
-  ];
+  const benefits: Benefits = {
+    coffee: "커피",
+    transportation: "교통",
+    movie: "영화",
+    delivery: "배달",
+    phone: "통신",
+    gas: "주유",
+    simplePayment: "간편결제",
+    tax: "공과금",
+    shopping: "쇼핑",
+  };
 
   const findBenefit = () => {
     const result = [];
-    for (let j = 0; j < card.benefit.length; j++) {
-      for (let i = 0; i < benefits.length; i++) {
-        if (benefits[i][1] === card.benefit[j]) {
-          let eng = benefits[i][1];
-          let kor = benefits[i][0];
-          result.push(
-            <div className="element" key={uuidv4()}>
-              <img src={`/benefit_${eng}.png`} />
-              <span>{kor}</span>
-            </div>,
-          );
-        }
-      }
+    for (let i = 0; i < card.benefit.length; i++) {
+      const benefit = card.benefit[i];
+      const kor = benefits[`${benefit}`];
+      result.push(
+        <div className="element" key={uuidv4()}>
+          <img src={`/benefit_${card.benefit[i]}.png`} />
+          <span>{kor}</span>
+        </div>,
+      );
     }
     return result;
   };
@@ -83,8 +80,18 @@ const CardDetail = ({ card }: Props) => {
         type: card.type,
       };
       dispatch(addFavor(newCard));
+      toast.success("관심상품에 추가되었습니다!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+      });
     } else if (data === "찜하기 취소 완료") {
       dispatch(deleteFavor(card.id));
+      toast.success("관심상품에 삭제되었습니다!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+      });
     } else {
       alert("찜하기 오류 발생");
     }
@@ -101,6 +108,11 @@ const CardDetail = ({ card }: Props) => {
   const clickHandler = (id: number) => {
     application(id);
     SetIsApplicated((prev) => !prev);
+    toast.success("카드신청 완료!", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: true,
+    });
   };
   // const selectedReview = useSelector(
   //   (state: RootState) => state.review.message,
@@ -136,24 +148,26 @@ const CardDetail = ({ card }: Props) => {
       <div className="Half">
         <Back />
         <CardImg size={width()}>
-          <img src={card.image} />
+          <img src={card?.image} />
         </CardImg>
       </div>
       <InfoWrap>
-        <span className={card.type === "CREDIT" ? "type credit" : "type check"}>
-          {card.type === "CREDIT" ? "신용카드" : "체크카드"}
+        <span
+          className={card?.type === "CREDIT" ? "type credit" : "type check"}
+        >
+          {card?.type === "CREDIT" ? "신용카드" : "체크카드"}
         </span>
-        <h3 className="name">{card.name}</h3>
-        <h4 className="company">{card.company}</h4>
-        {card.lastMonthPaid !== 0 ? (
+        <h3 className="name">{card?.name}</h3>
+        <h4 className="company">{card?.company}</h4>
+        {card?.lastMonthPaid !== 0 ? (
           <span className="detail-info">
-            전월실적 <strong>{String(card.lastMonthPaid).slice(0, -4)}</strong>{" "}
+            전월실적 <strong>{String(card?.lastMonthPaid).slice(0, -4)}</strong>{" "}
             만원 이상
           </span>
         ) : (
           ""
         )}
-        {card.annualFee !== 0 ? (
+        {card?.annualFee !== 0 ? (
           <span className="detail-info">
             연회비 <strong>{card.annualFee?.toLocaleString("ko-KR")}</strong> 원
           </span>
@@ -168,7 +182,14 @@ const CardDetail = ({ card }: Props) => {
           <span>주요혜택</span>
         </div>
       </SectionTitle>
-      <Benefit>{card.benefit && findBenefit()}</Benefit>
+      {!card.benefit?.length ? (
+        <div className="fail-div">
+          <CgSmileSad className="smile-sad" size={28} />
+          <span className="fail">확인 가능한 키워드가 없어요.</span>
+        </div>
+      ) : (
+        <Benefit>{findBenefit()}</Benefit>
+      )}
       <ButtonWrapper>
         <div className="first-row">
           {isApplicated ||
@@ -281,7 +302,8 @@ const CardDetail = ({ card }: Props) => {
               리뷰 선택하기
             </Button>
           )}
-        </ChooseKeyword> */}
+        </ChooseKeyword> */}{" "}
+      <ToastContainer limit={1} />
     </Wrapper>
   );
 };
@@ -312,8 +334,8 @@ const Wrapper = styled.div`
     border: 3px dashed var(--color-gray);
     border-radius: 10px;
     width: 90%;
-    height: 150px;
-    margin: 10px;
+    height: 200px;
+    margin: 30px auto 50px;
     .smile-sad {
       color: var(--color-gray);
       padding-bottom: 10px;

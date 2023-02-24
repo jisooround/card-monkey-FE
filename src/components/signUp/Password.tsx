@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store/store";
+import { useDispatch } from "react-redux";
 import { fillPassword } from "../../store/signUpSlice";
 import { BsCheckCircle } from "react-icons/bs";
 
@@ -39,7 +38,8 @@ const Password = ({ setStep }: Props) => {
     } else {
       setPwdChkValid(false);
     }
-  }, [pwdChk]);
+  }, [pwdChk, pwd]);
+
   return (
     <Wrap>
       <h4>
@@ -134,7 +134,7 @@ const InputWrap = styled.div`
     border-bottom: 1px solid var(--color-gray);
     font-size: 14px;
     .inputTitle {
-      width: 25%;
+      width: 30%;
       font-weight: 600;
       padding-right: 20px;
     }

@@ -7,7 +7,7 @@ const cookies = new Cookies();
 export const setCookie = (token: string) => {
   return cookies.set("token", token, {
     path: "/",
-    maxAge: 86400,
+    maxAge: 3600,
   });
 };
 

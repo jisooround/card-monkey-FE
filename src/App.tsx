@@ -16,7 +16,7 @@ const App = () => {
   });
 
   useEffect(() => {
-    window.addEventListener("scroll", throttle(handleScroll, 20));
+    window.addEventListener("scroll", throttle(handleScroll, 300));
     return () => {
       window.removeEventListener("scroll", handleScroll); //clean up
     };
@@ -38,7 +38,7 @@ const App = () => {
         {scroll ? (
           <BtnTop
             onClick={() => {
-              window.scrollTo(0, 0);
+              window.scrollTo({ top: 0, behavior: "smooth" });
             }}
           >
             <div className="active">
@@ -50,7 +50,7 @@ const App = () => {
         ) : (
           <BtnTop
             onClick={() => {
-              window.scrollTo(0, 0);
+              window.scrollTo({ top: 0, behavior: "smooth" });
             }}
             className={"hidden"}
           >

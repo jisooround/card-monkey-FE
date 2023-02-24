@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store/store";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { fillName } from "../../store/signUpSlice";
 import { BsCheckCircle } from "react-icons/bs";
