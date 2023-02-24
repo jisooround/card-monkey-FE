@@ -349,6 +349,7 @@ const Wrapper = styled.div`
 const CardImg = styled.div<Size>`
   text-align: center;
   img {
+    border-radius: 10px;
     mix-blend-mode: darken;
     width: ${(props) => props.size}px;
     background-color: inherit;
