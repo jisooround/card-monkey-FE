@@ -180,16 +180,14 @@ const CardDetail = ({ card }: Props) => {
           <span>주요혜택</span>
         </div>
       </SectionTitle>
-      <Benefit>
-        {card.benefit ? (
-          findBenefit()
-        ) : (
-          <div className="fail-div">
-            <CgSmileSad className="smile-sad" size={28} />
-            <span className="fail">확인 가능한 키워드가 없어요.</span>
-          </div>
-        )}
-      </Benefit>
+      {card.benefit.length !== 0 ? (
+        <Benefit>findBenefit()</Benefit>
+      ) : (
+        <div className="fail-div">
+          <CgSmileSad className="smile-sad" size={28} />
+          <span className="fail">확인 가능한 키워드가 없어요.</span>
+        </div>
+      )}
       <ButtonWrapper>
         <div className="first-row">
           {isApplicated ||
@@ -334,8 +332,8 @@ const Wrapper = styled.div`
     border: 3px dashed var(--color-gray);
     border-radius: 10px;
     width: 90%;
-    height: 150px;
-    margin: 10px;
+    height: 200px;
+    margin: 30px auto 50px;
     .smile-sad {
       color: var(--color-gray);
       padding-bottom: 10px;
