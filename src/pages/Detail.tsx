@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import getTokenApi from "../api/monkeyGetToken";
 import CardDetail from "../components/Detail/CardDetail";
+import NotFound from "./NotFound";
 
 type Props = {};
 
@@ -25,6 +26,8 @@ const Detail = (props: Props) => {
     };
     getCardInfo();
   }, [pathname]);
+
+  if (cardInfo === undefined) return <NotFound />;
 
   return (
     <Wrapper>{cardInfo && <CardDetail card={cardInfo}></CardDetail>}</Wrapper>
