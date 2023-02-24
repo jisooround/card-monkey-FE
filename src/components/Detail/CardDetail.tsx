@@ -148,24 +148,26 @@ const CardDetail = ({ card }: Props) => {
       <div className="Half">
         <Back />
         <CardImg size={width()}>
-          <img src={card.image} />
+          <img src={card?.image} />
         </CardImg>
       </div>
       <InfoWrap>
-        <span className={card.type === "CREDIT" ? "type credit" : "type check"}>
-          {card.type === "CREDIT" ? "신용카드" : "체크카드"}
+        <span
+          className={card?.type === "CREDIT" ? "type credit" : "type check"}
+        >
+          {card?.type === "CREDIT" ? "신용카드" : "체크카드"}
         </span>
-        <h3 className="name">{card.name}</h3>
-        <h4 className="company">{card.company}</h4>
-        {card.lastMonthPaid !== 0 ? (
+        <h3 className="name">{card?.name}</h3>
+        <h4 className="company">{card?.company}</h4>
+        {card?.lastMonthPaid !== 0 ? (
           <span className="detail-info">
-            전월실적 <strong>{String(card.lastMonthPaid).slice(0, -4)}</strong>{" "}
+            전월실적 <strong>{String(card?.lastMonthPaid).slice(0, -4)}</strong>{" "}
             만원 이상
           </span>
         ) : (
           ""
         )}
-        {card.annualFee !== 0 ? (
+        {card?.annualFee !== 0 ? (
           <span className="detail-info">
             연회비 <strong>{card.annualFee?.toLocaleString("ko-KR")}</strong> 원
           </span>
@@ -180,13 +182,13 @@ const CardDetail = ({ card }: Props) => {
           <span>주요혜택</span>
         </div>
       </SectionTitle>
-      {card.benefit.length !== 0 ? (
-        <Benefit>findBenefit()</Benefit>
-      ) : (
+      {!card.benefit?.length ? (
         <div className="fail-div">
           <CgSmileSad className="smile-sad" size={28} />
           <span className="fail">확인 가능한 키워드가 없어요.</span>
         </div>
+      ) : (
+        <Benefit>{findBenefit()}</Benefit>
       )}
       <ButtonWrapper>
         <div className="first-row">
