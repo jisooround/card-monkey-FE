@@ -66,6 +66,7 @@ const Container = styled.div`
   }
   .fixed {
     width: 500px;
+    top: 65px;
     height: auto;
     background-color: var(--color-white);
     position: fixed;
