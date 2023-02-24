@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import getTokenApi from "../api/monkeyGetToken";
 import CardDetail from "../components/Detail/CardDetail";
@@ -19,6 +18,8 @@ const Detail = (props: Props) => {
     };
     getCardInfo();
   }, [id]);
+
+  if (cardInfo === undefined) return <NotFound />;
 
   return (
     <Wrapper>{cardInfo && <CardDetail card={cardInfo}></CardDetail>}</Wrapper>
