@@ -81,7 +81,7 @@ class MonkeyGetToken {
   }
 
   /**카드 상세정보 조회 */
-  async cardDetail(id: string) {
+  async cardDetail(id: string | undefined) {
     return this.instance
       .get(`/card/${id}`)
       .then((result) => result.data)
