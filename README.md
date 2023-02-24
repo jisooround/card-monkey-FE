@@ -1,11 +1,9 @@
 <div align="center">
 <h1>Card Monkey</h1>
-  <img src="./public/readme_title.jpg" width=500 />
-  <h4>
-    🐒Toy Project 2조🐒</br>
-    FE 소재헌, 이혜란, 우지수, 공혜지</br>
-    BE 김윤기, 주찬혁, 임재억, 김우석
-  </h4>
+  <img src="./public/readme_title.jpg" width=100% />
+    <h3>
+    <b>< KDT3 Front-End : Mini Project Team2 ></b>
+  </h3>
 </div>
 
 ---
