@@ -14,6 +14,7 @@ import { addFavor, deleteFavor, fetchFavor } from "../../store/favorSlice";
 import { CgSmileSad } from "react-icons/cg";
 import SuggestCard from "../ui/SuggestCard";
 import { Benefits } from "../../pages/Suggest";
+import { toast, ToastContainer } from "react-toastify";
 
 type Props = {
   card: CardInfo;
@@ -79,8 +80,18 @@ const CardDetail = ({ card }: Props) => {
         type: card.type,
       };
       dispatch(addFavor(newCard));
+      toast.success("관심상품에 추가되었습니다!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+      });
     } else if (data === "찜하기 취소 완료") {
       dispatch(deleteFavor(card.id));
+      toast.success("관심상품에 삭제되었습니다!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: true,
+      });
     } else {
       alert("찜하기 오류 발생");
     }
@@ -97,6 +108,11 @@ const CardDetail = ({ card }: Props) => {
   const clickHandler = (id: number) => {
     application(id);
     SetIsApplicated((prev) => !prev);
+    toast.success("카드신청 완료!", {
+      position: "top-center",
+      autoClose: 1000,
+      hideProgressBar: true,
+    });
   };
   // const selectedReview = useSelector(
   //   (state: RootState) => state.review.message,
@@ -164,7 +180,16 @@ const CardDetail = ({ card }: Props) => {
           <span>주요혜택</span>
         </div>
       </SectionTitle>
-      <Benefit>{card.benefit && findBenefit()}</Benefit>
+      <Benefit>
+        {card.benefit ? (
+          findBenefit()
+        ) : (
+          <div className="fail-div">
+            <CgSmileSad className="smile-sad" size={28} />
+            <span className="fail">확인 가능한 키워드가 없어요.</span>
+          </div>
+        )}
+      </Benefit>
       <ButtonWrapper>
         <div className="first-row">
           {isApplicated ||
@@ -277,7 +302,8 @@ const CardDetail = ({ card }: Props) => {
               리뷰 선택하기
             </Button>
           )}
-        </ChooseKeyword> */}
+        </ChooseKeyword> */}{" "}
+      <ToastContainer limit={1} />
     </Wrapper>
   );
 };
