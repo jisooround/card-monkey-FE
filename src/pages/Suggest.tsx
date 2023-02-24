@@ -69,6 +69,7 @@ const Suggest = (props: Props) => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getSuggestCard();
   }, []);
 

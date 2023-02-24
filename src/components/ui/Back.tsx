@@ -10,7 +10,6 @@ interface BackButtonProps {
 export default function Back({ color }: BackButtonProps) {
   const navigate = useNavigate();
 
-
   const clickHandler = () => {
     navigate(-1);
   };

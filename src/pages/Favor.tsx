@@ -16,6 +16,7 @@ const Favor = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     dispatch(fetchFavor());
   }, []);
 

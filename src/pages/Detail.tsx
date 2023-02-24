@@ -4,6 +4,7 @@ import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import getTokenApi from "../api/monkeyGetToken";
 import CardDetail from "../components/Detail/CardDetail";
+import NotFound from "./NotFound";
 
 type Props = {};
 
