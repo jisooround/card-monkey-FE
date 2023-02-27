@@ -134,7 +134,7 @@ const InputWrap = styled.div`
     border-bottom: 1px solid var(--color-gray);
     font-size: 14px;
     .inputTitle {
-      width: 25%;
+      width: 30%;
       font-weight: 600;
       padding-right: 20px;
     }

@@ -50,6 +50,7 @@ const SuggestCard = (props: Props) => {
     </>
   );
   const getSuggestCard = async () => {
+    console.log("suggest");
     setIsLoading(true);
     const data = await getTokenApi.benefitCard();
     setSuggestCards(data);
