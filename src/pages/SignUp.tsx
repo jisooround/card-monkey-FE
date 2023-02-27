@@ -24,8 +24,6 @@ const SignUp = () => {
     authCheck(pathname, navigate);
   }, []);
 
-  console.log("step : ", step);
-
   return (
     <Container>
       <Inner>
@@ -34,7 +32,6 @@ const SignUp = () => {
             className="back"
             onClick={() => {
               setStep(step - 1);
-              console.log("클릭!");
             }}
           ></IoIosArrowBack>
         ) : (

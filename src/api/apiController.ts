@@ -5,6 +5,7 @@ const { VITE_URL } = import.meta.env;
 
 const instance = axios.create({
   baseURL: VITE_URL,
+  timeout: 10000,
 });
 
 instance.interceptors.request.use(
@@ -20,11 +21,9 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   function (response) {
-    console.log("응답완료");
     return response;
   },
   function (error) {
-    console.log("오류 응답");
     return Promise.reject(error);
   },
 );

@@ -16,7 +16,8 @@ const Favor = (props: Props) => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    // dispatch(fetchFavor(userInfo.userId));
+    window.scrollTo(0, 0);
+    dispatch(fetchFavor());
   }, []);
 
   const name = userInfo.name;
@@ -59,8 +60,8 @@ const Wrapper = styled.div`
   display: inline-block;
   width: var(--width-inner);
   padding: 30px;
-  padding-top: 0;
-  margin-bottom: var(--margin-bottom);
+  padding-top: 80px;
+  padding-bottom: var(--margin-bottom);
 `;
 
 const TopWrapper = styled.div`

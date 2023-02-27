@@ -52,7 +52,8 @@ export default MyPage;
 
 const Container = styled.div`
   margin: 0 auto;
-  padding-bottom: 90px;
+  padding-top: 80px;
+  padding-bottom: 80px;
   width: 100%;
   #primary {
     color: var(--color-primary);
@@ -65,6 +66,7 @@ const Container = styled.div`
   }
   .fixed {
     width: 500px;
+    top: 65px;
     height: auto;
     background-color: var(--color-white);
     position: fixed;

@@ -52,6 +52,7 @@ const MainPage = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     getHot3();
     getMyCard(userInfo.userId);
   }, []);
@@ -137,6 +138,7 @@ const Container = styled.div`
   width: 425px;
   margin: 0 auto;
   padding-bottom: 80px;
+  padding-top: 80px;
   .title {
     display: flex;
     justify-content: space-between;
@@ -161,10 +163,13 @@ const Container = styled.div`
   }
   .banner {
     border-radius: 10px;
-    margin-top: 10px;
+    margin-top: 20px;
     width: 425px;
     aspect-ratio: auto 1/1;
     cursor: pointer;
+    :nth-child(2n) {
+      margin-top: 10px;
+    }
   }
   .swiper-pagination-bullet-active {
     background-color: var(--color-primary) !important;

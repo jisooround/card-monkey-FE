@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store/store";
+import { useDispatch } from "react-redux";
 import { selectBenefit, submitForm, resetForm } from "../../store/signUpSlice";
-import BenefitIcon from "../ui/BenefitIcon";
 
 type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
@@ -11,27 +9,27 @@ type Props = {
 
 const Benefit = ({ setStep }: Props) => {
   const dispatch = useDispatch();
-  const form = useSelector((state: RootState) => state.signUp);
   const [benefit, setBenefit] = useState<string[]>([]);
+  const [satisfaction, setSatisfaction] = useState(false);
   const [complete, setComplete] = useState(false);
   const benefits = [
-    "coffee",
-    "transportation",
-    "movie",
-    "delivery",
-    "phone",
-    "gas",
-    "simplePayment",
-    "tax",
-    "shopping",
+    ["커피", "coffee"],
+    ["교통", "transportation"],
+    ["영화", "movie"],
+    ["배달", "delivery"],
+    ["통신", "phone"],
+    ["주유", "gas"],
+    ["간편결제", "simplePayment"],
+    ["공과금", "tax"],
+    ["쇼핑", "shopping"],
   ];
-
-  useEffect(() => {
-    console.log(form);
-  }, [form]);
 
   const handleBenefit = (item: string) => {
     if (benefit.length === 3) {
+      setSatisfaction(true);
+      setTimeout(() => {
+        setSatisfaction(false);
+      }, 1000);
       if (benefit.includes(item)) {
         setBenefit(benefit.filter((icon) => icon != item));
       }
@@ -62,20 +60,27 @@ const Benefit = ({ setStep }: Props) => {
       </h4>
       <BenefitWrap>
         {benefits.map((item, idx) => {
-          console.log(item);
           return (
-            <div
+            <Icon
               key={idx}
-              className={benefit.includes(item) ? "select" : "icon"}
+              className={benefit.includes(item[1]) ? "select" : "basic"}
               onClick={() => {
-                handleBenefit(item);
+                handleBenefit(item[1]);
               }}
             >
-              <BenefitIcon item={item} />
-            </div>
+              <img src={`/benefit_${item[1]}.png`} alt="" />
+              <p>{item[0]}</p>
+            </Icon>
           );
         })}
       </BenefitWrap>
+      <Message className={satisfaction ? "satisfaction" : "basic"}>
+        <p>
+          선택 가능한 관심 혜택 개수는 3개입니다.
+          <br />
+          다른 혜택을 원하실 경우 하나 취소 후 다시 선택해 주세요.
+        </p>
+      </Message>
       <Button
         disabled={!complete}
         onClick={() => {
@@ -85,7 +90,7 @@ const Benefit = ({ setStep }: Props) => {
           dispatch(resetForm());
         }}
       >
-        동의
+        회원가입 완료하기
       </Button>
     </Wrap>
   );
@@ -135,17 +140,6 @@ const BenefitWrap = styled.div`
   grid-template-columns: repeat(3, 130px);
   grid-template-rows: repeat(3, 100px);
   place-items: center;
-  .icon:hover {
-    border: 1px solid var(--color-primary);
-    border-radius: 20px;
-  }
-  .select {
-    border: 1px solid var(--color-primary);
-    border-radius: 20px;
-    &:hover {
-      border: 2px solid var(--color-primary);
-    }
-  }
 `;
 
 const ValidConditions = styled.div`
@@ -158,6 +152,54 @@ const ValidConditions = styled.div`
   }
   &.satisfaction {
     color: green;
+  }
+`;
+
+const Icon = styled.div`
+  width: 110px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 15px 0;
+  cursor: pointer;
+  img {
+    width: 38px;
+    padding-bottom: 3px;
+  }
+  p {
+    width: 100%;
+    text-align: center;
+    color: var(--color-gray);
+  }
+  &.basic:hover {
+    border: 1px solid var(--color-primary);
+    border-radius: 20px;
+  }
+  &.select {
+    border: 1px solid var(--color-primary);
+    border-radius: 20px;
+    &:hover {
+      border: 2px solid var(--color-primary);
+    }
+  }
+`;
+
+const Message = styled.div`
+  width: 100%;
+  padding-top: 10px;
+  p {
+    text-align: center;
+    color: red;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+  &.satisfaction {
+    display: block;
+    transition: ease-in 0.1s;
+  }
+  &.basic {
+    opacity: 0;
+    transition: ease-in-out 0.2s;
   }
 `;
 

@@ -60,7 +60,7 @@ export const EditAccount = ({ changeSetSection }: Props) => {
   const handleWithdrawal = async () => {
     confirmAlert({
       title: "",
-      message: "정말로 회원탈퇴 하시겠습니까?",
+      message: `${userInfo.name}님 ${userId} 계정 탈퇴를 하시겠습니까?`,
       buttons: [
         {
           label: "네",
@@ -112,12 +112,15 @@ export const EditAccount = ({ changeSetSection }: Props) => {
           <div className="inputTitle">비밀번호 확인</div>
           <input
             type="password"
+            disabled={!regex.test(password)}
             placeholder="새 비밀번호 확인"
             value={newPassword}
-            onChange={handleChange}
+            onChange={(e) => setNewPassword(e.target.value)}
           />
         </div>
-        {password !== newPassword ? (
+        {!regex.test(password) && password.length !== 0 ? (
+          <div className="wrong">정확한 비밀번호 형식을 입력해주세요.</div>
+        ) : password !== newPassword ? (
           <div className="wrong">비밀번호가 일치하지 않습니다.</div>
         ) : null}
         <ToastContainer limit={1} />

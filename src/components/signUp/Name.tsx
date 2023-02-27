@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store/store";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { fillName } from "../../store/signUpSlice";
 import { BsCheckCircle } from "react-icons/bs";
@@ -11,10 +10,8 @@ type Props = {
 
 const Name = ({ setStep }: Props) => {
   const dispatch = useDispatch();
-  const form = useSelector((state: RootState) => state.signUp);
   const [name, setName] = useState("");
   const [nameValid, setNameValid] = useState(false);
-  console.log("Name  : ", form);
   const regex = /^[가-힣]{2,6}$/;
 
   useEffect(() => {
@@ -58,7 +55,7 @@ const Name = ({ setStep }: Props) => {
           setStep(3);
         }}
       >
-        동의
+        다음
       </Button>
     </Wrap>
   );

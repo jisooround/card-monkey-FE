@@ -15,11 +15,7 @@ const Login = () => {
   const [userId, setUserId] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [fail, setFail] = useState<boolean>(false);
-  console.log(fail);
-  const form = useSelector((state: RootState) => state.signUp);
-  console.log(form);
   const dispatch = useDispatch<AppDispatch>();
-  console.log(userId, password);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -29,9 +25,8 @@ const Login = () => {
 
   const login = async () => {
     const res = await setTokenApi.signIn({ userId, password });
-    if (res.loginStatus === "로그인 완료") {
-      console.log(res);
-      dispatch(fetchFavor(userId));
+    if (res?.loginStatus === "로그인 완료") {
+      dispatch(fetchFavor());
       navigate(`/`, { replace: true });
     } else {
       setFail(true);

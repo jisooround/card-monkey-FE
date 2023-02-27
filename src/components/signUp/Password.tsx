@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../store/store";
+import { useDispatch } from "react-redux";
 import { fillPassword } from "../../store/signUpSlice";
 import { BsCheckCircle } from "react-icons/bs";
 
@@ -9,14 +8,12 @@ type Props = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const Id = ({ setStep }: Props) => {
+const Password = ({ setStep }: Props) => {
   const dispatch = useDispatch();
-  const form = useSelector((state: RootState) => state.signUp);
   const [pwd, setPwd] = useState("");
   const [pwdValid, setPwdValid] = useState(false);
   const [pwdChk, setPwdChk] = useState("");
   const [pwdChkValid, setPwdChkValid] = useState(false);
-  console.log("Pwd  : ", form);
   const regex = /^(?=.*?[A-Za-z])(?=.*?\d)[A-Za-z\d]{8,14}$/;
 
   // 비밀번호 입력
@@ -41,7 +38,8 @@ const Id = ({ setStep }: Props) => {
     } else {
       setPwdChkValid(false);
     }
-  }, [pwdChk]);
+  }, [pwdChk, pwd]);
+
   return (
     <Wrap>
       <h4>
@@ -90,7 +88,7 @@ const Id = ({ setStep }: Props) => {
           setStep(5);
         }}
       >
-        동의
+        다음
       </Button>
     </Wrap>
   );
@@ -136,7 +134,7 @@ const InputWrap = styled.div`
     border-bottom: 1px solid var(--color-gray);
     font-size: 14px;
     .inputTitle {
-      width: 25%;
+      width: 30%;
       font-weight: 600;
       padding-right: 20px;
     }
@@ -163,4 +161,4 @@ const ValidConditions = styled.div`
     color: green;
   }
 `;
-export default Id;
+export default Password;
