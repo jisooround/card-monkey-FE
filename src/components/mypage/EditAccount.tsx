@@ -142,7 +142,8 @@ export const EditAccount = ({ changeSetSection }: Props) => {
 
   const submitBenefit = async (benefit: string[]) => {
     const res = await getTokenApi.changeBenefit(benefit);
-    return success("관심혜택 변경이 완료되었습니다.");
+    alert("관심혜택 변경이 완료되었습니다.");
+    changeSetSection();
   };
 
   return (
